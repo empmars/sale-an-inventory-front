@@ -1,24 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Navigation from './Components/Nav/nav.js';
+import AddItem from './Components/add/add.js';
+import SearchItem from './Components/search/search.js';
+import Table from './Components/table/table.js';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+    <Navigation />
+    <AddItem />
+    <br/>
+    <br/>
+    <SearchItem/>
+    <br/>
+    <br/>
+    <Table/>
+    </>
   );
 }
 

@@ -1,0 +1,9 @@
+#add-button {
+	display: flex;
+	justify-content: center;
+}
+
+#submitButton {
+	display: flex;
+	justify-content: end;
+}
