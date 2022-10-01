@@ -3,109 +3,169 @@ import ReactDOM from 'react-dom';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+import Alert from 'react-bootstrap/Alert';
 import './add.css';
 
  
-const AddItem =() => {
+class AddItem extends React.Component   {
 
-
-
-		const [modalShow, setModalShow] = React.useState(false);
-		const [ItemData, setItemData] = React.useState({});
-		
-
-		const addItem = (event) =>{
-		  const name = event.target.name;
-	    const value = event.target.value;
-	    setItemData(values => ({...values, [name]: value}));
-			  
-	    console.log(ItemData)
-	  
+ 	constructor() {
+ 		super();
+ 		this.state = {
+ 			modalShow: false,
+ 			name: '',
+ 			quantity: '',
+ 			price: '',
+ 			profit: '',
+ 			expiry: '',
+ 			error: 'error'
  		}
 
-
-		function MyVerticallyCenteredModal(props) {
-		  return (
-		    <Modal
-		      {...props}
-		      size="lg"
-		      aria-labelledby="contained-modal-title-vcenter"
-		      centered
-		      backdrop="static"
-		    >
-		      <Modal.Header closeButton>
-		        <Modal.Title id="contained-modal-title-vcenter">
-		          Modal heading
-		        </Modal.Title>
-		      </Modal.Header>
-		      <Modal.Body>
-		        
-		     <Form>
-			      <Form.Group className="mb-3">
-			        
-			        <Form.Control onChange={addItem} name="name" type="name" placeholder="Enter Product Name" />
-			        
-			      </Form.Group>
-
-			      <Form.Group className="mb-3">
-			        
-			        <Form.Control onChange={addItem} name="quantity" type="quantity" placeholder="Quantity" />
-
-			      </Form.Group>
-
-			      <Form.Group className="mb-3">
-			        
-			        <Form.Control onChange={addItem} name="price" type="price" placeholder="Price" />
-			        
-			      </Form.Group>
-
-			      <Form.Group className="mb-3">
-			        
-			        <Form.Control onChange={addItem} name="profit" type="profitPerc" placeholder="Profit Percentage" />
-			        
-			      </Form.Group>
-
-			      <Form.Group className="mb-3">
-			        
-			        <Form.Control onChange={addItem} name="expiry" type="date" placeholder="Expiry" />
-			        
-			      </Form.Group>
-			      <div id="submitButton">
-				      <Button variant="primary" type="submit">
-				        Submit
-				      </Button>
-			      </div>
-		    </Form>
+ 	}
 
 
-		      </Modal.Body>
-		      <Modal.Footer>
-		        <Button onClick={props.onHide}>Close</Button>
-		      </Modal.Footer>
-		    </Modal>
-		  );
-		};
-	
-		return(
-				<>
-				      <br/>
-				      <br/>
-				      <br/>
-				      <br/>
-				      <div  id="add-button">
-					      <Button variant="primary" onClick={() => setModalShow(true)}>
-					        Add Item
-					      </Button>
-				      </div>
+
+      onHide =() => { this.setState({modalShow: false}) }
+
+      addItem = (field, event) => {
+      	if(field === 'name') {
+      		this.setState({name: event.target.value})
+      	} else if (field === 'quantity') {
+      		this.setState({quantity: Number(event.target.value)})
+      	} else if (field === 'price') {
+      		this.setState({price: Number(event.target.value)})
+      	} else if (field === 'profit') {
+      		this.setState({profit: Number(event.target.value) })
+      	} else if (field === 'expiry') {
+      		this.setState({expiry: event.target.value})
+      	}
+
+      }
+
+      submitClick = (event) => {
+
+      	event.preventDefault();
+
+      	const { name , quantity , price , profit , expiry } = this.state
+
+      	const valuesOfReq = Object.values(this.state);
+
+ 		const checkIfEmpty = (value) =>{
+	     		 return(value !== '')
+	 		 }
+
+	  	const test = valuesOfReq.every(checkIfEmpty)
 
 
-				      <MyVerticallyCenteredModal
-				        show={modalShow}
-				        onHide={() => setModalShow(false)}
-				      />
-		    	</>
-    	)
-	
+      	if(test) {
+      			fetch('http://localhost:3001/add-item', {
+					  method: 'POST',
+					  headers: {'Content-Type': 'application/json'},
+					  body: JSON.stringify({
+					  	name: name,
+			 			quantity: quantity,
+			 			price: price,
+			 			profit: profit,
+			 			expiry: expiry,
+			 			})
+					})
+      			.then(res=>res.json())
+      			.then(res=>{
+      				if(res.includes('already exists')) {
+      					document.getElementById('errorMsg').innerHTML = 'Item name already exists'
+      				}
+      				else if ( res === 'success') {
+      					document.getElementById('successMsg').innerHTML = 'Item Added.'
+      				} else {
+      					document.getElementById('errorMsg').innerHTML = 'Something went wrong. Please try again.'
+      				}
+      			})
+      	}
+      	else {
+      				
+      			document.getElementById('errorMsg').innerHTML = 'Please fill all fields.'
+      	}
+
+      }
+      	
+
+      render() {
+		console.log(this.state)
+				return(
+						<>
+						      <br/>
+						      <br/>
+						      <br/>
+						      <br/>
+						      <div  id="add-button">
+							      <Button variant="primary" onClick={() => this.setState({modalShow: true})}>
+							        Add Item
+							      </Button>
+						      </div>
+
+
+						        <Modal
+							     
+							      show={this.state.modalShow}
+							      size="lg"
+							      aria-labelledby="contained-modal-title-vcenter"
+							      centered
+							      backdrop="static"
+							    >
+							      <Modal.Header>
+							        <Modal.Title id="contained-modal-title-vcenter">
+							          Add Item
+							        </Modal.Title>
+							      </Modal.Header>
+							      <Modal.Body>
+							        
+							     <Form>
+								      <Form.Group className="mb-3">
+								        
+								        <Form.Control onChange={(event)=>this.addItem('name', event)} name="name" type="name" placeholder="Enter Product Name" />
+								        
+								      </Form.Group>
+
+								      <Form.Group className="mb-3">
+								        
+								        <Form.Control onChange={(event)=>this.addItem('quantity', event)} name="quantity" type="quantity" placeholder="Quantity" />
+
+								      </Form.Group>
+
+								      <Form.Group className="mb-3">
+								        
+								        <Form.Control onChange={(event)=>this.addItem('price', event)}  name="price" type="price" placeholder="Price" />
+								        
+								      </Form.Group>
+
+								      <Form.Group className="mb-3">
+								        
+								        <Form.Control onChange={(event)=>this.addItem('profit', event)}  name="profit" type="profitPerc" placeholder="Profit Percentage" />
+								        
+								      </Form.Group>
+
+								      <Form.Group className="mb-3">
+								        
+								        <Form.Control onChange={(event)=>this.addItem('expiry', event)}  name="expiry" type="date" placeholder="Expiry" />
+								        <Form.Text id="errorMsg"></Form.Text>
+								          <Form.Text id="successMsg"></Form.Text>
+								      </Form.Group>
+								      <div id="submitButton">
+									      <Button onClick={this.submitClick} variant="primary" type="submit">
+									        Submit
+									      </Button>
+								      </div>
+							    </Form>
+
+
+							      </Modal.Body>
+							      <Modal.Footer>
+							        <Button onClick={this.onHide}>Close</Button>
+							      </Modal.Footer>
+							    </Modal>
+				    	</>
+		    	)
+			}
 
 }
 

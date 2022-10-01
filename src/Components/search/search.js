@@ -10,32 +10,55 @@ import './search.css'
 
 
 
-const SearchItem = () => {
-	return(
-		<ThemeProvider
-			  breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}
-			  minBreakpoint="xxs"
-		>
-			<Form>
-			<Container>
-				<Row id="searchRow">
-				  <Col md={8}>
-				      <Form.Group className="mb-2">
-				        <Form.Control id="searchInpt" type="text" placeholder="Search Item by Name" />
-				      </Form.Group>
-			      </Col>
-			      <Col md={2}>
-					  <Button id="searchBtn" variant="primary" type="submit">
-					        Search
-					  </Button>
-				  </Col>
-				</Row>
-			</Container>
-		    </Form>
-		 </ThemeProvider>
+class SearchItem extends React.Component {
+
+	constructor(props) {
+		super(props);
+		this.state = {
+			itemEntered: '',
+		}
+
+	}
+
+	itemEntered = (event) => {
+
+		this.setState({itemEntered: event.target.value})
+
+	}
 
 
-		)
-} 
+	render() {
+
+		const { itemEntered } = this.state;
+
+			return(
+				<ThemeProvider
+					  breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}
+					  minBreakpoint="xxs"
+				>
+					<Form>
+					<Container>
+						<Row id="searchRow">
+						  <Col md={8}>
+						      <Form.Group className="mb-2">
+						        <Form.Control onChange={(event)=>this.itemEntered(event)} id="searchInpt" type="text" placeholder="Search Item by Name" />
+						      </Form.Group>
+					      </Col>
+					      <Col md={2}>
+							  <Button 
+							  onClick={()=>this.props.fetchItems(this.state.itemEntered)}
+							  id="searchBtn" variant="primary" type="button">
+							        Search
+							  </Button>
+						  </Col>
+						</Row>
+					</Container>
+				    </Form>
+				 </ThemeProvider>
+
+
+				)
+			} 
+}
 
 export default SearchItem;

@@ -7,3 +7,19 @@
 	display: flex;
 	justify-content: end;
 }
+
+#errorMsg {
+	font-size: 15px;
+	font-weight:bold;
+	text-decoration: underline;
+	color: red;
+	padding-left: 15px;
+}
+
+#successMsg {
+	font-size: 15px;
+	font-weight:bold;
+	text-decoration: underline;
+	color: green;
+	padding-left: 15px;
+}
