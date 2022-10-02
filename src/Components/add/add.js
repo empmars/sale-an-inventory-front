@@ -165,7 +165,7 @@ class AddItem extends React.Component   {
 							    </Modal>
 				    	</>
 		    	)
-			}
+		}
 
 }
 

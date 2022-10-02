@@ -2,3 +2,24 @@
 	display: none;
 	text-align: center;
 }
+
+#itemNotExst {
+	display: none;
+}
+
+#deleteConfirm {
+	display: none;
+	justify-content: center;
+	background-color: #dee2e6;
+	padding: 10px;
+	
+}
+
+#deleteConfirm button {
+	margin-left: 10px;
+	padding: 10px 20px;
+}
+
+#deleted {
+	display: none;
+}

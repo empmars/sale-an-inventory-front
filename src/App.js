@@ -34,7 +34,10 @@ class App extends React.Component  {
                 })
                 .then(res=>res.json())
                 .then(result=>{
-                    this.setState({itemRecieved: result});
+                    console.log(result)
+                 this.setState({itemRecieved: result});
+                   console.log(this.state)
+
                 })
 
 
