@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Navigation from './Components/Nav/nav.js';
-import AddItem from './Components/add/add.js';
-import SearchItem from './Components/search/search.js';
-import Itemtable from './Components/table/table.js';
+import Navigation from './Components/Inventory/Nav/nav.js';
+import AddItem from './Components/Inventory/add/add.js';
+import SearchItem from './Components/Inventory/search/search.js';
+import Itemtable from './Components/Inventory/table/table.js';
+import AddSale from './Components/Sale/addSale/addSale.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 fetch('http://localhost:3001/', {
@@ -18,6 +19,7 @@ class App extends React.Component  {
         constructor() {
             super();
             this.state = {
+                current: 'inventory',
                 itemRecieved: ''
             }
         }
@@ -43,20 +45,40 @@ class App extends React.Component  {
 
         }
 
+        changeDirect = (dir) => {
+            this.setState({current: dir})
+        }
+
 
         render() {
-            return (
-                    <>
-                    <Navigation />
-                    <AddItem />
-                    <br/>
-                    <br/>
-                    <SearchItem fetchItems={(name , event)=>this.fetchItems(name)} />
-                    <br/>
-                    <br/>
-                    <Itemtable item={this.state.itemRecieved} />
-                    </>
-            );
+
+            const { current } = this.state;
+
+            if(this.state.current === "inventory") {
+
+                    return (
+                            <>
+                            <Navigation changeDir={(dir)=>this.changeDirect(dir)} />
+                            <AddItem />
+                            <br/>
+                            <br/>
+                            <SearchItem fetchItems={(name , event)=>this.fetchItems(name)} />
+                            <br/>
+                            <br/>
+                            <Itemtable item={this.state.itemRecieved} />
+                            </>
+                    );
+            } else {
+
+                return(
+                        <>
+                            <Navigation changeDir={(dir)=>this.changeDirect(dir)} />
+                            <AddSale />
+                        </>
+
+                    )
+
+            }
         }
 }
 

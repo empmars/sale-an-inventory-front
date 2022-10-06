@@ -5,16 +5,16 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import './nav.css';
 
-const Navigation = () => {
+const Navigation = ({ changeDir }) => {
 	return(
 		<Navbar id="first" bg="light">
 	        <Container>
-	          <Nav variant="tabs" defaultActiveKey="/home">
+	          <Nav variant="tabs" defaultActiveKey="#">
 		      <Nav.Item >
-		        <Nav.Link href="/home" id="link">Inventory</Nav.Link>
+		        <Nav.Link onClick={()=>changeDir('inventory')} href="#" id="link">Inventory</Nav.Link>
 		      </Nav.Item>
 		      <Nav.Item >
-		        <Nav.Link eventKey="link-1"  id="link">Sale</Nav.Link>
+		        <Nav.Link onClick={()=>changeDir('sale')} eventKey="link-1"  id="link">Sale</Nav.Link>
 		      </Nav.Item>
 		    </Nav>
 	        </Container>

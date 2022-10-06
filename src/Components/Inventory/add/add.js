@@ -55,6 +55,7 @@ class AddItem extends React.Component   {
 	 		 }
 
 	  	const test = valuesOfReq.every(checkIfEmpty)
+	  	console.log(test)
 
 
       	if(test) {
@@ -71,19 +72,20 @@ class AddItem extends React.Component   {
 					})
       			.then(res=>res.json())
       			.then(res=>{
+      				console.log(res)
       				if(res.includes('already exists')) {
-      					document.getElementById('errorMsg').innerHTML = 'Item name already exists'
+      					document.getElementById('errorMsg1').style.display = 'block'
       				}
       				else if ( res === 'success') {
-      					document.getElementById('successMsg').innerHTML = 'Item Added.'
+      					document.getElementById('successMsg').style.display = 'block'
       				} else {
-      					document.getElementById('errorMsg').innerHTML = 'Something went wrong. Please try again.'
+      					document.getElementById('errorMsg2').style.display = 'block'
       				}
       			})
       	}
       	else {
-      				
-      			document.getElementById('errorMsg').innerHTML = 'Please fill all fields.'
+
+      			document.getElementById('errorMsg2').style.display = 'block'
       	}
 
       }
@@ -147,8 +149,9 @@ class AddItem extends React.Component   {
 								      <Form.Group className="mb-3">
 								        
 								        <Form.Control onChange={(event)=>this.addItem('expiry', event)}  name="expiry" type="date" placeholder="Expiry" />
-								        <Form.Text id="errorMsg"></Form.Text>
-								          <Form.Text id="successMsg"></Form.Text>
+								        <Form.Text id="errorMsg1">Item already exists.</Form.Text>
+								        <Form.Text id="errorMsg2">Please fill all fields.</Form.Text>
+								          <Form.Text id="successMsg">Item Added.</Form.Text>
 								      </Form.Group>
 								      <div id="submitButton">
 									      <Button onClick={this.submitClick} variant="primary" type="submit">
