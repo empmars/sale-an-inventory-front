@@ -1,4 +1,4 @@
-#saleInput {
+#saleInput1 , #saleInput2 , #saleInput3 {
 	padding: 10px;
 	font-size: 15px;
 }
@@ -45,6 +45,24 @@
   width: 100%;
 }
 
+#saleTable {
+  text-align: center;
+}
+
+#saleTable td {
+  padding-top: 12px;
+}
+
+#saleTable td {
+  padding-top: 12px;
+}
+
+#saleTable td:last-child {
+  padding-top: 8px;
+}
+
+
+
 #submitSale {
 	display: flex;
 	justify-content: center;
@@ -54,3 +72,47 @@
 #errorSale {
   display: none;
 }
+
+#totalSale {
+  display: none;
+  justify-content: space-between;
+}
+
+#totalSale p {
+  font-size: 30px;
+  font-weight: 600;
+  width: auto;
+  display: inline;
+}
+
+#finalSaleSubmit {
+  width: auto;
+
+}
+
+#btnClose, #btnEdit {
+  font-size: 12px;
+
+} 
+
+#btnClose {
+  margin-left: 4px;
+  font-weight: 500;
+  border: none;
+  background-color: #dc3545;
+  color: white;
+  border-radius: 10px;
+  padding: 8px 12px;
+}
+
+#btnEdit {
+  font-weight: 500;
+  border: none;
+  background-color: #0d6efd;
+  color: white;
+  border-radius: 10px;
+  padding: 8px 12px;
+}
+
+
+
