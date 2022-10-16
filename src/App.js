@@ -6,12 +6,13 @@ import SearchItem from './Components/Inventory/search/search.js';
 import Itemtable from './Components/Inventory/table/table.js';
 import Allitems from './Components/Inventory/allItems/allitems.js';
 import AddSale from './Components/Sale/addSale/addSale.js';
+import Totals from './Components/Statistics/totals/totals.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 fetch('http://localhost:3001/', {
   method: 'get',
   headers: {'Content-Type': 'application/json'}
-  
+
 })
 
 
@@ -33,7 +34,7 @@ class App extends React.Component  {
                       body: JSON.stringify({
                             name: name
                       })
-                      
+
                 })
                 .then(res=>res.json())
                 .then(result=>{
@@ -70,7 +71,7 @@ class App extends React.Component  {
                             <Allitems />
                             </>
                     );
-            } else {
+            } else if(this.state.current === "sale") {
 
                 return(
                         <>
@@ -79,6 +80,16 @@ class App extends React.Component  {
                         </>
 
                     )
+
+            } else {
+
+              return(
+                      <>
+                          <Navigation changeDir={(dir)=>this.changeDirect(dir)} />
+                          <Totals />
+                      </>
+
+                  )
 
             }
         }

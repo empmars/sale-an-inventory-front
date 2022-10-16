@@ -18,9 +18,74 @@ class Allitems extends Component {
 				d2023: false,
 				d2024: false,
 				after: false,
-				quanInput: ''
+				quanInput: '',
+				priceInput: '',
+				profitInput: ''
 
 		}
+	}
+
+
+
+	addItemElement = (result) => {
+
+			result.forEach((itemData)=>{
+
+
+
+
+								var id = itemData.id
+								var name = itemData.name
+								var quantity = itemData.quantity
+								var price = itemData.price
+								var profit = itemData.profit
+								var expiry = itemData.expiry
+
+								const textId = document.createTextNode(id);
+								const textName = document.createTextNode(name);
+								const textQuantity = document.createTextNode(quantity)
+								const textPrice = document.createTextNode(price)
+								const textProfit = document.createTextNode(profit)
+								const textExpiry = document.createTextNode(expiry)
+
+
+								const colId = document.createElement('td');
+								const colName = document.createElement('td');
+								const colQuantity= document.createElement('td')
+								const colPrice = document.createElement('td')
+								const colProfit = document.createElement('td')
+								const colExpiry = document.createElement('td')
+
+								colId.appendChild(textId)
+								colName.appendChild(textName)
+								colQuantity.appendChild(textQuantity)
+								colPrice.appendChild(textPrice)
+								colProfit.appendChild(textProfit)
+								colExpiry.appendChild(textExpiry)
+
+								const tRow = document.createElement('tr')
+
+								tRow.appendChild(colId)
+								tRow.appendChild(colName)
+								tRow.appendChild(colQuantity)
+								tRow.appendChild(colPrice)
+								tRow.appendChild(colProfit)
+								tRow.appendChild(colExpiry)
+
+
+
+							    const tBody = document.getElementById('allItemsBody')
+
+								tBody.appendChild(tRow)
+
+								document.getElementById('btnItself').style.display = 'block'
+								document.getElementById('btnItselfHide').style.display = 'none'
+
+
+
+
+						})
+
 	}
 
 
@@ -84,7 +149,7 @@ class Allitems extends Component {
 
 		fetch('http://localhost:3001/fetch-all-items', {
 		  method: 'POST',
-		  headers: {'Content-Type': 'application/json'},    
+		  headers: {'Content-Type': 'application/json'},
 		})
 		.then(res=>res.json())
 		.then(result=>{
@@ -141,7 +206,7 @@ class Allitems extends Component {
 					document.getElementById('btnItself').style.display = 'none'
 					document.getElementById('btnItselfHide').style.display = 'block'
 
-					
+
 
 
 			})
@@ -160,11 +225,13 @@ class Allitems extends Component {
 
 
 	// QUANTITY FILTER
-  
+
   		setQuanState = (event) => {
   			event.preventDefault()
+  			document.getElementById('btnItself').style.display = 'block'
+			document.getElementById('btnItselfHide').style.display = 'none'
   			this.setState({quanInput: event.target.value})
-  			
+
   		}
 
 
@@ -181,67 +248,12 @@ class Allitems extends Component {
 								  body: JSON.stringify({
 								  	quan: quanInput
 								  })
-					  
+
 					})
 		 			.then(res=>res.json())
 		 			.then(result=>{
 
-					 		result.forEach((itemData)=>{
-
-
-
-
-								var id = itemData.id
-								var name = itemData.name
-								var quantity = itemData.quantity
-								var price = itemData.price
-								var profit = itemData.profit
-								var expiry = itemData.expiry
-
-								const textId = document.createTextNode(id);
-								const textName = document.createTextNode(name);
-								const textQuantity = document.createTextNode(quantity)
-								const textPrice = document.createTextNode(price)
-								const textProfit = document.createTextNode(profit)
-								const textExpiry = document.createTextNode(expiry)
-
-
-								const colId = document.createElement('td');
-								const colName = document.createElement('td');
-								const colQuantity= document.createElement('td')
-								const colPrice = document.createElement('td')
-								const colProfit = document.createElement('td')
-								const colExpiry = document.createElement('td')
-
-								colId.appendChild(textId)
-								colName.appendChild(textName)
-								colQuantity.appendChild(textQuantity)
-								colPrice.appendChild(textPrice)
-								colProfit.appendChild(textProfit)
-								colExpiry.appendChild(textExpiry)
-
-								const tRow = document.createElement('tr')
-
-								tRow.appendChild(colId)
-								tRow.appendChild(colName)
-								tRow.appendChild(colQuantity)
-								tRow.appendChild(colPrice)
-								tRow.appendChild(colProfit)
-								tRow.appendChild(colExpiry)
-
-
-
-							    const tBody = document.getElementById('allItemsBody')
-
-								tBody.appendChild(tRow)
-
-								document.getElementById('btnItself').style.display = 'block'
-								document.getElementById('btnItselfHide').style.display = 'none'
-
-								
-
-
-						})
+					 		this.addItemElement(result)
 
 
 		 			})
@@ -250,12 +262,91 @@ class Allitems extends Component {
 
   		}
 
+  	// PRICE FILTER
+
+  	setPriceState = (event) => {
+  		event.preventDefault()
+  		document.getElementById('btnItself').style.display = 'block'
+  		document.getElementById('btnItselfHide').style.display = 'none'
+  		this.setState({priceInput: event.target.value})
+  		console.log(this.state)
+
+  	}
+
+  	filterPrice = () => {
+  		const { priceInput } = this.state;
+
+  		if(priceInput.length > 0 ) {
+  			console.log(priceInput)
+
+  			document.getElementById('allItemsBody').replaceChildren()
+
+  			fetch('http://localhost:3001/fetch-filter-price', {
+  				method: 'POST',
+  				headers: {'Content-Type': 'application/json'},
+  				body: JSON.stringify({
+  					price: priceInput
+  				})
+
+  			})
+  			.then(res=>res.json())
+  			.then(result=>{
+
+  				this.addItemElement(result)
+
+
+  			})
+
+  		}
+
+  	}
+
+  	// PROFIT FILTER
+
+  	setProfitState = (event) => {
+  		event.preventDefault()
+  		document.getElementById('btnItself').style.display = 'block'
+  		document.getElementById('btnItselfHide').style.display = 'none'
+  		this.setState({profitInput: event.target.value})
+  		console.log(this.state)
+
+  	}
+
+  	filterProfit = () => {
+  		const { profitInput } = this.state;
+
+  		if(profitInput.length > 0 ) {
+  			console.log(profitInput)
+
+  			document.getElementById('allItemsBody').replaceChildren()
+
+  			fetch('http://localhost:3001/fetch-filter-profit', {
+  				method: 'POST',
+  				headers: {'Content-Type': 'application/json'},
+  				body: JSON.stringify({
+  					profit: profitInput
+  				})
+
+  			})
+  			.then(res=>res.json())
+  			.then(result=>{
+
+  				this.addItemElement(result)
+
+
+  			})
+
+  		}
+
+  	}
+
+
 	componentDidUpdate() {
 
 
 
 			var state = this.state
-			var filtered = []	
+			var filtered = []
 
 
 			for (let i in state) {
@@ -277,73 +368,74 @@ class Allitems extends Component {
 
 			}
 
- 		
- 			fetch('http://localhost:3001/fetch-all-items-filter', {
-			  method: 'POST',
-			  headers: {'Content-Type': 'application/json'},
-			  body: JSON.stringify({
-			  	state: filtered
-			  })
-			  
-			})
- 			.then(res=>res.json())
- 			.then(result=>{
- 				document.getElementById('allItemsBody').replaceChildren()
- 				result.forEach((itemData)=>{
-
- 					console.log(itemData)
-
-					var id = itemData.id
-					var name = itemData.name
-					var quantity = itemData.quantity
-					var price = itemData.price
-					var profit = itemData.profit
-					var expiry = itemData.expiry
-
-					const textId = document.createTextNode(id);
-					const textName = document.createTextNode(name);
-					const textQuantity = document.createTextNode(quantity)
-					const textPrice = document.createTextNode(price)
-					const textProfit = document.createTextNode(profit)
-					const textExpiry = document.createTextNode(expiry)
-
-
-					const colId = document.createElement('td');
-					const colName = document.createElement('td');
-					const colQuantity= document.createElement('td')
-					const colPrice = document.createElement('td')
-					const colProfit = document.createElement('td')
-					const colExpiry = document.createElement('td')
-
-					colId.appendChild(textId)
-					colName.appendChild(textName)
-					colQuantity.appendChild(textQuantity)
-					colPrice.appendChild(textPrice)
-					colProfit.appendChild(textProfit)
-					colExpiry.appendChild(textExpiry)
-
-					const tRow = document.createElement('tr')
-
-					tRow.appendChild(colId)
-					tRow.appendChild(colName)
-					tRow.appendChild(colQuantity)
-					tRow.appendChild(colPrice)
-					tRow.appendChild(colProfit)
-					tRow.appendChild(colExpiry)
-
-				    const tBody = document.getElementById('allItemsBody')
-
-				    document.getElementById('btnItselfHide').style.display = 'none'
-				    document.getElementById('btnItself').style.display = 'block'
-
-					tBody.appendChild(tRow)
-
-
-
-
+ 			if(!check1.checked || !check2.checked  || !check3.checked) {
+	 			fetch('http://localhost:3001/fetch-all-items-filter', {
+				  method: 'POST',
+				  headers: {'Content-Type': 'application/json'},
+				  body: JSON.stringify({
+				  	state: filtered
+				  })
 
 				})
- 			})
+	 			.then(res=>res.json())
+	 			.then(result=>{
+	 				document.getElementById('allItemsBody').replaceChildren()
+	 				result.forEach((itemData)=>{
+
+	 					console.log(itemData)
+
+						var id = itemData.id
+						var name = itemData.name
+						var quantity = itemData.quantity
+						var price = itemData.price
+						var profit = itemData.profit
+						var expiry = itemData.expiry
+
+						const textId = document.createTextNode(id);
+						const textName = document.createTextNode(name);
+						const textQuantity = document.createTextNode(quantity)
+						const textPrice = document.createTextNode(price)
+						const textProfit = document.createTextNode(profit)
+						const textExpiry = document.createTextNode(expiry)
+
+
+						const colId = document.createElement('td');
+						const colName = document.createElement('td');
+						const colQuantity= document.createElement('td')
+						const colPrice = document.createElement('td')
+						const colProfit = document.createElement('td')
+						const colExpiry = document.createElement('td')
+
+						colId.appendChild(textId)
+						colName.appendChild(textName)
+						colQuantity.appendChild(textQuantity)
+						colPrice.appendChild(textPrice)
+						colProfit.appendChild(textProfit)
+						colExpiry.appendChild(textExpiry)
+
+						const tRow = document.createElement('tr')
+
+						tRow.appendChild(colId)
+						tRow.appendChild(colName)
+						tRow.appendChild(colQuantity)
+						tRow.appendChild(colPrice)
+						tRow.appendChild(colProfit)
+						tRow.appendChild(colExpiry)
+
+					    const tBody = document.getElementById('allItemsBody')
+
+					    document.getElementById('btnItselfHide').style.display = 'none'
+					    document.getElementById('btnItself').style.display = 'block'
+
+						tBody.appendChild(tRow)
+
+
+
+
+
+					})
+	 			})
+ 		}
 
 	}
 
@@ -375,8 +467,8 @@ class Allitems extends Component {
 				<br/>
 
 				<h3 >Filters:</h3>
-				
-				<Row>				
+
+				<Row>
 					<div id="expiryFilter">
 							<p>Expiry: </p>
 								<div key="inline-checkbox" id="checkboxParent">
@@ -406,7 +498,7 @@ class Allitems extends Component {
 						            type="checkbox"
 						            id={`inline-checkbox-3`}
 						          />
-									
+
 								  <Form.Check
 								  	onClick={(event)=>{this.onCheckBox("after" , event)}}
 						            inline
@@ -442,7 +534,49 @@ class Allitems extends Component {
 					</Col>
 				</Row>
 
+				<br />
 
+				<Row id="priceFilterCont">
+					<Col md="1">
+						<p>Price: </p>
+					</Col>
+
+					<Col md="2">
+						<Form.Group className="mb-2">
+						 	<Form.Control onChange={(event)=>{this.setPriceState(event)}} type="text" placeholder="Items with Price Less Than...." />
+						</Form.Group>
+					</Col>
+
+					<Col md="1" id="priceFilterBigger" >
+						<Button onClick={()=>{this.filterPrice()}} variant="primary" type="button">
+							        Search
+					    </Button>
+
+					</Col>
+				</Row>
+
+				<br />
+
+				<Row id="profitFilterCont">
+					<Col md="1">
+						<p>Profit: </p>
+					</Col>
+
+					<Col md="2">
+						<Form.Group className="mb-2">
+						 	<Form.Control onChange={(event)=>{this.setProfitState(event)}} type="text" placeholder="Items with Profit Less Than...." />
+						</Form.Group>
+					</Col>
+
+					<Col md="1" id="profitFilterBigger" >
+						<Button onClick={()=>{this.filterProfit()}} variant="primary" type="button">
+							        Search
+					    </Button>
+
+					</Col>
+				</Row>
+
+				<br/>
 
 				<Row>
 					<Table id="allItemsTable" striped bordered hover>
@@ -457,7 +591,7 @@ class Allitems extends Component {
 				        </tr>
 				      </thead>
 				      <tbody id="allItemsBody">
-				       
+
 				      </tbody>
 				    </Table>
 				</Row>

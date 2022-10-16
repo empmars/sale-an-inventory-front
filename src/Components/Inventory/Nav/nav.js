@@ -16,6 +16,9 @@ const Navigation = ({ changeDir }) => {
 		      <Nav.Item >
 		        <Nav.Link onClick={()=>changeDir('sale')} eventKey="link-1"  id="link">Sale</Nav.Link>
 		      </Nav.Item>
+					<Nav.Item >
+						<Nav.Link onClick={()=>changeDir('statistics')} eventKey="link-2"  id="link">Statistics</Nav.Link>
+					</Nav.Item>
 		    </Nav>
 	        </Container>
       	</Navbar>
