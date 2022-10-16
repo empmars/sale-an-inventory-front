@@ -4,6 +4,7 @@ import Navigation from './Components/Inventory/Nav/nav.js';
 import AddItem from './Components/Inventory/add/add.js';
 import SearchItem from './Components/Inventory/search/search.js';
 import Itemtable from './Components/Inventory/table/table.js';
+import Allitems from './Components/Inventory/allItems/allitems.js';
 import AddSale from './Components/Sale/addSale/addSale.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -66,6 +67,7 @@ class App extends React.Component  {
                             <br/>
                             <br/>
                             <Itemtable item={this.state.itemRecieved} />
+                            <Allitems />
                             </>
                     );
             } else {

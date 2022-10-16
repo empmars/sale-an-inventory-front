@@ -75,11 +75,18 @@ class AddItem extends React.Component   {
       				console.log(res)
       				if(res.includes('already exists')) {
       					document.getElementById('errorMsg1').style.display = 'block'
+
+      					document.getElementById('errorMsg2').style.display = 'none'
+      					document.getElementById('successMsg').style.display = 'none'
       				}
       				else if ( res === 'success') {
       					document.getElementById('successMsg').style.display = 'block'
+      					document.getElementById('errorMsg1').style.display = 'none'
+      					document.getElementById('errorMsg2').style.display = 'none'
       				} else {
       					document.getElementById('errorMsg2').style.display = 'block'
+      					document.getElementById('errorMsg1').style.display = 'none'
+      					document.getElementById('errorMsg2').style.display = 'none'
       				}
       			})
       	}

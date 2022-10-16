@@ -26,6 +26,11 @@ class SearchItem extends React.Component {
 
 	}
 
+	onEnterPress = (event) => {
+
+		event.preventDefault()
+	}
+
 
 	render() {
 
@@ -41,13 +46,13 @@ class SearchItem extends React.Component {
 						<Row id="searchRow">
 						  <Col md={8}>
 						      <Form.Group className="mb-2">
-						        <Form.Control onChange={(event)=>this.itemEntered(event)} id="searchInpt" type="text" placeholder="Search Item by Name" />
+						        <Form.Control onKeyDown = {(event)=>{this.onEnterPress(event)}} onChange={(event)=>this.itemEntered(event)} id="searchInpt" type="text" placeholder="Search Item by Name" />
 						      </Form.Group>
 					      </Col>
 					      <Col md={2}>
 							  <Button 
 							  onClick={()=>this.props.fetchItems(this.state.itemEntered)}
-							  id="searchBtn" variant="primary" type="button">
+							   variant="primary" type="button">
 							        Search
 							  </Button>
 						  </Col>

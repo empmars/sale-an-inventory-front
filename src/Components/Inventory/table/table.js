@@ -66,7 +66,7 @@ console.log(item)
 		          Item does not exist.
 		        </Alert>
 
-				<Table responsive striped id="Itemtable" >
+				<Table responsive striped bordered hover id="Itemtable" >
 				      <thead>
 				        <tr>
 				          <th>id</th>
