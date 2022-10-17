@@ -9,6 +9,7 @@ import './totals.css'
 
 class Totals extends Component {
 
+  // TOTAL LOGIC
 
   monthlyTotal = () => {
 
@@ -17,6 +18,9 @@ class Totals extends Component {
     fetch('http://localhost:3001/monthly-total', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        date: Date()
+      })
 
     })
     .then(res=>res.json())
@@ -33,19 +37,127 @@ class Totals extends Component {
 
     console.log('as')
 
-    fetch('http://localhost:3001/monthly-total', {
+    fetch('http://localhost:3001/weekly-total', {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'}
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        date: Date()
+      })
+
     })
     .then(res=>res.json())
     .then(result=>{
+      console.log(result)
+      document.getElementById('weeklySum').innerText = ''
+        document.getElementById('weeklySum').innerText = result
 
+    })
+
+  }
+
+  dailyTotal = () => {
+
+    console.log('as')
+
+    fetch('http://localhost:3001/daily-total', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        date: Date()
+      })
+
+    })
+    .then(res=>res.json())
+    .then(result=>{
+      console.log(result)
+      document.getElementById('dailySum').innerText = ''
+        document.getElementById('dailySum').innerText = result
+
+    })
+
+  }
+
+  // PROFIT LOGIC
+
+  monthlyProfit = () => {
+
+    fetch('http://localhost:3001/monthly-profit', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        date: Date()
+      })
+
+    })
+    .then(res=>res.json())
+    .then(result=>{
+      console.log(result)
+      document.getElementById('monthlyProfit').innerText = ''
+        document.getElementById('monthlyProfit').innerText = result
+
+    })
+
+  }
+
+  weeklyProfit = () => {
+
+    console.log('as')
+
+    fetch('http://localhost:3001/weekly-profit', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        date: Date()
+      })
+
+    })
+    .then(res=>res.json())
+    .then(result=>{
+      console.log(result)
+      document.getElementById('weeklyProfit').innerText = ''
+        document.getElementById('weeklyProfit').innerText = result
+
+    })
+
+  }
+
+  dailyProfit = () => {
+
+    fetch('http://localhost:3001/daily-Profit', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        date: Date()
+      })
+
+    })
+    .then(res=>res.json())
+    .then(result=>{
+      console.log(result)
+      document.getElementById('dailyProfit').innerText = ''
+        document.getElementById('dailyProfit').innerText = result
 
     })
 
   }
 
 
+  componentDidMount() {
+
+    console.log('a')
+
+    this.monthlyTotal()
+    this.weeklyTotal()
+    this.dailyTotal()
+
+    this.monthlyProfit()
+    this.weeklyProfit()
+    this.dailyProfit()
+
+
+
+
+}
   render() {
 
         return(
@@ -57,7 +169,7 @@ class Totals extends Component {
                       <br/>
 
                 <Row>
-                    <h2 id="saleHeading">Sale</h2>
+                    <h2 id="saleHeading">Sale Summary</h2>
 
                 </Row>
 
@@ -70,15 +182,15 @@ class Totals extends Component {
                       <Card>
                         <Card.Header>This Month</Card.Header>
                         <Card.Body>
-                          <Card.Title id="monthlySum">{this.monthlyTotal()}</Card.Title>
+                          <Card.Title id="monthlySum"></Card.Title>
                         </Card.Body>
                       </Card>
                   </Col>
                   <Col md="2">
                       <Card>
-                        <Card.Header  id="WeeklySum">This Week{this.weeklyTotal()}</Card.Header>
+                        <Card.Header>This Week</Card.Header>
                         <Card.Body>
-                          <Card.Title>thissss</Card.Title>
+                          <Card.Title id="weeklySum"></Card.Title>
                         </Card.Body>
                       </Card>
                   </Col>
@@ -86,11 +198,50 @@ class Totals extends Component {
                       <Card>
                         <Card.Header>Today</Card.Header>
                         <Card.Body>
-                          <Card.Title>thissss</Card.Title>
+                          <Card.Title id="dailySum"></Card.Title>
                         </Card.Body>
                       </Card>
                   </Col>
                 </Row>
+
+                <br/>
+                <br/>
+
+                <Row>
+                    <h2 id="saleHeading">Profit Summary</h2>
+                </Row>
+
+                <br/>
+                <hr/>
+                <br/>
+
+                <Row id="profitTotals">
+                  <Col md="2">
+                      <Card>
+                        <Card.Header>This Month</Card.Header>
+                        <Card.Body>
+                          <Card.Title id="monthlyProfit"></Card.Title>
+                        </Card.Body>
+                      </Card>
+                  </Col>
+                  <Col md="2">
+                      <Card>
+                        <Card.Header>This Week</Card.Header>
+                        <Card.Body>
+                          <Card.Title id="weeklyProfit"></Card.Title>
+                        </Card.Body>
+                      </Card>
+                  </Col>
+                  <Col md="2">
+                      <Card>
+                        <Card.Header>Today</Card.Header>
+                        <Card.Body>
+                          <Card.Title id="dailyProfit"></Card.Title>
+                        </Card.Body>
+                      </Card>
+                  </Col>
+                </Row>
+
 
             </Container>
 

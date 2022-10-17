@@ -6,3 +6,8 @@
 #saleHeading {
   text-align: center;
 }
+
+#profitTotals {
+  justify-content: space-evenly;
+  text-align: center;
+}
