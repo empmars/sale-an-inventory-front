@@ -7,6 +7,7 @@ import Itemtable from './Components/Inventory/table/table.js';
 import Allitems from './Components/Inventory/allItems/allitems.js';
 import AddSale from './Components/Sale/addSale/addSale.js';
 import Totals from './Components/Statistics/totals/totals.js';
+import SaleTable from './Components/Statistics/sale-table/sale-table.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 fetch('http://localhost:3001/', {
@@ -87,6 +88,9 @@ class App extends React.Component  {
                       <>
                           <Navigation changeDir={(dir)=>this.changeDirect(dir)} />
                           <Totals />
+                          <br/>
+                          <br/>
+                          <SaleTable />
                       </>
 
                   )

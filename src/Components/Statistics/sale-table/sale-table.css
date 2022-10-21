@@ -1,0 +1,29 @@
+#dateFilterCont {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+#dateFilterCont label {
+    font-weight: bold;
+
+}
+
+.dateSale {
+  margin-left: 5px;
+  padding: 5px;
+
+}
+
+#sale-Item-Filter-Cont p{
+    margin-top: 7px
+}
+
+#sale-Item-Date {
+
+  justify-content: center;
+
+}
+
+#sale-item-filter-input {
+  justify-content: center;
+}
