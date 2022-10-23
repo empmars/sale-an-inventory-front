@@ -38,11 +38,12 @@ const createDrop = () => {
 				})
 				.then(res=>res.json())
 				.then(result=>{
-				
+
 					var btnText = document.getElementsByClassName('forDrop')
-					
+
 					for(i=0; i<result.length;i++) {
-						console.log(result[i])
+						
+
 						btnText[i].innerHTML = result[i].name
 						btnText[i].style.display = 'block';
 
@@ -113,7 +114,7 @@ class AddSale extends React.Component {
  		}
 
     createSum = () => {
-					
+
 					var sums = document.getElementById('saleTableBody')
 					// sums.firstChild.cells[3].innerText
 
@@ -121,7 +122,7 @@ class AddSale extends React.Component {
 
 						for( var  i = 0 ; i < sums.children.length ; i ++) {
 							final = final +	Number(sums.children[i].cells[3].innerText)
-								
+
 						}
 
 						document.getElementById('totalSale').style.display="flex"
@@ -129,7 +130,7 @@ class AddSale extends React.Component {
 
 
 
-				
+
 
 		}
 
@@ -160,7 +161,7 @@ class AddSale extends React.Component {
 	 					.then(res=>res.json())
 	 					.then(result	=>  {
 
-									const { name , sum , discount , quantity , profit , singlePrice}	 =  result			
+									const { name , sum , discount , quantity , profit , singlePrice}	 =  result
 
 									const textName = document.createTextNode(name);
 									const textSum = document.createTextNode(sum)
@@ -180,7 +181,7 @@ class AddSale extends React.Component {
 									btnDel.setAttribute('type' , 'button')
 									btnDel.setAttribute('info' , sum)
 									console.log(btnDel)
-									
+
 									const colName = document.createElement('td');
 									const colSum = document.createElement('td')
 									const colDiscount = document.createElement('td')
@@ -188,7 +189,7 @@ class AddSale extends React.Component {
 									const colED = document.createElement('td')
 
 
-									
+
 
 
 									const tRow = document.createElement('tr')
@@ -200,7 +201,7 @@ class AddSale extends React.Component {
 									colED.appendChild(btnEdit)
 									colED.appendChild(btnDel)
 
-									
+
 
 
 									tRow.appendChild(colName)
@@ -223,7 +224,7 @@ class AddSale extends React.Component {
 							btnDel.onclick = (event) => {
 										tRow.remove();
  										this.createSum()
-									
+
 									}
 
 							btnEdit.onclick = (result)=>onEdit(result)
@@ -233,7 +234,7 @@ class AddSale extends React.Component {
 
 									const onEdit = (result) => {
 
-										var oldSum = Number(sum) 
+										var oldSum = Number(sum)
 
 										colQuantity.firstChild.remove()
 										colDiscount.firstChild.remove()
@@ -256,11 +257,11 @@ class AddSale extends React.Component {
 													quanInp.onkeyup = (event) => {
 															var valQuan = Number(event.target.value)
 															if(event.key === 'Enter' && valQuan > 0 ) {
-															
+
 																	discInp.disabled = false;
-																	
+
 																	discInp.placeholder = '';
-																
+
 
 																	colQuantity.firstChild.remove()
 
@@ -308,27 +309,27 @@ class AddSale extends React.Component {
 									    								var newSum= (outerQuan * singlePrice) - outerDisc
 									    								colSum.firstChild.remove();
 									    								var sumEl = document.createTextNode(newSum)
-									    								colSum.appendChild(sumEl)  
+									    								colSum.appendChild(sumEl)
 
 
 																				this.createSum()
-						 											
+
 																		} else if (outerDisc === 0) {
 
 																		 newSum = outerQuan * singlePrice
 									    								colSum.firstChild.remove();
 									    								var sumEl = document.createTextNode(newSum)
-									    								colSum.appendChild(sumEl)  
+									    								colSum.appendChild(sumEl)
 																			this.createSum()
 
 																}
 
-																
+
 														}
 
-										
 
-				    							
+
+
 													}
 
 										}
@@ -342,7 +343,7 @@ class AddSale extends React.Component {
 
   	submitSaleFinal = () => {
 
-  						
+
   				var sums = document.getElementById('saleTableBody')
 					// sums.firstChild.cells[3].innerText
 
@@ -361,8 +362,8 @@ class AddSale extends React.Component {
 								var arr = [[ sumbitItem , sumbitQuan , sumbitDisc , sumbitSum ]]
 
 								var saleArray = saleArray.concat(arr)
-								
-								
+
+
 						}
 
 						if (saleArray.length === 0) {
@@ -377,7 +378,7 @@ class AddSale extends React.Component {
 								  body: JSON.stringify({
 								  			arr  : saleArray,
 								  			total: saleTotal
-								  		})  
+								  		})
 								})
 								.then(res=>res.json())
 								.then(result=>{
@@ -479,7 +480,7 @@ class AddSale extends React.Component {
 
 										<Row id="totalSale">
 												<p>Total : <p id="totalSaleBody"></p></p>
-												
+
 
 												<Button  onClick={()=>{this.submitSaleFinal()}} id="finalSaleSubmit" variant="success">Confirm</Button>{' '}
 										</Row>

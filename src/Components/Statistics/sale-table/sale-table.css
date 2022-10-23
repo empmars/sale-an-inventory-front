@@ -1,6 +1,6 @@
 #dateFilterCont {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
 }
 
 #dateFilterCont label {
@@ -8,11 +8,61 @@
 
 }
 
+#matchesUL {
+  /* Remove default list styling */
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: none;
+  position: absolute;
+  width: 94%;
+}
+
+#matchesUL li a {
+  border: 1px solid #ddd; /* Add a border to all links */
+  margin-top: -1px; /* Prevent double borders */
+  background-color: #f6f6f6; /* Grey background color */
+  padding: 12px; /* Add some padding */
+  text-decoration: none; /* Remove default text underline */
+  font-size: 18px; /* Increase the font-size */
+  color: black; /* Add a black text color */
+  display: none /* Make it into a block element to fill the whole list */
+}
+
+#matchesUL li button {
+  border: 1px solid #ddd; /* Add a border to all links */
+  margin-top: -1px; /* Prevent double borders */
+  background-color: #f6f6f6; /* Grey background color */
+  padding: 12px; /* Add some padding */
+  text-decoration: none; /* Remove default text underline */
+  font-size: 18px; /* Increase the font-size */
+  color: black; /* Add a black text color */
+ /* Make it into a block element to fill the whole list */
+  text-align: left;
+  width: 100%;
+}
+
+#matchesUL li a:hover:not(.header) {
+  background-color: #eee; /* Add a hover effect to all links, except for headers */
+}
+
+#matchesUL li button:hover:not(.header) {
+  background-color: #eee; /* Add a hover effect to all links, except for headers */
+  text-align: left;
+  width: 100%;
+}
+
+#btnDateFilter {
+  display: flex;
+  justify-content: center;
+}
+
 .dateSale {
-  margin-left: 5px;
   padding: 5px;
 
 }
+
+
 
 #sale-Item-Filter-Cont p{
     margin-top: 7px
@@ -26,4 +76,18 @@
 
 #sale-item-filter-input {
   justify-content: center;
+
+}
+
+#inputSaleCol {
+  position: relative;
+}
+
+#btnSaleFilter {
+    padding: 6px 20px;
+}
+
+.labelDate {
+  margin-left: 3px;
+  margin-right: 3px;
 }

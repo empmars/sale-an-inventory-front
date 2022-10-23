@@ -14,6 +14,10 @@ class SaleTable extends Component  {
     constructor() {
         super();
         this.state = {
+            fromDate: '',
+            toDate: '',
+            fromDateSale: '',
+            toDateSale: '',
             saleToFilter: ''
 
         }
@@ -90,50 +94,140 @@ class SaleTable extends Component  {
 
       }
 
+    createDrop = () => {
 
-    filterSaleDate = (date , event) => {
-
-            console.log(document.getElementsByClassName('FilterHeading'))
-
-              if(date === 'before') {
-
-                    document.getElementById('same').value = '';
-                    document.getElementById('after').value = '';
+      			  var input, filter;
+      			  input = document.getElementById('itemSaleFilter');
+      			  filter = input.value.toUpperCase();
 
 
-              } else if (date === 'same') {
 
-                document.getElementById('before').value = '';
-                document.getElementById('after').value = '';
-                  console.log('s')
+      				 fetch('http://localhost:3001/sale-item-search', {
+      				  method: 'POST',
+      				  headers: {'Content-Type': 'application/json'},
+      				  body: JSON.stringify({
+      				  		name: input.value
+      				  })
+      				})
+      				.then(res=>res.json())
+      				.then(result=>{
 
-              } else if (date === 'after') {
-                document.getElementById('same').value = '';
-                document.getElementById('before').value = '';
-                  console.log('a')
+      					var col = document.getElementById('inputSaleCol')
+                var ul = document.getElementById('matchesUL')
 
+
+
+        			for(var i=0; i<result.length; i++) {
+
+                      ul.style.display = 'block'
+                      var li = document.createElement('li')
+                      var btn = document.createElement('button')
+                      li.setAttribute('class' , 'listFiltered')
+
+                      li.appendChild(btn)
+                      ul.appendChild(li)
+                      col.appendChild(ul)
+                      li.style.display = 'none'
+                      btn.onclick = (event) => {
+                        console.log(btn)
+                        ul.style.display = 'none';
+                        input.value = event.target.innerText;
+                        this.setState({saleToFilter: event.target.innerText})
+                      }
+
+        					}
+
+              var getLI = document.getElementsByTagName('li')
+
+              for(var i=0; i<result.length;i++) {
+
+                    getLI[i].children[0].innerHTML = result[i].name
+                    getLI[i].style.display = 'block';
+
+                  }
+
+              if(input.value.length === 0) {
+                var ul = document.getElementById('matchesUL')
+                ul.style.display = 'none'
               }
 
-              console.log(event.target.value)
-
-            fetch('http://localhost:3001/filter-sale-date', {
-              method: 'post',
-              headers: {'Content-Type': 'application/json'},
-              body: JSON.stringify({
-
-                date: date,
-                value: event.target.value
-
-              })
-
-            }).then(res=>res.json())
-            .then(result=>{
-                document.getElementById('sale-filtered').replaceChildren()
-                this.addItemElement(result)
-
-            })
 
 
+
+      				})
+
+      // REMOVE REPEATITION
+
+            var li = document.getElementsByClassName('listFiltered')
+            for (let current in li) {
+
+              // if(li[current].children === undefined ) {
+              //   console.log()
+              // } else {
+                for (var i=0 ; i < li.length ; i++) {
+                  var text1 = li[current].children[0].innerText;
+                  var text2 = li[i].children[0].innerText
+                    if(text1 ===  text2) {
+                          li[current].style.display = 'none';
+                        if (li.length === 0) {
+                          li[current].style.display = ''
+                        }
+
+                    }
+
+                }
+
+
+          }
+
+          }
+
+
+    setDateState = (date , event) => {
+
+        if(date === 'from') {
+
+              this.setState({fromDate: event.target.value})
+
+
+        } else if (date === 'to') {
+
+
+            this.setState({toDate: event.target.value})
+            console.log(this.state)
+
+        }
+
+    }
+
+
+    filterSaleDate = () => {
+
+
+            var { fromDate , toDate } = this.state;
+          console.log(this.state)
+
+          if(fromDate.length > 0 && toDate.length > 0) {
+
+
+
+                fetch('http://localhost:3001/filter-sale-date', {
+                  method: 'post',
+                  headers: {'Content-Type': 'application/json'},
+                  body: JSON.stringify({
+
+                    dates: this.state
+
+                  })
+
+                }).then(res=>res.json())
+                .then(result=>{
+                    document.getElementById('sale-filtered').replaceChildren()
+                    this.addItemElement(result)
+
+                })
+
+          }
 
 
     }
@@ -141,63 +235,56 @@ class SaleTable extends Component  {
     clickFilterHead = () => {
 
 
-      document.getElementById('same').value = '';
-      document.getElementById('after').value = '';
-      document.getElementById('before').value = '';
+      document.getElementById('from').value = '';
+      document.getElementById('to').value = '';
+      // document.getElementById('before').value = '';
       document.getElementById('sale-filtered').replaceChildren()
 
     }
 
-    setSaleFiltItem = (event) => {
 
-      this.setState({saleToFilter: event.target.value})
-
-    }
 
     submitSaleToFilter = () => {
 
       var { saleToFilter } = this.state;
+      console.log(document.getElementById('itemSaleFilter'))
 
-      var before = document.getElementById('before-item')
-      var same = document.getElementById('same-item')
-      var after = document.getElementById('after-item')
+      var fromDateSale = document.getElementById('fromDateSale')
+      var toDateSale = document.getElementById('toDateSale')
 
         if(saleToFilter.length > 0) {
-            before.disabled = false;
-            same.disabled = false;
-            after.disabled = false;
+            fromDateSale.disabled = false;
+            toDateSale.disabled = false;
         }
 
     }
 
-    enterDateFilterItem  = (date , event) => {
+    setSaleFilterDate = (date , event) => {
 
-      var before = document.getElementById('before-item')
-      var same = document.getElementById('same-item')
-      var after = document.getElementById('after-item')
+      if(date === 'fromDateSale') {
 
-      if(date === 'before-item') {
-
-            document.getElementById('same-item').value = '';
-            document.getElementById('after-item').value = '';
+            this.setState({fromDateSale: event.target.value})
 
 
-      } else if (date === 'same-item') {
+      } else if (date === 'toDateSale') {
 
-        document.getElementById('before-item').value = '';
-        document.getElementById('after-item').value = '';
-          console.log('s')
 
-      } else if (date === 'after-item') {
-        document.getElementById('same-item').value = '';
-        document.getElementById('before-item').value = '';
-          console.log('a')
+          this.setState({toDateSale: event.target.value})
+          console.log(this.state)
 
       }
 
-      console.log(event.target.value)
+    }
 
-      var { saleToFilter } = this.state
+    enterDateFilterItem  = () => {
+
+
+
+      var { saleToFilter , fromDateSale , toDateSale } = this.state
+
+      console.log(saleToFilter , fromDateSale , toDateSale)
+
+
 
 
     fetch('http://localhost:3001/filter-sale-item', {
@@ -205,8 +292,8 @@ class SaleTable extends Component  {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
 
-        date: date,
-        value: event.target.value,
+        from: fromDateSale,
+        to: toDateSale,
         item: saleToFilter
 
       })
@@ -214,52 +301,44 @@ class SaleTable extends Component  {
     }).then(res=>res.json())
     .then(result=>{
 
+
+
         document.getElementById('sale-filtered').replaceChildren()
-        this.addItemElement(result)
+        this.addItemElement(result , 'itemSale')
 
     })
 
 
-    }
-
-
-
-
+  }
 
     render() {
 
         return(
 
             <>
-              <Container>
-                  <Row>
 
+            <Container>
 
                   <Accordion defaultActiveKey="0">
                         <Accordion.Item eventKey="0"  className="FilterHeading" >
                           <Accordion.Header onClick={()=>this.clickFilterHead()}>Filter By: Date</Accordion.Header>
                           <Accordion.Body>
                           <div id="dateFilterCont">
-
-
-
                               <div>
-                                <label htmlFor="before">Before</label>
-                                <input onBlur={(event)=>{this.filterSaleDate( 'before' , event)}} type="date" className="dateSale" id="before" name="before"/>
+                                <label class="labelDate" for="from">From</label>
+                                <input onBlur={(event)=>{this.setDateState( 'from' , event)}} type="date" className="dateSale" id="from" name="from" />
+                                <label class="labelDate" for="to">To</label>
+                                <input onBlur={(event)=>{this.setDateState( 'to' , event)}} type="date" className="dateSale" id="to" name="to" />
                               </div>
-
-                              <div>
-                                <label htmlFor="same">On</label>
-                                <input onBlur={(event)=>{this.filterSaleDate( 'same' , event)}} type="date" className="dateSale" id="same" name="same"/>
-                              </div>
-
-                              <div>
-                                <label htmlFor="after">After</label>
-                                <input onBlur={(event)=>{this.filterSaleDate( 'after' , event)}} type="date" className="dateSale" id="after" name="after"/>
-                              </div>
-
                           </div>
 
+                          <br/>
+
+                          <div id="btnDateFilter">
+                          <Button variant="primary" type="button" onClick={()=>{ this.filterSaleDate() }}>
+                                    Search
+                            </Button>
+                          </div>
 
 
                           </Accordion.Body>
@@ -274,64 +353,59 @@ class SaleTable extends Component  {
 
                                 <br/>
                                   <Row id="sale-item-filter-input">
-                                    <Col md="4">
-                                      <Form.Group className="mb-2">
-                                        <Form.Control  type="text" placeholder="Enter Item Name" onChange={(event)=>{this.setSaleFiltItem(event)}}/>
-                                      </Form.Group>
-                                    </Col>
 
-                                    <Col md="1" >
-                                      <Button variant="primary" type="button" onClick={()=>{this.submitSaleToFilter()}}>
-                                                Search
-                                        </Button>
+                                      <Col id="inputSaleCol" md="4">
+                                        <Form.Group className="mb-2">
+                                          <Form.Control id="itemSaleFilter" type="text" placeholder="Enter Item Name" onChange={(event)=>{this.createDrop()}}/>
+                                        </Form.Group>
+                                        <ul id="matchesUL"></ul>
+                                      </Col>
 
-                                    </Col>
+                                      <Col md="1" >
+                                        <Button variant="primary" type="button" onClick={()=>{this.submitSaleToFilter()}}>
+                                                  Search
+                                          </Button>
+
+                                      </Col>
+
+
                                   </Row>
 
                                   <br/>
 
-                                  <Row id="sale-Item-Date">
+                                  <Row className="justify-content-md-center">
 
-                                    <Col md="3">
-                                      <div>
-                                        <label htmlFor="before-item">Before</label>
-                                        <input
-                                        onBlur={(event)=>{this.enterDateFilterItem( 'before-item' , event)}}
-                                         disabled = "true" type="date" className="dateSale" id="before-item" name="before-item"/>
-                                      </div>
-                                    </Col>
+                                      <Col md="5">
+                                      <label class="labelDate" for="fromDateSale">From</label>
+                                      <input disabled = 'true' onBlur={(event)=>{this.setSaleFilterDate( 'fromDateSale' , event)}} type="date" className="dateSale" id="fromDateSale" name="fromDateSale" />
+                                      <label class="labelDate" for="toDateSale">To</label>
+                                      <input disabled = 'true' onBlur={(event)=>{this.setSaleFilterDate( 'toDateSale' , event)}} type="date" className="dateSale" id="toDateSale" name="toDateSale" />
 
-                                    <Col md="3">
-                                      <div>
-                                        <label htmlFor="same-item">On</label>
-                                        <input
-                                        onBlur={(event)=>{this.enterDateFilterItem( 'same-item' , event)}}
-                                         disabled = "true" type="date" className="dateSale" id="same-item" name="same-item"/>
-                                      </div>
-                                    </Col>
-
-                                    <Col md="3">
-                                      <div>
-                                        <label htmlFor="after-item">After</label>
-                                        <input
-                                        onBlur={(event)=>{this.enterDateFilterItem( 'after-item' , event)}}
-                                         disabled = "true" type="date" className="dateSale" id="after-item" name="after-item"/>
-                                      </div>
-                                    </Col>
+                                      </Col>
 
                                   </Row>
 
+                                  <br/>
+                                  <Row  className="justify-content-md-center">
+                                    <Col md="5">
+                                          <Button onClick={()=>{this.enterDateFilterItem()}} id="btnSaleFilter" variant="success" type="button">
+                                                    Confirm
+                                          </Button>
+                                    </Col>
+                                  </Row>
                                   <br/>
                               </Container>
 
                           </Accordion.Body>
                         </Accordion.Item>
                   </Accordion>
+            </Container>
 
-                  </Row>
 
                   <br/>
                   <br/>
+
+              <Container>
 
                   <Row>
                   <Table striped bordered hover>
@@ -363,5 +437,37 @@ class SaleTable extends Component  {
 
 
 }
+
+
+// <Col md="4">
+//   <Form.Group className="mb-2">
+//     <Form.Control  type="text" placeholder="Enter Item Name" onChange={(event)=>{this.setSaleFiltItem(event)}}/>
+//   </Form.Group>
+// </Col>
+//
+// <Col md="1" >
+//   <Button variant="primary" type="button" onClick={()=>{this.submitSaleToFilter()}}>
+//             Search
+//     </Button>
+//
+// </Col>
+// </Row>
+//
+// <br/>
+//
+// <Row id="sale-Item-Date">
+//
+// <Col md="6">
+//   <div>
+//     <label htmlFor="before-item"  class="label-item">From</label>
+//     <input
+//     onBlur={(event)=>{this.enterDateFilterItem( 'before-item' , event)}}
+//      disabled = "true" type="date" className="dateSale" id="before-item" name="before-item"/>
+//      <label htmlFor="to-item" class="label-item">To</label>
+//      <input
+//      onBlur={(event)=>{this.enterDateFilterItem( 'before-item' , event)}}
+//       disabled = "true" type="date" className="dateSale" id="to-item" name="to-item"/>
+//   </div>
+// </Col>
 
 export default SaleTable;
