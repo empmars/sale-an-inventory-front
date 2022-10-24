@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
 import './add.css';
 
- 
+
 class AddItem extends React.Component   {
 
  	constructor() {
@@ -96,7 +96,7 @@ class AddItem extends React.Component   {
       	}
 
       }
-      	
+
 
       render() {
 		console.log(this.state)
@@ -106,7 +106,7 @@ class AddItem extends React.Component   {
 						      <br/>
 						      <br/>
 						      <br/>
-						      <div  id="add-button">
+						      <div  id="add-button-cont">
 							      <Button variant="primary" onClick={() => this.setState({modalShow: true})}>
 							        Add Item
 							      </Button>
@@ -114,7 +114,7 @@ class AddItem extends React.Component   {
 
 
 						        <Modal
-							     
+
 							      show={this.state.modalShow}
 							      size="lg"
 							      aria-labelledby="contained-modal-title-vcenter"
@@ -127,34 +127,34 @@ class AddItem extends React.Component   {
 							        </Modal.Title>
 							      </Modal.Header>
 							      <Modal.Body>
-							        
+
 							     <Form>
 								      <Form.Group className="mb-3">
-								        
+
 								        <Form.Control onChange={(event)=>this.addItem('name', event)} name="name" type="name" placeholder="Enter Product Name" />
-								        
+
 								      </Form.Group>
 
 								      <Form.Group className="mb-3">
-								        
+
 								        <Form.Control onChange={(event)=>this.addItem('quantity', event)} name="quantity" type="quantity" placeholder="Quantity" />
 
 								      </Form.Group>
 
 								      <Form.Group className="mb-3">
-								        
+
 								        <Form.Control onChange={(event)=>this.addItem('price', event)}  name="price" type="price" placeholder="Price" />
-								        
+
 								      </Form.Group>
 
 								      <Form.Group className="mb-3">
-								        
+
 								        <Form.Control onChange={(event)=>this.addItem('profit', event)}  name="profit" type="profitPerc" placeholder="Profit Percentage" />
-								        
+
 								      </Form.Group>
 
 								      <Form.Group className="mb-3">
-								        
+
 								        <Form.Control onChange={(event)=>this.addItem('expiry', event)}  name="expiry" type="date" placeholder="Expiry" />
 								        <Form.Text id="errorMsg1">Item already exists.</Form.Text>
 								        <Form.Text id="errorMsg2">Please fill all fields.</Form.Text>

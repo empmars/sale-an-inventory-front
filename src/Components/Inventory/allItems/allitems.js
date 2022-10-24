@@ -36,130 +36,83 @@ class Allitems extends Component {
 
 	addItemElement = (result) => {
 
-			result.forEach((itemData)=>{
+		result.forEach((itemData)=>{
+
+
+			var cutDate = new Date(itemData.expiry)
+			cutDate = cutDate.toString()
+			cutDate = cutDate.slice(3 , 15)
+
+
+			var id = itemData.id
+			var name = itemData.name
+			var quantity = itemData.quantity
+			var price = itemData.price
+			var profit = itemData.profit
+			var expiry = cutDate
+
+			const textId = document.createTextNode(id);
+			const textName = document.createTextNode(name);
+			const textQuantity = document.createTextNode(quantity)
+			const textPrice = document.createTextNode(price)
+			const textProfit = document.createTextNode(profit)
+			const textExpiry = document.createTextNode(expiry)
+
+
+			const colId = document.createElement('td');
+			const colName = document.createElement('td');
+			const colQuantity= document.createElement('td')
+			const colPrice = document.createElement('td')
+			const colProfit = document.createElement('td')
+			const colExpiry = document.createElement('td')
+
+			colId.appendChild(textId)
+			colName.appendChild(textName)
+			colQuantity.appendChild(textQuantity)
+			colPrice.appendChild(textPrice)
+			colProfit.appendChild(textProfit)
+			colExpiry.appendChild(textExpiry)
+
+			const tRow = document.createElement('tr')
+
+			tRow.appendChild(colId)
+			tRow.appendChild(colName)
+			tRow.appendChild(colQuantity)
+			tRow.appendChild(colPrice)
+			tRow.appendChild(colProfit)
+			tRow.appendChild(colExpiry)
+
+
+
+			const tBody = document.getElementById('allItemsBody')
+			// tBody.replaceChildren()
+
+			tBody.appendChild(tRow)
+
+			document.getElementById('btnItself').style.display = 'none'
+			document.getElementById('btnItselfHide').style.display = 'block'
 
 
 
 
-								var id = itemData.id
-								var name = itemData.name
-								var quantity = itemData.quantity
-								var price = itemData.price
-								var profit = itemData.profit
-								var expiry = itemData.expiry
-
-								const textId = document.createTextNode(id);
-								const textName = document.createTextNode(name);
-								const textQuantity = document.createTextNode(quantity)
-								const textPrice = document.createTextNode(price)
-								const textProfit = document.createTextNode(profit)
-								const textExpiry = document.createTextNode(expiry)
-
-
-								const colId = document.createElement('td');
-								const colName = document.createElement('td');
-								const colQuantity= document.createElement('td')
-								const colPrice = document.createElement('td')
-								const colProfit = document.createElement('td')
-								const colExpiry = document.createElement('td')
-
-								colId.appendChild(textId)
-								colName.appendChild(textName)
-								colQuantity.appendChild(textQuantity)
-								colPrice.appendChild(textPrice)
-								colProfit.appendChild(textProfit)
-								colExpiry.appendChild(textExpiry)
-
-								const tRow = document.createElement('tr')
-
-								tRow.appendChild(colId)
-								tRow.appendChild(colName)
-								tRow.appendChild(colQuantity)
-								tRow.appendChild(colPrice)
-								tRow.appendChild(colProfit)
-								tRow.appendChild(colExpiry)
-
-
-
-							    const tBody = document.getElementById('allItemsBody')
-
-								tBody.appendChild(tRow)
-
-								document.getElementById('btnItself').style.display = 'block'
-								document.getElementById('btnItselfHide').style.display = 'none'
-
-
-
-
-						})
+		})
 
 	}
 
-	allItemsTable = (result) => {
+	allItemsTable = () => {
 
 
-			result.forEach((itemData)=>{
+		fetch('http://localhost:3001/fetch-all-items', {
+			method: 'POST',
+			headers: {'Content-Type': 'application/json'}
+		})
+		.then(res=>res.json())
+		.then(result=>{
 
 
-				var cutDate = new Date(itemData.expiry)
-				cutDate = cutDate.toString()
-				cutDate = cutDate.slice(3 , 15)
+			this.addItemElement(result)
 
-
-				var id = itemData.id
-				var name = itemData.name
-				var quantity = itemData.quantity
-				var price = itemData.price
-				var profit = itemData.profit
-				var expiry = cutDate
-
-				const textId = document.createTextNode(id);
-				const textName = document.createTextNode(name);
-				const textQuantity = document.createTextNode(quantity)
-				const textPrice = document.createTextNode(price)
-				const textProfit = document.createTextNode(profit)
-				const textExpiry = document.createTextNode(expiry)
-
-
-				const colId = document.createElement('td');
-				const colName = document.createElement('td');
-				const colQuantity= document.createElement('td')
-				const colPrice = document.createElement('td')
-				const colProfit = document.createElement('td')
-				const colExpiry = document.createElement('td')
-
-				colId.appendChild(textId)
-				colName.appendChild(textName)
-				colQuantity.appendChild(textQuantity)
-				colPrice.appendChild(textPrice)
-				colProfit.appendChild(textProfit)
-				colExpiry.appendChild(textExpiry)
-
-				const tRow = document.createElement('tr')
-
-				tRow.appendChild(colId)
-				tRow.appendChild(colName)
-				tRow.appendChild(colQuantity)
-				tRow.appendChild(colPrice)
-				tRow.appendChild(colProfit)
-				tRow.appendChild(colExpiry)
-
-
-
-				const tBody = document.getElementById('allItemsBody')
-				// tBody.replaceChildren()
-
-				tBody.appendChild(tRow)
-
-				document.getElementById('btnItself').style.display = 'none'
-				document.getElementById('btnItselfHide').style.display = 'block'
-
-
-
-
-			})
-
-
+		})
 	}
 
 	// EXPIRY FILTER
@@ -197,7 +150,7 @@ class Allitems extends Component {
 			})
 			.then(res=>res.json())
 			.then((result)=>{
-				 this.allItemsTable(result)
+				 this.addItemElement(result)
 			})
 
 
@@ -486,7 +439,7 @@ class Allitems extends Component {
 
 				<Row>
 
-				<Accordion defaultActiveKey="0">
+				<Accordion>
       <Accordion.Item eventKey="0">
         <Accordion.Header>Filter By: Expiry</Accordion.Header>
         <Accordion.Body>

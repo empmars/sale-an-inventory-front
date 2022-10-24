@@ -10,12 +10,6 @@ import Totals from './Components/Statistics/totals/totals.js';
 import SaleTable from './Components/Statistics/sale-table/sale-table.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-fetch('http://localhost:3001/', {
-  method: 'get',
-  headers: {'Content-Type': 'application/json'}
-
-})
-
 
 class App extends React.Component  {
 
@@ -27,26 +21,7 @@ class App extends React.Component  {
             }
         }
 
-        fetchItems = (name , event) => {
 
-                fetch('http://localhost:3001/table', {
-                      method: 'post',
-                      headers: {'Content-Type': 'application/json'},
-                      body: JSON.stringify({
-                            name: name
-                      })
-
-                })
-                .then(res=>res.json())
-                .then(result=>{
-                    console.log(result)
-                 this.setState({itemRecieved: result});
-                   console.log(this.state)
-
-                })
-
-
-        }
 
         changeDirect = (dir) => {
             this.setState({current: dir})

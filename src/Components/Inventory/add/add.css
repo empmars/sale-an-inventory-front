@@ -1,7 +1,12 @@
-#add-button {
+#add-button-cont {
 	display: flex;
 	justify-content: center;
 }
+
+#add-button-cont button {
+	padding: 10px 20px;
+}
+
 
 #submitButton {
 	display: flex;
