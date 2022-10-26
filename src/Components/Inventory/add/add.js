@@ -48,17 +48,12 @@ class AddItem extends React.Component   {
 
       	const { name , quantity , price , profit , expiry } = this.state
 
-      	const valuesOfReq = Object.values(this.state);
+        if(name.length === 0) {
+          document.getElementById('errorMsg2').style.display = 'block'
+          document.getElementById('successMsg').style.display = 'none'
+          document.getElementById('errorMsg1').style.display = 'none'
+        } else {
 
- 		const checkIfEmpty = (value) =>{
-	     		 return(value !== '')
-	 		 }
-
-	  	const test = valuesOfReq.every(checkIfEmpty)
-	  	console.log(test)
-
-
-      	if(test) {
       			fetch('http://localhost:3001/add-item', {
 					  method: 'POST',
 					  headers: {'Content-Type': 'application/json'},
@@ -89,12 +84,7 @@ class AddItem extends React.Component   {
       					document.getElementById('errorMsg2').style.display = 'none'
       				}
       			})
-      	}
-      	else {
-
-      			document.getElementById('errorMsg2').style.display = 'block'
-      	}
-
+          }
       }
 
 
@@ -157,7 +147,7 @@ class AddItem extends React.Component   {
 
 								        <Form.Control onChange={(event)=>this.addItem('expiry', event)}  name="expiry" type="date" placeholder="Expiry" />
 								        <Form.Text id="errorMsg1">Item already exists.</Form.Text>
-								        <Form.Text id="errorMsg2">Please fill all fields.</Form.Text>
+								        <Form.Text id="errorMsg2">Item name is necessary.</Form.Text>
 								          <Form.Text id="successMsg">Item Added.</Form.Text>
 								      </Form.Group>
 								      <div id="submitButton">

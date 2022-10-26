@@ -36,12 +36,18 @@ class Allitems extends Component {
 
 	addItemElement = (result) => {
 
+		console.log(result)
+
 		result.forEach((itemData)=>{
 
 
 			var cutDate = new Date(itemData.expiry)
 			cutDate = cutDate.toString()
 			cutDate = cutDate.slice(3 , 15)
+
+			if (cutDate[8] === '1') {
+				cutDate = null
+			}
 
 
 			var id = itemData.id
@@ -146,7 +152,6 @@ class Allitems extends Component {
 					from: from,
 					to: to
 				})
-
 			})
 			.then(res=>res.json())
 			.then((result)=>{

@@ -42,7 +42,7 @@ const createDrop = () => {
 					var btnText = document.getElementsByClassName('forDrop')
 
 					for(i=0; i<result.length;i++) {
-						
+
 
 						btnText[i].innerHTML = result[i].name
 						btnText[i].style.display = 'block';
@@ -133,8 +133,6 @@ class AddSale extends React.Component {
 
 
 		}
-
-
 
  		submitSaleIndiv = () => {
 
@@ -367,10 +365,9 @@ class AddSale extends React.Component {
 						}
 
 						if (saleArray.length === 0) {
-							console.log('No Item')
+							document.getElementById('saleAddedError').style.display = 'block';
+							// setTimeout( ()=>{document.getElementById('saleAddedError').style.display = 'none';} , 2000)
 						} else {
-
-
 							console.log(saleArray)
 								fetch('http://localhost:3001/final-sale-add', {
 								  method: 'POST',
@@ -382,7 +379,10 @@ class AddSale extends React.Component {
 								})
 								.then(res=>res.json())
 								.then(result=>{
-
+									document.getElementById('saleAddedSucc').style.display = 'block'
+									// setTimeout( ()=>{document.getElementById('saleAddedSucc').style.display = 'none'} , 2000)
+									document.getElementById('saleTableBody').replaceChildren()
+									document.getElementById('totalSale').replaceChildren()
 								})
 
 						}
@@ -395,7 +395,7 @@ class AddSale extends React.Component {
 			return (
 
 			<div>
-				 `  <br/>
+				  <br/>
 				 	<br/>
 				 	<br/>
 				 	<br/>
@@ -470,19 +470,26 @@ class AddSale extends React.Component {
 											          <th></th>
 											        </tr>
 											      </thead>
-											      <tbody id = {'saleTableBody'} >
+											      <tbody id ='saleTableBody' >
 
 											     </tbody>
-											    </Table>
-
-
+											 	</Table>
 										</Row>
 
 										<Row id="totalSale">
 												<p>Total : <p id="totalSaleBody"></p></p>
-
-
 												<Button  onClick={()=>{this.submitSaleFinal()}} id="finalSaleSubmit" variant="success">Confirm</Button>{' '}
+										</Row>
+
+										<br/>
+
+										<Row>
+										<Alert id="saleAddedError" key="danger" variant="danger">
+													No Item.
+										</Alert>
+										<Alert id="saleAddedSucc" key="success" variant="success">
+													Success.
+										</Alert>
 										</Row>
 
 

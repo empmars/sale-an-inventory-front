@@ -1,3 +1,6 @@
+
+
+
 #searchRow {
 	justify-content: center;
 
@@ -40,4 +43,16 @@
   background-color: #eee; /* Add a hover effect to all links, except for headers */
   text-align: left;
   width: 100%;
+}
+
+#editTable {
+	text-align: center;
+}
+
+#successEdit {
+	display: none;
+}
+
+#errorEdit {
+	display: none;
 }
