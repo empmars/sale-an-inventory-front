@@ -6,6 +6,7 @@ import Table from 'react-bootstrap/Table';
 import Accordion from 'react-bootstrap/Accordion';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Alert from 'react-bootstrap/Alert'
 import './sale-table.css'
 
 
@@ -26,11 +27,21 @@ class SaleTable extends Component  {
 
 
 
-    addItemElement = (result) => {
-
-
+    addItemElementDate = (result) => {
 
           result.forEach((itemData)=>{
+
+                for (let prop in itemData) {
+                    if(itemData[prop] === null) {
+                      itemData[prop] = '-'
+                      console.log('hit')
+                    }
+
+                }
+
+
+
+
 
             var cutDate = new Date(itemData.date)
             cutDate = cutDate.toString()
@@ -44,6 +55,7 @@ class SaleTable extends Component  {
                     var profit = itemData.profit
                     var sum = itemData.sum
                     var discount = itemData.discount
+                    var total = itemData.total
                     var date = cutDate
 
                     const textId = document.createTextNode(id);
@@ -52,6 +64,7 @@ class SaleTable extends Component  {
                     const textProfit = document.createTextNode(profit)
                     const textSum = document.createTextNode(sum)
                     const textDisc = document.createTextNode(discount)
+                    const textTot = document.createTextNode(total)
                     const textDate = document.createTextNode(date)
 
                     const colId = document.createElement('td');
@@ -60,6 +73,7 @@ class SaleTable extends Component  {
                     const colProfit = document.createElement('td')
                     const colSum = document.createElement('td')
                     const colDisc = document.createElement('td')
+                    const colTot = document.createElement('td')
                     const colDate = document.createElement('td')
 
                     colId.appendChild(textId)
@@ -68,6 +82,7 @@ class SaleTable extends Component  {
                     colProfit.appendChild(textProfit)
                     colSum.appendChild(textSum)
                     colDisc.appendChild(textDisc)
+                    colTot.appendChild(textTot)
                     colDate.appendChild(textDate)
 
                     const tRow = document.createElement('tr')
@@ -78,6 +93,7 @@ class SaleTable extends Component  {
                     tRow.appendChild(colSum)
                     tRow.appendChild(colProfit)
                     tRow.appendChild(colDisc)
+                    tRow.appendChild(colTot)
                     tRow.appendChild(colDate)
 
 
@@ -93,6 +109,88 @@ class SaleTable extends Component  {
                 })
 
       }
+
+    addItemElementItem = (result) => {
+
+      document.getElementById('salesItemTabHead').style.display = 'table-row'
+      document.getElementById('salesDateTabHead').style.display = 'none';
+
+            result.forEach((itemData)=>{
+                  //
+                  // for (let prop in itemData) {
+                  //     if(itemData[prop] === null) {
+                  //       itemData[prop] = '-'
+                  //       console.log('hit')
+                  //     }
+                  //
+                  // }
+
+
+
+
+
+              var cutDate = new Date(itemData.date)
+              cutDate = cutDate.toString()
+              cutDate = cutDate.slice(3 , 15)
+
+
+
+                      var id = itemData.id
+                      var item = itemData.items
+                      var quantity = itemData.quantity
+                      var profit = itemData.profit
+                      var sum = itemData.sum
+                      var discount = itemData.discount
+                      // var total
+                      var date = cutDate
+
+                      const textId = document.createTextNode(id);
+                      const textItem= document.createTextNode(item);
+                      const textQuantity = document.createTextNode(quantity)
+                      const textProfit = document.createTextNode(profit)
+                      const textSum = document.createTextNode(sum)
+                      const textDisc = document.createTextNode(discount)
+                      const textDate = document.createTextNode(date)
+
+                      const colId = document.createElement('td');
+                      const colItem = document.createElement('td');
+                      const colQuantity= document.createElement('td')
+                      const colProfit = document.createElement('td')
+                      const colSum = document.createElement('td')
+                      const colDisc = document.createElement('td')
+                      const colDate = document.createElement('td')
+
+                      colId.appendChild(textId)
+                      colItem.appendChild(textItem)
+                      colQuantity.appendChild(textQuantity)
+                      colProfit.appendChild(textProfit)
+                      colSum.appendChild(textSum)
+                      colDisc.appendChild(textDisc)
+                      colDate.appendChild(textDate)
+
+                      const tRow = document.createElement('tr')
+
+                      tRow.appendChild(colId)
+                      tRow.appendChild(colItem)
+                      tRow.appendChild(colQuantity)
+                      tRow.appendChild(colSum)
+                      tRow.appendChild(colProfit)
+                      tRow.appendChild(colDisc)
+                      tRow.appendChild(colDate)
+
+
+
+                        const tBody = document.getElementById('sale-filtered')
+
+                      tBody.appendChild(tRow)
+
+
+
+
+
+                  })
+
+        }
 
     createDrop = () => {
 
@@ -222,8 +320,18 @@ class SaleTable extends Component  {
 
                 }).then(res=>res.json())
                 .then(result=>{
-                    document.getElementById('sale-filtered').replaceChildren()
-                    this.addItemElement(result)
+
+                  document.getElementById('salesItemTabHead').style.display = 'none';
+                  document.getElementById('salesDateTabHead').style.display = '';
+                  document.getElementById('sale-filtered').replaceChildren()
+                  if(result.length === 0) {
+                      document.getElementById('noFoundError').style.display = 'block'
+                      setTimeout( ()=>{document.getElementById('noFoundError').style.display = 'none'} , 2000)
+                  } else {
+
+                      this.addItemElementDate(result)
+
+                  }
 
                 })
 
@@ -300,12 +408,18 @@ class SaleTable extends Component  {
 
     }).then(res=>res.json())
     .then(result=>{
+      document.getElementById('salesDateTabHead').style.display = 'none';
+      document.getElementById('salesItemTabHead').style.display = '';
+      document.getElementById('sale-filtered').replaceChildren()
 
+        if(result.length === 0) {
+            document.getElementById('noFoundError').style.display = 'block'
+            setTimeout( ()=>{document.getElementById('noFoundError').style.display = 'none'} , 2000)
+        } else {
 
+            this.addItemElementItem(result)
 
-        document.getElementById('sale-filtered').replaceChildren()
-        this.addItemElement(result , 'itemSale')
-
+        }
     })
 
 
@@ -319,7 +433,7 @@ class SaleTable extends Component  {
 
             <Container>
 
-                  <Accordion defaultActiveKey="0">
+                  <Accordion>
                         <Accordion.Item eventKey="0"  className="FilterHeading" >
                           <Accordion.Header onClick={()=>this.clickFilterHead()}>Filter By: Date</Accordion.Header>
                           <Accordion.Body>
@@ -410,7 +524,17 @@ class SaleTable extends Component  {
                   <Row>
                   <Table striped bordered hover>
                       <thead>
-                        <tr>
+                        <tr id="salesDateTabHead">
+                          <th>#</th>
+                          <th>Item</th>
+                          <th>Quantity</th>
+                          <th>Sum</th>
+                          <th>Profit</th>
+                          <th>Discount</th>
+                          <th>Total</th>
+                          <th>Date</th>
+                        </tr>
+                        <tr id="salesItemTabHead">
                           <th>#</th>
                           <th>Item</th>
                           <th>Quantity</th>
@@ -425,6 +549,12 @@ class SaleTable extends Component  {
                       </tbody>
                     </Table>
 
+                  </Row>
+
+                  <Row>
+                  <Alert id="noFoundError" key='secondary' variant='secondary'>
+                      No Results Found.
+                    </Alert>
                   </Row>
 
               </Container>
