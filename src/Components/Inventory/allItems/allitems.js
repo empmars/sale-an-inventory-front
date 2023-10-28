@@ -287,7 +287,7 @@ class Allitems extends Component {
 
 		return(
 
-			<>
+			
 
 			<Container>
 
@@ -438,7 +438,7 @@ class Allitems extends Component {
 
 			</Container>
 
-			</>
+			
 			)
 	}
 
