@@ -42,7 +42,6 @@ class App extends React.Component  {
                             <SearchItem fetchItems={(name , event)=>this.fetchItems(name)} />
                             <br/>
                             <br/>
-                            <Allitems />
                             </>
                     );
             } else if(this.state.current === "sale") {
