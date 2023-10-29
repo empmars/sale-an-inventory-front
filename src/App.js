@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import Navigation from './Components/Inventory/Nav/nav.js';
 import AddItem from './Components/Inventory/add/add.js';
 import SearchItem from './Components/Inventory/search/search.js';
-import Allitems from './Components/Inventory/allItems/allitems.js';
 import AddSale from './Components/Sale/addSale/addSale.js';
 import Totals from './Components/Statistics/totals/totals.js';
 import SaleTable from './Components/Statistics/sale-table/sale-table.js';
