@@ -1,0 +1,77 @@
+#inventHeading {
+	display: block;
+	text-align: center;
+}
+
+
+
+
+#allItemsTable {
+	text-align: center;
+}
+
+
+#btnItself {
+	width: auto;
+}
+
+#btnRow {
+	justify-content: center;
+}
+
+#btnItselfHide {
+	display: none;
+	width: auto;
+}
+
+#expiryFilter {
+	display: flex;
+
+}
+
+#expiryFilter p {
+	margin-right: 15px;
+
+}
+
+
+#quantFilterCont {
+	justify-content: flex-start;
+}
+
+#quantFilterCont p {
+	padding-right: 0px;
+}
+
+#quantFilterCont div.col-md-2 {
+	padding-left: 0px;
+}
+
+#quanFilterBigger {
+	padding-left: 0px;
+}
+
+
+#priceFilterCont p {
+	padding-right: 0px;
+}
+
+#priceFilterCont div.col-md-2 {
+	padding-left: 0px;
+}
+
+#priceFilterBigger {
+	padding-left: 0px;
+}
+
+#profitFilterCont p {
+	padding-right: 0px;
+}
+
+#profitFilterCont div.col-md-2 {
+	padding-left: 0px;
+}
+
+#profitFilterBigger {
+	padding-left: 0px;
+}

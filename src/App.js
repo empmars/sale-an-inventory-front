@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Navigation from './Components/Inventory/Nav/nav.js';
 import AddItem from './Components/Inventory/add/add.js';
+import Allitems from './Components/Inventory/allItems/allitems.js';
 import SearchItem from './Components/Inventory/search/search.js';
 import AddSale from './Components/Sale/addSale/addSale.js';
 import Totals from './Components/Statistics/totals/totals.js';
@@ -38,6 +39,8 @@ class App extends React.Component  {
                             <AddItem />
                             <br/>
                             <br/>
+                       
+                            <Allitems />
                             <SearchItem fetchItems={(name , event)=>this.fetchItems(name)} />
                             <br/>
                             <br/>

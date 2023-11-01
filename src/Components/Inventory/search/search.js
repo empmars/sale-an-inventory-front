@@ -382,11 +382,8 @@ class SearchItem extends React.Component {
 				>
 					<Form>
 					<Container>
-						<Row>
-								<h2 id="editHead">Edit Items</h2>
-						</Row>
+
 						<br/>
-						<hr/>
 						<br/>
 						<Row id="searchRow">
 						  <Col id="searchRowCol" md={8}>
