@@ -40,8 +40,10 @@ class App extends React.Component  {
                             <br/>
                             <br/>
                        
-                            <Allitems />
                             <SearchItem fetchItems={(name , event)=>this.fetchItems(name)} />
+                            <br />
+                           
+                            <Allitems />
                             <br/>
                             <br/>
                             </>
