@@ -56,7 +56,7 @@ class AddItem extends React.Component   {
 
       			fetch('https://sale-and-inventory-backend.vercel.app/add-item', {
 					  method: 'POST',
-					  headers: {'Content-Type': 'application/json'},
+					  headers: {'Content-Type': 'application/json' , 'Access-Control-Allow-Origin': 'https://sale-and-inventory-backend.vercel.app'},
 					  body: JSON.stringify({
 					  	name: name,
 			 			quantity: quantity,
