@@ -43,7 +43,7 @@ class AddItem extends React.Component   {
       }
 
       submitClick = (event) => {
-
+		console.log('asasssssssss')
       	event.preventDefault();
 
       	const { name , quantity , price , profit , expiry } = this.state
@@ -54,9 +54,9 @@ class AddItem extends React.Component   {
           document.getElementById('errorMsg1').style.display = 'none'
         } else {
 
-      			fetch('https://sale-and-inventory-backend-90i121fy1-muhammad-samis-projects.vercel.app/add-item', {
+      			fetch('https://sale-and-inventory-backend.vercel.app/add-item', {
 					  method: 'POST',
-					  headers: {'Content-Type': 'application/json'},
+					  headers: {'Content-Type': 'application/json' , 'Access-Control-Allow-Origin': '*'},
 					  body: JSON.stringify({
 					  	name: name,
 			 			quantity: quantity,
