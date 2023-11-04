@@ -54,7 +54,7 @@ class AddItem extends React.Component   {
           document.getElementById('errorMsg1').style.display = 'none'
         } else {
 
-      			fetch('https://sale-and-inventory-backend.vercel.app/add-item', {
+      			fetch('https://sale-and-inventory-backend-hgvudv6qq-muhammad-samis-projects.vercel.app/add-item', {
 					  method: 'POST',
 					  headers: {'Content-Type': 'application/json'},
 					  body: JSON.stringify({
