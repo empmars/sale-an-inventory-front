@@ -271,7 +271,7 @@ class SearchItem extends React.Component {
 
 	itemEntered = (event) => {
 
-		fetch('http://localhost:3001/list-search-edit', {
+		fetch('https://sale-and-inventory-backend.vercel.app/list-search-edit', {
 					method: 'post',
 					headers: {'Content-Type': 'application/json'},
 					body: JSON.stringify({
@@ -353,24 +353,6 @@ class SearchItem extends React.Component {
 		}
 	}
 
-	fetchItemsEdit = () => {
-
-			 const { itemEntered } = this.state;
-			 fetch('http://localhost:3001/fetch-items-edit', {
-						 method: 'post',
-						 headers: {'Content-Type': 'application/json'},
-						 body: JSON.stringify({
-									 name: itemEntered
-						 })
-
-			 })
-			 .then(res=>res.json())
-			 .then(result=>{
-				 console.log(result)
-				 this.addItemElement(result)
-			 })
-	}
-
 	render() {
 
 		const { itemEntered } = this.state;
@@ -388,13 +370,13 @@ class SearchItem extends React.Component {
 						<Row id="searchRow">
 						  <Col id="searchRowCol" md={8}>
 						      <Form.Group className="mb-2">
-						        <Form.Control onKeyDown = {(event)=>{this.removeEnterRef(event)}}  onChange={(event)=>this.itemEntered(event)} id="searchInpt" type="text" placeholder="Search Item by Name" />
+						        <Form.Control onKeyDown = {(event)=>{this.removeEnterRef(event)}}  id="searchInpt" type="text" placeholder="Search Item by Name" />
 						      </Form.Group>
 									<ul id="matchesULedit"></ul>
 					      </Col>
 					      <Col md={2}>
 							  <Button
-							  onClick={()=>this.fetchItemsEdit()}
+							  onClick={(event)=>this.itemEntered(event)}
 							   variant="primary" type="button">
 							        Search
 							  </Button>
