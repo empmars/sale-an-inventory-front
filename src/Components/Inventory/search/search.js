@@ -18,6 +18,7 @@ class SearchItem extends React.Component {
 		super();
 		this.state = {
 			itemEntered: '',
+			error: false
 		}
 
 	}
@@ -269,24 +270,22 @@ class SearchItem extends React.Component {
 
 		}
 
-	itemEntered = (event) => {
+	itemEntered = () => {
 
 		fetch('https://sale-and-inventory-backend.vercel.app/list-search-edit', {
 					method: 'post',
 					headers: {'Content-Type': 'application/json'},
 					body: JSON.stringify({
-								name: event.target.value
+								name: this.state.itemEntered
 					})
 
 		})
 		.then(res=>res.json())
 		.then(result=>{
 
-
 			if(result.length) {
 
-				console.log(result)
-				this.setState({itemEntered: event.target.value})
+				this.setState({error: false})
 				var input, filter;
 				input = document.getElementById('searchInpt');
 				filter = input.value.toUpperCase();
@@ -342,15 +341,15 @@ class SearchItem extends React.Component {
 					//
 					// 					}
 					// 		}
-				}
+			} else {
+				this.setState({error: true})
+			}
 		})
 
 	}
 
-	removeEnterRef = (event) => {
-		if(event.key === 'Enter') {
-			event.preventDefault()
-		}
+	updateName = (event) => {
+		setState({itemEntered: event.target.value})
 	}
 
 	render() {
@@ -370,7 +369,7 @@ class SearchItem extends React.Component {
 						<Row id="searchRow">
 						  <Col id="searchRowCol" md={8}>
 						      <Form.Group className="mb-2">
-						        <Form.Control onKeyDown = {(event)=>{this.removeEnterRef(event)}}  id="searchInpt" type="text" placeholder="Search Item by Name" />
+						        <Form.Control onChange = {(event)=>{this.updateName(event)}}  id="searchInpt" type="text" placeholder="Search Item by Name" />
 						      </Form.Group>
 									<ul id="matchesULedit"></ul>
 					      </Col>
@@ -383,6 +382,7 @@ class SearchItem extends React.Component {
 						  </Col>
 						</Row>
 						<br/>
+						<h4 display={this.state.error? 'block' : 'none'} style={{color: 'red'}}>No Item Found.</h4>
 						<Row id="editTableCont">
 						<Table id="editTable" striped bordered hover>
 								<thead>

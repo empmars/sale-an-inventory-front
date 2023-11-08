@@ -341,7 +341,7 @@ class Allitems extends Component {
 
 								<Row id="quantFilterCont">
 									<Col md="1">
-										<p>Quantity: </p>
+									<p>Quantity: </p>
 									</Col>
 
 									<Col md="2">
