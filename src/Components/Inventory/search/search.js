@@ -349,7 +349,7 @@ class SearchItem extends React.Component {
 	}
 
 	updateName = (event) => {
-		setState({itemEntered: event.target.value})
+		this.setState({itemEntered: event.target.value})
 	}
 
 	render() {
