@@ -382,7 +382,13 @@ class SearchItem extends React.Component {
 						  </Col>
 						</Row>
 						<br/>
-						<h4 display={this.state.error? 'block' : 'none'} style={{color: 'red'}}>No Item Found.</h4>
+						<Row style={{justifyContent: 'center' , display : this.state.error ? 'flex' : 'none'}}>
+							<Col>
+							<Alert key='danger' variant='danger'>
+								No Item Found.
+							</Alert>
+							</Col>
+						</Row>
 						<Row id="editTableCont">
 						<Table id="editTable" striped bordered hover>
 								<thead>
