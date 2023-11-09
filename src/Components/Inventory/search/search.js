@@ -283,7 +283,7 @@ class SearchItem extends React.Component {
 		})
 			.then(res => res.json())
 			.then(result => {
-
+				console.log(result)
 				if (result.length) {
 
 					this.setState({ responseData: result })
