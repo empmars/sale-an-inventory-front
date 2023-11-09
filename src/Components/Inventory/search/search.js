@@ -417,14 +417,17 @@ class SearchItem extends React.Component {
 								<tbody id="item-edit-body">
 									{
 									this.state.responseData.map((cur, i) => {
-										<tr>
-											<td>{i+1}</td>
-											<td>{cur.name}</td>
-											<td>{cur.quantity}</td>
-											<td>{cur.price}</td>
-											<td>{cur.profit}</td>
-											<td>{cur.expiry}</td>
-										</tr>
+										return(
+											<tr>
+												<td>{i+1}</td>
+												<td>{cur.name}</td>
+												<td>{cur.quantity}</td>
+												<td>{cur.price}</td>
+												<td>{cur.profit}</td>
+												<td>{cur.expiry}</td>
+											</tr>
+
+										)
 									})
 									}
 
