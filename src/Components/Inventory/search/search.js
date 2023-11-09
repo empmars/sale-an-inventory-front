@@ -366,8 +366,7 @@ class SearchItem extends React.Component {
 
 	render() {
 
-		const { itemEntered } = this.state;
-
+		console.log(this.state)
 		return (
 			<ThemeProvider
 				breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}
