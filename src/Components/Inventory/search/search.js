@@ -271,7 +271,8 @@ class SearchItem extends React.Component {
 
 	}
 
-	itemEntered = () => {
+	itemEntered = (event) => {
+		event.preventDefault()
 
 		fetch('https://sale-and-inventory-backend.vercel.app/list-search-edit', {
 			method: 'post',
