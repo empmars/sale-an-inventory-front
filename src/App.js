@@ -36,12 +36,11 @@ class App extends React.Component  {
                     return (
                             <>
                             <Navigation changeDir={(dir)=>this.changeDirect(dir)} />
-                            <AddItem />
                             <br/>
                             <br/>
                        
-                            <SearchItem fetchItems={(name , event)=>this.fetchItems(name)} />
                             <br />
+                            <SearchItem fetchItems={(name , event)=>this.fetchItems(name)} />
                            
                             <Allitems />
                             <br/>

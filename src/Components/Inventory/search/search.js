@@ -24,252 +24,252 @@ class SearchItem extends React.Component {
 
 	}
 
-	addItemElement = (result) => {
-
-
+	// addItemElement = (result) => {
+
+
 
-		result.forEach((itemData) => {
-
-
-			var cutDate = new Date(itemData.expiry)
-			cutDate = cutDate.toString()
-			cutDate = cutDate.slice(3, 15)
-			if (cutDate[8] === '1') {
-				cutDate = null
-			}
-
-
-			var id = itemData.id
-			var item = itemData.name
-			var quantity = itemData.quantity
-			var profit = itemData.profit
-			var price = itemData.price
-			var expiry = cutDate
-
-			const textId = document.createTextNode(id);
-			const textItem = document.createTextNode(item);
-			const textQuantity = document.createTextNode(quantity)
-			const textProfit = document.createTextNode(profit)
-			const textPrice = document.createTextNode(price)
-			const textExpiry = document.createTextNode(expiry)
+	// 	result.forEach((itemData) => {
+
+
+	// 		var cutDate = new Date(itemData.expiry)
+	// 		cutDate = cutDate.toString()
+	// 		cutDate = cutDate.slice(3, 15)
+	// 		if (cutDate[8] === '1') {
+	// 			cutDate = null
+	// 		}
+
+
+	// 		var id = itemData.id
+	// 		var item = itemData.name
+	// 		var quantity = itemData.quantity
+	// 		var profit = itemData.profit
+	// 		var price = itemData.price
+	// 		var expiry = cutDate
+
+	// 		const textId = document.createTextNode(id);
+	// 		const textItem = document.createTextNode(item);
+	// 		const textQuantity = document.createTextNode(quantity)
+	// 		const textProfit = document.createTextNode(profit)
+	// 		const textPrice = document.createTextNode(price)
+	// 		const textExpiry = document.createTextNode(expiry)
 
-			const colId = document.createElement('td');
-			const colItem = document.createElement('td');
-			const colQuantity = document.createElement('td')
-			const colPrice = document.createElement('td')
-			const colProfit = document.createElement('td')
-			const colExpiry = document.createElement('td')
-			const colBtns = document.createElement('td')
+	// 		const colId = document.createElement('td');
+	// 		const colItem = document.createElement('td');
+	// 		const colQuantity = document.createElement('td')
+	// 		const colPrice = document.createElement('td')
+	// 		const colProfit = document.createElement('td')
+	// 		const colExpiry = document.createElement('td')
+	// 		const colBtns = document.createElement('td')
 
-			// BTN EDIT && DEL
-			var btnEdit = document.createElement('button')
-			var btnDel = document.createElement('button')
-			var btnSave = document.createElement('button')
-			var btnReset = document.createElement('button')
-			var btnBack = document.createElement('button')
-			btnEdit.innerText = 'Edit'
-			btnDel.innerText = 'X'
-			btnSave.innerText = 'Save'
-			btnReset.innerText = 'Reset'
-			btnBack.innerText = 'Back'
-			btnEdit.setAttribute('id', 'btnEdit')
-			btnDel.setAttribute('id', 'btnClose')
-			btnSave.setAttribute('id', 'btnEdit')
-			btnReset.setAttribute('id', 'btnClose')
-			btnBack.setAttribute('id', 'btnEdit')
-			btnEdit.setAttribute('type', 'button')
-			btnDel.setAttribute('type', 'button')
-			btnSave.setAttribute('type', 'button')
-			btnReset.setAttribute('type', 'button')
-			btnBack.setAttribute('type', 'button')
+	// 		// BTN EDIT && DEL
+	// 		var btnEdit = document.createElement('button')
+	// 		var btnDel = document.createElement('button')
+	// 		var btnSave = document.createElement('button')
+	// 		var btnReset = document.createElement('button')
+	// 		var btnBack = document.createElement('button')
+	// 		btnEdit.innerText = 'Edit'
+	// 		btnDel.innerText = 'X'
+	// 		btnSave.innerText = 'Save'
+	// 		btnReset.innerText = 'Reset'
+	// 		btnBack.innerText = 'Back'
+	// 		btnEdit.setAttribute('id', 'btnEdit')
+	// 		btnDel.setAttribute('id', 'btnClose')
+	// 		btnSave.setAttribute('id', 'btnEdit')
+	// 		btnReset.setAttribute('id', 'btnClose')
+	// 		btnBack.setAttribute('id', 'btnEdit')
+	// 		btnEdit.setAttribute('type', 'button')
+	// 		btnDel.setAttribute('type', 'button')
+	// 		btnSave.setAttribute('type', 'button')
+	// 		btnReset.setAttribute('type', 'button')
+	// 		btnBack.setAttribute('type', 'button')
 
 
 
 
 
 
-			colId.appendChild(textId)
-			colItem.appendChild(textItem)
-			colQuantity.appendChild(textQuantity)
-			colPrice.appendChild(textPrice)
-			colProfit.appendChild(textProfit)
-			colExpiry.appendChild(textExpiry)
-			colBtns.appendChild(btnEdit)
-			colBtns.appendChild(btnDel)
+	// 		colId.appendChild(textId)
+	// 		colItem.appendChild(textItem)
+	// 		colQuantity.appendChild(textQuantity)
+	// 		colPrice.appendChild(textPrice)
+	// 		colProfit.appendChild(textProfit)
+	// 		colExpiry.appendChild(textExpiry)
+	// 		colBtns.appendChild(btnEdit)
+	// 		colBtns.appendChild(btnDel)
 
-			const tRow = document.createElement('tr')
+	// 		const tRow = document.createElement('tr')
 
-			tRow.appendChild(colId)
-			tRow.appendChild(colItem)
-			tRow.appendChild(colQuantity)
-			tRow.appendChild(colPrice)
-			tRow.appendChild(colProfit)
-			tRow.appendChild(colExpiry)
-			tRow.appendChild(colBtns)
+	// 		tRow.appendChild(colId)
+	// 		tRow.appendChild(colItem)
+	// 		tRow.appendChild(colQuantity)
+	// 		tRow.appendChild(colPrice)
+	// 		tRow.appendChild(colProfit)
+	// 		tRow.appendChild(colExpiry)
+	// 		tRow.appendChild(colBtns)
 
 
 
-			const tBody = document.getElementById('item-edit-body')
+	// 		const tBody = document.getElementById('item-edit-body')
 
-			tBody.appendChild(tRow)
+	// 		tBody.appendChild(tRow)
 
-			btnDel.onclick = (event) => {
-				event.preventDefault()
-				tRow.replaceChildren()
-			}
+	// 		btnDel.onclick = (event) => {
+	// 			event.preventDefault()
+	// 			tRow.replaceChildren()
+	// 		}
 
-			btnEdit.onclick = (event) => {
-				event.preventDefault()
-				colBtns.replaceChildren()
-				btnReset.style.marginRight = '3px'
-				colBtns.appendChild(btnSave)
-				colBtns.appendChild(btnReset)
-				colBtns.appendChild(btnBack)
+	// 		btnEdit.onclick = (event) => {
+	// 			event.preventDefault()
+	// 			colBtns.replaceChildren()
+	// 			btnReset.style.marginRight = '3px'
+	// 			colBtns.appendChild(btnSave)
+	// 			colBtns.appendChild(btnReset)
+	// 			colBtns.appendChild(btnBack)
 
 
-				var inpQuan = document.createElement('input')
-				var inpPrice = document.createElement('input')
-				var inpProfit = document.createElement('input')
-				var inpExpiry = document.createElement('input')
-				inpExpiry.setAttribute('type', 'date')
+	// 			var inpQuan = document.createElement('input')
+	// 			var inpPrice = document.createElement('input')
+	// 			var inpProfit = document.createElement('input')
+	// 			var inpExpiry = document.createElement('input')
+	// 			inpExpiry.setAttribute('type', 'date')
 
-				inpProfit.disabled = true;
+	// 			inpProfit.disabled = true;
 
-				colQuantity.replaceChildren()
-				colPrice.replaceChildren()
-				colProfit.replaceChildren()
-				colExpiry.replaceChildren()
+	// 			colQuantity.replaceChildren()
+	// 			colPrice.replaceChildren()
+	// 			colProfit.replaceChildren()
+	// 			colExpiry.replaceChildren()
 
-				colQuantity.appendChild(inpQuan)
-				colPrice.appendChild(inpPrice)
-				colProfit.appendChild(inpProfit)
-				colExpiry.appendChild(inpExpiry)
+	// 			colQuantity.appendChild(inpQuan)
+	// 			colPrice.appendChild(inpPrice)
+	// 			colProfit.appendChild(inpProfit)
+	// 			colExpiry.appendChild(inpExpiry)
 
-				colQuantity.onkeydown = (event) => {
+	// 			colQuantity.onkeydown = (event) => {
 
-					if (event.key === 'Enter' && event.target.value > 0) {
+	// 				if (event.key === 'Enter' && event.target.value > 0) {
 
-						colQuantity.replaceChildren()
-						var newQText = event.target.value
-						var newQ = document.createTextNode(newQText)
-						colQuantity.appendChild(newQ)
-					}
+	// 					colQuantity.replaceChildren()
+	// 					var newQText = event.target.value
+	// 					var newQ = document.createTextNode(newQText)
+	// 					colQuantity.appendChild(newQ)
+	// 				}
 
-				}
+	// 			}
 
-				colPrice.onkeydown = (event) => {
+	// 			colPrice.onkeydown = (event) => {
 
-					if (event.key === 'Enter' && event.target.value > 0) {
+	// 				if (event.key === 'Enter' && event.target.value > 0) {
 
-						colPrice.replaceChildren()
-						var newPText = event.target.value
-						var newP = document.createTextNode(newPText)
-						colPrice.appendChild(newP)
-						inpProfit.disabled = false
-					}
+	// 					colPrice.replaceChildren()
+	// 					var newPText = event.target.value
+	// 					var newP = document.createTextNode(newPText)
+	// 					colPrice.appendChild(newP)
+	// 					inpProfit.disabled = false
+	// 				}
 
-				}
+	// 			}
 
-				colProfit.onkeydown = (event) => {
+	// 			colProfit.onkeydown = (event) => {
 
-					if (event.key === 'Enter' && event.target.value > 0) {
+	// 				if (event.key === 'Enter' && event.target.value > 0) {
 
-						colProfit.replaceChildren()
-						var newPrText = (Number(event.target.value) / 100) * Number(inpPrice.value)
+	// 					colProfit.replaceChildren()
+	// 					var newPrText = (Number(event.target.value) / 100) * Number(inpPrice.value)
 
-						var newPr = document.createTextNode(newPrText)
-						colProfit.appendChild(newPr)
-					}
+	// 					var newPr = document.createTextNode(newPrText)
+	// 					colProfit.appendChild(newPr)
+	// 				}
 
-				}
+	// 			}
 
-				btnReset.onclick = () => {
+	// 			btnReset.onclick = () => {
 
-					console.log('asasasas')
+	// 				console.log('asasasas')
 
-					inpQuan.value = ''
-					inpPrice.value = ''
-					inpProfit.value = ''
-					inpExpiry.value = ''
+	// 				inpQuan.value = ''
+	// 				inpPrice.value = ''
+	// 				inpProfit.value = ''
+	// 				inpExpiry.value = ''
 
-					colQuantity.replaceChildren()
-					colPrice.replaceChildren()
-					colProfit.replaceChildren()
-					colExpiry.replaceChildren()
+	// 				colQuantity.replaceChildren()
+	// 				colPrice.replaceChildren()
+	// 				colProfit.replaceChildren()
+	// 				colExpiry.replaceChildren()
 
-					colQuantity.appendChild(inpQuan)
-					colPrice.appendChild(inpPrice)
-					colProfit.appendChild(inpProfit)
-					colExpiry.appendChild(inpExpiry)
+	// 				colQuantity.appendChild(inpQuan)
+	// 				colPrice.appendChild(inpPrice)
+	// 				colProfit.appendChild(inpProfit)
+	// 				colExpiry.appendChild(inpExpiry)
 
-				}
+	// 			}
 
-				btnBack.onclick = () => {
+	// 			btnBack.onclick = () => {
 
-					colQuantity.replaceChildren()
-					colPrice.replaceChildren()
-					colProfit.replaceChildren()
-					colExpiry.replaceChildren()
+	// 				colQuantity.replaceChildren()
+	// 				colPrice.replaceChildren()
+	// 				colProfit.replaceChildren()
+	// 				colExpiry.replaceChildren()
 
-					colQuantity.appendChild(textQuantity)
-					colPrice.appendChild(textPrice)
-					colProfit.appendChild(textProfit)
-					colExpiry.appendChild(textExpiry)
+	// 				colQuantity.appendChild(textQuantity)
+	// 				colPrice.appendChild(textPrice)
+	// 				colProfit.appendChild(textProfit)
+	// 				colExpiry.appendChild(textExpiry)
 
-					colBtns.replaceChildren()
-					colBtns.appendChild(btnEdit)
-					colBtns.appendChild(btnDel)
+	// 				colBtns.replaceChildren()
+	// 				colBtns.appendChild(btnEdit)
+	// 				colBtns.appendChild(btnDel)
 
-				}
+	// 			}
 
-				btnSave.onclick = () => {
+	// 			btnSave.onclick = () => {
 
-					var quantity = colQuantity.innerText
-					var price = colPrice.innerText
-					var profit = colProfit.innerText
-					var expiry = inpExpiry.value
+	// 				var quantity = colQuantity.innerText
+	// 				var price = colPrice.innerText
+	// 				var profit = colProfit.innerText
+	// 				var expiry = inpExpiry.value
 
-					fetch('http://localhost:3001/save-edited-item', {
-						method: 'post',
-						headers: { 'Content-Type': 'application/json' },
-						body: JSON.stringify({
-							quantity: quantity,
-							price: price,
-							profit: profit,
-							expiry: expiry
-						})
+	// 				fetch('http://localhost:3001/save-edited-item', {
+	// 					method: 'post',
+	// 					headers: { 'Content-Type': 'application/json' },
+	// 					body: JSON.stringify({
+	// 						quantity: quantity,
+	// 						price: price,
+	// 						profit: profit,
+	// 						expiry: expiry
+	// 					})
 
-					})
-						.then(res => res.json())
-						.then(result => {
+	// 				})
+	// 					.then(res => res.json())
+	// 					.then(result => {
 
-							document.getElementById('item-edit-body').replaceChildren();
-							if (result === 'Success') {
-								document.getElementById('successEdit').style.display = 'block';
-								setTimeout(() => { document.getElementById('successEdit').style.display = 'none'; }, 2000)
+	// 						document.getElementById('item-edit-body').replaceChildren();
+	// 						if (result === 'Success') {
+	// 							document.getElementById('successEdit').style.display = 'block';
+	// 							setTimeout(() => { document.getElementById('successEdit').style.display = 'none'; }, 2000)
 
-							} else {
-								document.getElementById('errorEdit').style.display = 'block';
-								setTimeout(() => { document.getElementById('errorEdit').style.display = 'none'; }, 2000)
+	// 						} else {
+	// 							document.getElementById('errorEdit').style.display = 'block';
+	// 							setTimeout(() => { document.getElementById('errorEdit').style.display = 'none'; }, 2000)
 
-							}
+	// 						}
 
-						})
+	// 					})
 
 
-				}
+	// 			}
 
 
-			}
+	// 		}
 
 
 
 
 
 
-		})
+	// 	})
 
-	}
+	// }
 
 	itemEntered = (event) => {
 		event.preventDefault()
@@ -362,6 +362,7 @@ class SearchItem extends React.Component {
 	}
 
 	updateName = (event) => {
+		event.preventDefault()
 		this.setState({ itemEntered: event.target.value })
 	}
 

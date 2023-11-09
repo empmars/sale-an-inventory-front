@@ -53,7 +53,7 @@ class AddItem extends React.Component   {
           document.getElementById('successMsg').style.display = 'none'
           document.getElementById('errorMsg1').style.display = 'none'
         } else {
-
+			document.getElementById('errorMsg2').style.display = 'none'
       			fetch('https://sale-and-inventory-backend.vercel.app/add-item', {
 					  method: 'POST',
 					  headers: {'Content-Type': 'application/json'},
@@ -68,7 +68,7 @@ class AddItem extends React.Component   {
       			.then(res=>res.json())
       			.then(res=>{
       				console.log(res)
-      				if(res.includes('already exists')) {
+      				if(res.severity.includes('ERROR')) {
       					document.getElementById('errorMsg1').style.display = 'block'
 
       					document.getElementById('errorMsg2').style.display = 'none'
@@ -92,12 +92,9 @@ class AddItem extends React.Component   {
 		console.log(this.state)
 				return(
 						<>
-						      <br/>
-						      <br/>
-						      <br/>
-						      <br/>
+						
 						      <div  id="add-button-cont">
-							      <Button variant="primary" onClick={() => this.setState({modalShow: true})}>
+							      <Button variant="success" onClick={() => this.setState({modalShow: true})}>
 							        Add Item
 							      </Button>
 						      </div>
@@ -146,7 +143,7 @@ class AddItem extends React.Component   {
 								      <Form.Group className="mb-3">
 
 								        <Form.Control onChange={(event)=>this.addItem('expiry', event)}  name="expiry" type="date" placeholder="Expiry" />
-								        <Form.Text id="errorMsg1">Item already exists.</Form.Text>
+								        <Form.Text id="errorMsg1">An error occured. Make sure the item name is unique.</Form.Text>
 								        <Form.Text id="errorMsg2">Item name is necessary.</Form.Text>
 								          <Form.Text id="successMsg">Item Added.</Form.Text>
 								      </Form.Group>
