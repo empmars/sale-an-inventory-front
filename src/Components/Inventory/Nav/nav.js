@@ -6,12 +6,13 @@ import Nav from 'react-bootstrap/Nav';
 import { Row } from 'react-bootstrap';
 import './nav.css';
 import AddItem from '../add/add.js';
+import EditItem from '../edit/edit.js';
 
 const Navigation = ({ changeDir }) => {
 	return (
 		<Navbar id="first" bg="light">
 			<Container>
-				<Nav variant="tabs" defaultActiveKey="#" className="justify-content-between" style={{ width: '100%' }}>
+				<Nav variant="tabs" defaultActiveKey="#" className="justify-content-between" id="navigationID" style={{ width: '100%'}}>
 
 					<Nav.Item style={{display: 'flex'}}>
 						<Nav.Item >
@@ -25,8 +26,9 @@ const Navigation = ({ changeDir }) => {
 						</Nav.Item>
 					</Nav.Item>
 
-					<Nav.Item>
+					<Nav.Item style={{display: 'flex' , gap: '6px' , marginBottom: '4px' , justifyContent: 'center'}}>
 						<AddItem />
+						<EditItem />
 					</Nav.Item>
 				</Nav>
 			</Container>

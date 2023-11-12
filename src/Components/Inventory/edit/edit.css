@@ -1,0 +1,41 @@
+#add-button-cont {
+	display: flex;
+	justify-content: center;
+}
+
+#add-button-cont button {
+	padding: 10px 20px;
+}
+
+
+#submitButton {
+	display: flex;
+	justify-content: end;
+}
+
+#errorMsg1 {
+	font-size: 15px;
+	font-weight:bold;
+	text-decoration: underline;
+	color: red;
+	padding-left: 15px;
+	display: none;
+}
+
+#errorMsg2 {
+	font-size: 15px;
+	font-weight:bold;
+	text-decoration: underline;
+	color: red;
+	padding-left: 15px;
+	display: none;
+}
+
+#successMsg {
+	font-size: 15px;
+	font-weight:bold;
+	text-decoration: underline;
+	color: green;
+	padding-left: 15px;
+	display: none;
+}

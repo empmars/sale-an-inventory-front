@@ -43,20 +43,17 @@ class AddItem extends React.Component {
 	}
 
 	submitClick = (event) => {
-		console.log('asasssssssss')
 		event.preventDefault();
 
 		const { name, quantity, price, profit, expiry } = this.state
 
 		if (name.length === 0) {
 			document.getElementById('errorMsg2').style.display = 'block'
-			document.getElementById('successMsg').style.display = 'none'
-			document.getElementById('errorMsg1').style.display = 'none'
+			setTimeout(() => { document.getElementById('errorMsg2').style.display = 'none'}, 3000 )
+
 		} else {
-			document.getElementById('errorMsg2').style.display = 'none'
-			document.getElementById('successMsg').style.display = 'none'
-			document.getElementById('errorMsg1').style.display = 'none'
-			fetch('https://sale-and-inventory-backend.vercel.app/add-item', {
+
+			fetch('http://localhost:3001/add-item', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({
@@ -70,20 +67,14 @@ class AddItem extends React.Component {
 				.then(res => res.json())
 				.then(res => {
 					console.log(res)
-					if (res.severity.includes('ERROR')) {
-						document.getElementById('errorMsg1').style.display = 'block'
+					if (res === 'success') {
+						 document.getElementById('successMsg').style.display = 'block'
+						setTimeout(() => { document.getElementById('successMsg').style.display = 'none'}, 3000 )
+	
+					} else{
+						 document.getElementById('errorMsg1').style.display = 'block'
+						setTimeout(() => { document.getElementById('errorMsg1').style.display = 'none'}, 3000 )
 
-						document.getElementById('errorMsg2').style.display = 'none'
-						document.getElementById('successMsg').style.display = 'none'
-					}
-					else if (res === 'success') {
-						document.getElementById('successMsg').style.display = 'block'
-						document.getElementById('errorMsg1').style.display = 'none'
-						document.getElementById('errorMsg2').style.display = 'none'
-					} else {
-						document.getElementById('errorMsg2').style.display = 'block'
-						document.getElementById('errorMsg1').style.display = 'none'
-						document.getElementById('errorMsg2').style.display = 'none'
 					}
 				})
 		}
@@ -96,7 +87,7 @@ class AddItem extends React.Component {
 			<>
 
 				<div id="add-button-cont">
-					<Button variant="success" onClick={() => this.setState({ modalShow: true })}>
+					<Button variant="success" onClick={() => this.setState({ modalShow: true })} >
 						Add Item
 					</Button>
 				</div>

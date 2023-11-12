@@ -274,7 +274,7 @@ class SearchItem extends React.Component {
 	itemEntered = (event) => {
 		event.preventDefault()
 
-		fetch('https://sale-and-inventory-backend.vercel.app/list-search-edit', {
+		fetch('http://localhost:3001/list-search-edit', {
 			method: 'post',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({
@@ -287,7 +287,8 @@ class SearchItem extends React.Component {
 				console.log(result)
 				if (result.length) {
 
-					this.setState({ responseData: result })
+					this.props.Custom_Name_Set(result)
+					this.setState({error: false})
 
 
 
@@ -298,7 +299,6 @@ class SearchItem extends React.Component {
 
 
 
-					// this.setState({error: false})
 					// var input, filter;
 					// input = document.getElementById('searchInpt');
 					// filter = input.value.toUpperCase();
@@ -402,7 +402,7 @@ class SearchItem extends React.Component {
 								</Alert>
 							</Col>
 						</Row>
-						<Row id="editTableCont">
+						{/* <Row id="editTableCont">
 							<Table id="editTable" striped bordered hover>
 								<thead>
 									<tr>
@@ -440,7 +440,7 @@ class SearchItem extends React.Component {
 							<Alert id="errorEdit" key='danger' variant='danger'>
 								An error Occured, Try Again.
 							</Alert>
-						</Row>
+						</Row> */}
 					</Container>
 				</Form>
 			</ThemeProvider>

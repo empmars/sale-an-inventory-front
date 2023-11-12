@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import SearchItem from '../search/search';
 import Table from 'react-bootstrap/Table';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -6,10 +7,11 @@ import Col from 'react-bootstrap/Col';
 import Accordion from 'react-bootstrap/Accordion';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import './allitems.css'
+import './ItemSearch.css'
+import Alert from 'react-bootstrap/Alert';
 
 
-class Allitems extends Component {
+class ItemSearch extends Component {
 
 
 	constructor() {
@@ -19,17 +21,41 @@ class Allitems extends Component {
 			to: false,
 			quanInput: '',
 			priceInput: '',
-			profitInput: ''
+			profitInput: '',
+			custItemArr: [],
+			error: 'none'
 
 		}
 	}
 
+	allItemsTable = () => {
+
+
+		fetch('http://localhost:3001/fetch-all-items', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' }
+		})
+			.then(res => res.json())
+			.then(result => {
+
+
+				if (result.includes('err')) {
+					this.setState({ error: 'block' })
+				} else {
+					this.setState({ error: 'none' })
+					this.setState({ custItemArr: result })
+				}
+			})
+		document.getElementById('btnItself').style.display = 'none'
+		document.getElementById('btnItselfHide').style.display = 'block'
+	}
+
+
 	allItemsTableHide = () => {
 		console.log('ok')
-		document.getElementById('allItemsBody').replaceChildren()
 		document.getElementById('btnItself').style.display = 'block'
 		document.getElementById('btnItselfHide').style.display = 'none'
-		console.log(this.state)
+		this.setState({ custItemArr: [] })
 
 	}
 
@@ -105,26 +131,13 @@ class Allitems extends Component {
 
 	}
 
-	allItemsTable = () => {
-
-
-		fetch('http://localhost:3001/fetch-all-items', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' }
-		})
-			.then(res => res.json())
-			.then(result => {
-
-
-				this.addItemElement(result)
-
-			})
-	}
 
 	// EXPIRY FILTER
 
 	expiryRangeState = (point, event) => {
 
+		document.getElementById('btnItself').style.display = 'block'
+		document.getElementById('btnItselfHide').style.display = 'none'
 		if (point === 'fromDateExpiry') {
 
 			this.setState({ from: event.target.value })
@@ -155,7 +168,12 @@ class Allitems extends Component {
 			})
 				.then(res => res.json())
 				.then((result) => {
-					this.addItemElement(result)
+					if (result.includes('err')) {
+						this.setState({ error: 'block' })
+					} else {
+						this.setState({ error: 'none' })
+						this.setState({ custItemArr: result })
+					}
 				})
 
 
@@ -183,8 +201,6 @@ class Allitems extends Component {
 
 		if (quanInput.length > 0) {
 
-			document.getElementById('allItemsBody').replaceChildren()
-
 			fetch('http://localhost:3001/fetch-filter-quan', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
@@ -195,8 +211,13 @@ class Allitems extends Component {
 			})
 				.then(res => res.json())
 				.then(result => {
+					if (result.includes('err') || result.length < 1) {
+						this.setState({ error: 'block' })
+					} else {
 
-					this.addItemElement(result)
+						this.setState({ custItemArr: result })
+						this.setState({ error: 'none' })
+					}
 
 
 				})
@@ -220,9 +241,7 @@ class Allitems extends Component {
 		const { priceInput } = this.state;
 
 		if (priceInput.length > 0) {
-			console.log(priceInput)
 
-			document.getElementById('allItemsBody').replaceChildren()
 
 			fetch('http://localhost:3001/fetch-filter-price', {
 				method: 'POST',
@@ -234,8 +253,12 @@ class Allitems extends Component {
 			})
 				.then(res => res.json())
 				.then(result => {
-
-					this.addItemElement(result)
+					if (result.includes('err')) {
+						this.setState({ error: 'block' })
+					} else {
+						this.setState({ error: 'none' })
+						this.setState({ custItemArr: result })
+					}
 
 
 				})
@@ -251,7 +274,6 @@ class Allitems extends Component {
 		document.getElementById('btnItself').style.display = 'block'
 		document.getElementById('btnItselfHide').style.display = 'none'
 		this.setState({ profitInput: event.target.value })
-		console.log(this.state)
 
 	}
 
@@ -259,9 +281,7 @@ class Allitems extends Component {
 		const { profitInput } = this.state;
 
 		if (profitInput.length > 0) {
-			console.log(profitInput)
 
-			document.getElementById('allItemsBody').replaceChildren()
 
 			fetch('http://localhost:3001/fetch-filter-profit', {
 				method: 'POST',
@@ -273,9 +293,12 @@ class Allitems extends Component {
 			})
 				.then(res => res.json())
 				.then(result => {
-
-					this.addItemElement(result)
-
+					if (result.includes('err')) {
+						this.setState({ error: 'block' })
+					} else {
+						this.setState({ error: 'none' })
+						this.setState({ custItemArr: result })
+					}
 
 				})
 
@@ -283,8 +306,16 @@ class Allitems extends Component {
 
 	}
 
-	render() {
 
+	Custom_Name_Set = (arr) => {
+		document.getElementById('btnItself').style.display = 'block'
+		document.getElementById('btnItselfHide').style.display = 'none'
+		this.setState({ custItemArr: arr })
+
+	}
+
+	render() {
+		var self = this
 
 		return (
 
@@ -292,13 +323,6 @@ class Allitems extends Component {
 
 			<Container>
 
-				<Row id="inventHeading">
-					<h2>Inventory</h2>
-					<br />
-					<hr />
-					<br />
-
-				</Row>
 
 				<Row id="btnRow">
 					<Button onClick={() => { this.allItemsTable() }} id="btnItself" variant="primary">See All Items</Button>{' '}
@@ -306,11 +330,12 @@ class Allitems extends Component {
 				</Row>
 
 				<br />
+				<SearchItem Custom_Name_Set={(arr) => { this.Custom_Name_Set(arr) }} />
+				<br />
 
 				<h3 >Filters:</h3>
 
 				<Row>
-
 					<Accordion>
 						<Accordion.Item eventKey="0">
 							<Accordion.Header>Filter By: Expiry</Accordion.Header>
@@ -341,7 +366,7 @@ class Allitems extends Component {
 
 								<Row id="quantFilterCont">
 									<Col md="1">
-									<p>Quantity: </p>
+										<p>Quantity: </p>
 									</Col>
 
 									<Col md="2">
@@ -418,7 +443,9 @@ class Allitems extends Component {
 
 				<br />
 
-
+				<Alert key='danger' variant='danger' style={{ display: this.state.error }}>
+					An error occured. Please make sure you entered a valid value.
+				</Alert>
 				<Row>
 					<Table id="allItemsTable" striped bordered hover>
 						<thead>
@@ -432,6 +459,22 @@ class Allitems extends Component {
 							</tr>
 						</thead>
 						<tbody id="allItemsBody">
+							{
+								this.state.custItemArr.map((cur, i) => {
+									return (
+										<tr>
+											<td>{i + 1}</td>
+											<td>{cur.name}</td>
+											<td>{cur.quantity}</td>
+											<td>{cur.price}</td>
+											<td>{cur.profit}</td>
+											<td>{cur.expiry}</td>
+										</tr>
+
+									)
+								})
+							}
+
 
 						</tbody>
 					</Table>
@@ -448,4 +491,4 @@ class Allitems extends Component {
 
 
 
-export default Allitems;
+export default ItemSearch;
