@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+import { isEmpty } from 'lodash'
 import './edit.css';
 
 
@@ -12,11 +13,13 @@ class EditItem extends React.Component {
 		super();
 		this.state = {
 			modalShow: false,
-			name: '',
-			quantity: '',
-			price: '',
-			profit: '',
-			expiry: '',
+			editItemSearchField: '',
+			editQuan: '',
+			editPrice: '',
+			editProfit: '',
+			editExpiry: '',
+			editSearchList: [],
+			item_To_Edit_Is_Selected: false,
 			error: 'error'
 		}
 
@@ -26,78 +29,98 @@ class EditItem extends React.Component {
 
 	onHide = () => { this.setState({ modalShow: false }) }
 
-	// addItem = (field, event) => {
-	// 	if (field === 'name') {
-	// 		this.setState({ name: event.target.value })
-	// 	} else if (field === 'quantity') {
-	// 		this.setState({ quantity: Number(event.target.value) })
-	// 	} else if (field === 'price') {
-	// 		this.setState({ price: Number(event.target.value) })
-	// 	} else if (field === 'profit') {
-	// 		this.setState({ profit: Number(event.target.value) })
-	// 	} else if (field === 'expiry') {
-	// 		this.setState({ expiry: event.target.value })
-	// 	}
+	addItem = (field, event) => {
+		if (field === 'quantity') {
+			this.setState({ editQuan: Number(event.target.value) })
+		} else if (field === 'price') {
+			this.setState({ editPrice: Number(event.target.value) })
+		} else if (field === 'profit') {
+			this.setState({ editProfit: Number(event.target.value) })
+		} else if (field === 'expiry') {
+			this.setState({ editExpiry: event.target.value })
+		}
 
-	// }
+	}
 
-	// submitClick = (event) => {
-	// 	console.log('asasssssssss')
-	// 	event.preventDefault();
 
-	// 	const { name, quantity, price, profit, expiry } = this.state
-
-	// 	if (name.length === 0) {
-	// 		document.getElementById('errorMsg2').style.display = 'block'
-	// 		setTimeout(() => { document.getElementById('errorMsg2').style.display = 'none'}, 3000 )
-
-	// 	} else {
-
-	// 		fetch('https://sale-and-inventory-backend.vercel.app/add-item', {
-	// 			method: 'POST',
-	// 			headers: { 'Content-Type': 'application/json' },
-	// 			body: JSON.stringify({
-	// 				name: name,
-	// 				quantity: quantity,
-	// 				price: price,
-	// 				profit: profit,
-	// 				expiry: expiry,
-	// 			})
-	// 		})
-	// 			.then(res => res.json())
-	// 			.then(res => {
-	// 				console.log(res)
-	// 				if (res.severity.includes('ERROR')) {
-	// 					document.getElementById('errorMsg1').style.display = 'block'
-	// 					setTimeout(() => { document.getElementById('errorMsg1').style.display = 'none'}, 3000 )
-	// 				}
-	// 				else if (res === 'success') {
-	// 					document.getElementById('successMsg').style.display = 'block'
-	// 					setTimeout(() => { document.getElementById('successMsg').style.display = 'none'}, 3000 )
-
-	// 				}
-	// 			})
-	// 	}
-	// }
 	checkItem = async (event) => {
+		this.setState({ item_To_Edit_Is_Selected: false })
+
+
 		if (event.code === 'Enter') {
 			event.preventDefault()
-			var res = await fetch('http://localhost:3001/check-item-edit', {
-				method: 'post',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({
-					name: event.target.value
-				})
-			})
+			if (isEmpty(event.target.value)) {
 
-			var res = await res.json()
-			console.log(res)
+				this.setState({ editSearchList: [] })
+			} else {
+				var res = await fetch('http://localhost:3001/check-item-edit', {
+					method: 'post',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({
+						name: event.target.value
+					})
+				})
+
+				var res = await res.json()
+				this.setState({ editSearchList: res })
+			}
 
 
 
 		}
 	}
 
+	itemSelectedForEdit = (e) => {
+		document.getElementById('itemEnterToEditField').value = e.target.textContent
+		this.setState({ item_To_Edit_Is_Selected: true })
+		document.querySelectorAll('.emptyFieldClassInEdit').forEach((cur) => {
+
+			cur.textContent = ''
+			cur.value = ''
+
+
+		})
+		this.setState({
+			editQuan: '',
+			editPrice: '',
+			editProfit: '',
+			editExpiry: '',
+		})
+	}
+
+	submitClick = async (event) => {
+		event.preventDefault();
+		var editName = document.getElementById('itemEnterToEditField').value
+		console.log(this.state)
+		if (!isEmpty(editName)) {
+
+			var res = await fetch('http://localhost:3001/edit-item', {
+				method: 'post',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					name: editName,
+					quantity: this.state.editQuan,
+					price: this.state.editPrice,
+					profit: this.state.editProfit,
+					expiry: this.state.editExpiry
+				})
+			})
+
+			var res = await res.json()
+			if (res === 'success') {
+				document.getElementById('successMsg').style.display = 'block'
+				setTimeout(() => {
+					document.getElementById('successMsg').style.display = 'none'
+				}, 3000)
+			} else {
+				document.getElementById('errorMsg').style.display = 'block'
+				setTimeout(() => {
+					document.getElementById('errorMsg').style.display = 'none'
+				}, 3000)
+			}
+		}
+
+	}
 
 	render() {
 
@@ -129,35 +152,46 @@ class EditItem extends React.Component {
 						<Form>
 							<Form.Group className="mb-3">
 
-								<Form.Control onKeyDown={(event) => this.checkItem(event)} name="name" type="name" placeholder="Enter Product Name" />
+								<Form.Control id="itemEnterToEditField" onKeyDown={(event) => this.checkItem(event)} name="name" type="name" placeholder="Enter Product Name" />
+								<ul className="ulStyle"
+									style={{ display: isEmpty(this.state.editSearchList) || this.state.item_To_Edit_Is_Selected ? 'none' : 'block' }}>
+									{
+										this.state.editSearchList.map((cur, i) => {
+											return (
+
+												<li className="liStyle" onClick={(e) => this.itemSelectedForEdit(e)}>{cur.name}</li>
+											)
+
+										})
+									}
+								</ul>
 
 							</Form.Group>
 
-							{/* <Form.Group className="mb-3">
+							<Form.Group className="mb-3" style={{ display: this.state.item_To_Edit_Is_Selected ? 'block' : 'none' }}>
 
-								<Form.Control onChange={(event) => this.addItem('quantity', event)} name="quantity" type="quantity" placeholder="Quantity" />
-
-							</Form.Group>
-
-							<Form.Group className="mb-3">
-
-								<Form.Control onChange={(event) => this.addItem('price', event)} name="price" type="price" placeholder="Price" />
+								<Form.Control className="emptyFieldClassInEdit" onChange={(event) => this.addItem('quantity', event)} name="quantity" type="quantity" placeholder="Quantity" />
 
 							</Form.Group>
 
-							<Form.Group className="mb-3">
+							<Form.Group className="mb-3" style={{ display: this.state.item_To_Edit_Is_Selected ? 'block' : 'none' }}>
 
-								<Form.Control onChange={(event) => this.addItem('profit', event)} name="profit" type="profitPerc" placeholder="Profit Percentage" />
+								<Form.Control className="emptyFieldClassInEdit" onChange={(event) => this.addItem('price', event)} name="price" type="price" placeholder="Price" />
 
 							</Form.Group>
 
-							<Form.Group className="mb-3">
+							<Form.Group className="mb-3" style={{ display: this.state.item_To_Edit_Is_Selected ? 'block' : 'none' }}>
 
-								<Form.Control onChange={(event) => this.addItem('expiry', event)} name="expiry" type="date" placeholder="Expiry" />
-								<Form.Text id="errorMsg1">An error occured. Make sure the item name is unique.</Form.Text>
-								<Form.Text id="errorMsg2">Item name is necessary.</Form.Text>
-								<Form.Text id="successMsg">Item Added.</Form.Text>
-							</Form.Group> */}
+								<Form.Control className="emptyFieldClassInEdit" onChange={(event) => this.addItem('profit', event)} name="profit" type="profitPerc" placeholder="Profit Percentage" />
+
+							</Form.Group>
+
+							<Form.Group className="mb-3" >
+
+								<Form.Control className="emptyFieldClassInEdit" onChange={(event) => this.addItem('expiry', event)} name="expiry" type="date" placeholder="Expiry" style={{ display: this.state.item_To_Edit_Is_Selected ? 'block' : 'none' }} />
+								<Form.Text id="errorMsg" style={{display: 'none'}}>An error occured. Please try again.</Form.Text>
+								<Form.Text id="successMsg" style={{display: 'none'}}>Item Edited.</Form.Text>
+							</Form.Group>
 							<div id="submitButton">
 								<Button onClick={this.submitClick} variant="primary" type="submit">
 									Submit
