@@ -8,7 +8,7 @@
   list-style-type: none;
   padding: 0;
   margin: 0;
-  display: none;
+ 
 }
 
 #itemMatches li a {
@@ -30,7 +30,6 @@
   text-decoration: none; /* Remove default text underline */
   font-size: 18px; /* Increase the font-size */
   color: black; /* Add a black text color */
-  display: none; /* Make it into a block element to fill the whole list */
   text-align: left;
   width: 100%;
 }
@@ -44,6 +43,7 @@
   text-align: left;
   width: 100%;
 }
+
 
 #saleTable {
   text-align: center;
