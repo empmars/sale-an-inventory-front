@@ -25,6 +25,8 @@ class AddSale extends React.Component {
 
 	constructor() {
 		super();
+
+
 		this.state = {
 			itemClicked: '',
 			itemQuantity: '',
@@ -32,6 +34,9 @@ class AddSale extends React.Component {
 			saleSum: '',
 			searchedItem: [],
 			selectedItem: '',
+			saleToBeAddedDetails: [],
+			totalSum: 0,
+			profitArr: [],
 			buttonDisabled: true
 		}
 	}
@@ -110,10 +115,8 @@ class AddSale extends React.Component {
 		console.log(event.target.value)
 		if (field === 'quantity') {
 			this.setState({ itemQuantity: event.target.value })
-			document.getElementById('errorSale').style.display = 'none'
 		} else if (field === 'discount') {
 			this.setState({ itemDiscount: event.target.value })
-			document.getElementById('errorSale').style.display = 'none'
 		}
 
 		console.log(this.state)
@@ -163,18 +166,27 @@ class AddSale extends React.Component {
 
 
 
-			fetch('http://localhost:3001/sale-item-add', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({
-					name:     this.state.selectedItem,
-					quantity: this.state.itemQuantity,
-					discount: this.state.itemDiscount
-				})
+		fetch('http://localhost:3001/sale-item-add', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				name: this.state.selectedItem,
+				reqQuan: this.state.itemQuantity,
+				reqDisc: this.state.itemDiscount
 			})
-				.then(res => res.json())
-				.then(result => {
-					console.log(result)
+		})
+			.then(res => res.json())
+			.then(result => {
+				console.log(result)
+				var newArr = [...this.state.saleToBeAddedDetails, result[0]]
+				var profitArr = this.state.profitArr
+				profitArr.push(result[1])
+				console.log(profitArr, 'aaaaaaaaaaaaaaaa')
+				var newSum = this.state.totalSum + result[0].FinalPrice
+				this.setState({ saleToBeAddedDetails: newArr })
+				// this.setState({profitArr: })
+				this.setState({ totalSum: newSum })
+
 				// 	const { name, sum, discount, quantity, profit, singlePrice } = result
 
 				// 	const textName = document.createTextNode(name);
@@ -285,7 +297,7 @@ class AddSale extends React.Component {
 
 				// 				outerQuan = Number(valQuan)
 
-				// 			} else if (event.key === 'Enter' && valQuan === 0) {
+				// 			} else if (event333.key === 'Enter' && valQuan === 0) {
 				// 				quanInp.placeholder = 'Invalid Quantity';
 				// 				quanInp.value = '';
 				// 				quanInp.style.color = 'red';
@@ -352,64 +364,100 @@ class AddSale extends React.Component {
 
 				// 	document.getElementById('totalSale').style.display = 'flex';
 				// })
-		
-	})
+
+			})
 	}
 
-	// submitSaleFinal = () => {
+	submitSaleFinal = async () => {
 
 
-	// 	var sums = document.getElementById('saleTableBody')
-	// 	// sums.firstChild.cells[3].innerText
+		// var sums = document.getElementById('saleTableBody')
+		// // sums.firstChild.cells[3].innerText
 
-	// 	const saleTotal = document.getElementById('totalSaleBody').innerText
+		// const saleTotal = document.getElementById('totalSaleBody').innerText
 
-	// 	var saleArray = []
-
-
-	// 	for (var i = 0; i < sums.children.length; i++) {
-
-	// 		var sumbitItem = sums.children[i].cells[0].innerText
-	// 		var sumbitQuan = sums.children[i].cells[1].innerText
-	// 		var sumbitDisc = sums.children[i].cells[2].innerText
-	// 		var sumbitSum = sums.children[i].cells[3].innerText
-
-	// 		var arr = [[sumbitItem, sumbitQuan, sumbitDisc, sumbitSum]]
-
-	// 		var saleArray = saleArray.concat(arr)
+		// var saleArray = []
 
 
-	// 	}
+		// for (var i = 0; i < sums.children.length; i++) {
 
-	// 	if (saleArray.length === 0) {
-	// 		document.getElementById('saleAddedError').style.display = 'block';
-	// 		// setTimeout( ()=>{document.getElementById('saleAddedError').style.display = 'none';} , 2000)
-	// 	} else {
-	// 		console.log(saleArray)
-	// 		fetch('http://localhost:3001/final-sale-add', {
-	// 			method: 'POST',
-	// 			headers: { 'Content-Type': 'application/json' },
-	// 			body: JSON.stringify({
-	// 				arr: saleArray,
-	// 				total: saleTotal
-	// 			})
-	// 		})
-	// 			.then(res => res.json())
-	// 			.then(result => {
-	// 				document.getElementById('saleAddedSucc').style.display = 'block'
-	// 				// setTimeout( ()=>{document.getElementById('saleAddedSucc').style.display = 'none'} , 2000)
-	// 				document.getElementById('saleTableBody').replaceChildren()
-	// 				document.getElementById('totalSale').replaceChildren()
-	// 			})
+		// 	var sumbitItem = sums.children[i].cells[0].innerText
+		// 	var sumbitQuan = sums.children[i].cells[1].innerText
+		// 	var sumbitDisc = sums.children[i].cells[2].innerText
+		// 	var sumbitSum = sums.children[i].cells[3].innerText
 
-	// 	}
+		// 	var arr = [[sumbitItem, sumbitQuan, sumbitDisc, sumbitSum]]
+
+		// 	var saleArray = saleArray.concat(arr)
 
 
-	// }
+		// }
 
+		var res = await fetch('http://localhost:3001/final-sale-add', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				data: this.state.saleToBeAddedDetails,
+				profitArr: this.state.profitArr,
+				total: this.state.totalSum
+			})
+		})
+		var result = res.json()
+		console.log(result)
+		if (result === 'err' || isEmpty(result)) {
+			document.getElementById('saleAddedError').style.display = 'block'
+			setTimeout(() => {
+				document.getElementById('saleAddedError').style.display = 'none'
+			}, 3000)
+		} else {
+			this.setState({saleToBeAddedDetails: []})
+			document.getElementById('saleAddedSucc').style.display = 'block'
+			setTimeout(() => {
+				document.getElementById('saleAddedSucc').style.display = 'none'
+			}, 3000)
+		}
+
+		// if (saleArray.length === 0) {
+		// 	document.getElementById('saleAddedError').style.display = 'block';
+		// 	// setTimeout( ()=>{document.getElementById('saleAddedError').style.display = 'none';} , 2000)
+		// } else {
+		// 	console.log(saleArray)
+		// 	fetch('http://localhost:3001/final-sale-add', {
+		// 		method: 'POST',
+		// 		headers: { 'Content-Type': 'application/json' },
+		// 		body: JSON.stringify({
+		// 			arr: saleArray,
+		// 			total: saleTotal
+		// 		})
+		// 	})
+		// 		.then(res => res.json())
+		// 		.then(result => {
+		// 			document.getElementById('saleAddedSucc').style.display = 'block'
+		// 			// setTimeout( ()=>{document.getElementById('saleAddedSucc').style.display = 'none'} , 2000)
+		// 			document.getElementById('saleTableBody').replaceChildren()
+		// 			document.getElementById('totalSale').replaceChildren()
+		// 		})
+
+		// }
+
+
+	}
+	removeSale = (e, cur) => {
+		e.preventDefault()
+		var arr = this.state.saleToBeAddedDetails
+		var profArr = this.state.profitArr
+
+		var i = arr.indexOf(cur)
+		arr.splice(i, 1)
+		profArr.splice(i, 1)
+		var newSum = this.state.totalSum - cur.FinalPrice
+		this.setState({ totalSum: newSum })
+		this.setState({ saleToBeAddedDetails: arr })
+		this.setState({ profitArr: profArr })
+	}
 
 	render() {
-		console.log(this.state.searchedItem.length, 'assssssssssssss')
+		console.log(this.state)
 		return (
 
 			<div>
@@ -426,7 +474,7 @@ class AddSale extends React.Component {
 						<Container>
 							<Row>
 								<Form.Group className="mb-2" style={{ padding: '0', marginBottom: '0' }}>
-									<Form.Control id="saleInput1" onKeyDown={(e) => this.createDrop(e)} type="text" placeholder="Enter Item Name" />
+									<Form.Control id="saleInput1" onKeyDown={(e) => this.createDrop(e)} onChange={() => { this.setState({ buttonDisabled: true }) }} type="text" placeholder="Enter Item Name" />
 								</Form.Group>
 
 								<ul className="ulStyle mb-2" style={{ display: this.state.searchedItem.length === 0 || !isEmpty(this.state.selectedItem) ? 'none' : 'block' }}>
@@ -473,6 +521,7 @@ class AddSale extends React.Component {
 								<Table id="saleTable" striped size="lg" >
 									<thead>
 										<tr>
+											<th>#</th>
 											<th>Item Name</th>
 											<th>Quantity</th>
 											<th>Discount</th>
@@ -481,13 +530,27 @@ class AddSale extends React.Component {
 										</tr>
 									</thead>
 									<tbody id='saleTableBody' >
+										{
+											this.state.saleToBeAddedDetails.map((cur, i) => {
+												return (
+													<tr>
+														<td>{i + 1}</td>
+														<td>{cur.name}</td>
+														<td>{cur.reqQuan}</td>
+														<td>{cur.amountToSubtract}</td>
+														<td>{cur.FinalPrice}</td>
+														<td><Button variant="danger" onClick={(e) => this.removeSale(e, cur)}>X</Button></td>
+													</tr>
+												)
+											})
+										}
 
 									</tbody>
 								</Table>
 							</Row>
 
-							<Row id="totalSale">
-								<p>Total : <p id="totalSaleBody"></p></p>
+							<Row id="totalSale" style={{ display: this.state.saleToBeAddedDetails.length > 0 ? 'flex' : 'none' }}>
+								<p>Total : <p id="totalSaleBody">{this.state.totalSum}</p></p>
 								<Button onClick={() => { this.submitSaleFinal() }} id="finalSaleSubmit" variant="success">Confirm</Button>{' '}
 							</Row>
 
@@ -495,7 +558,7 @@ class AddSale extends React.Component {
 
 							<Row>
 								<Alert id="saleAddedError" key="danger" variant="danger">
-									No Item.
+									An error occured. Please Try Again.
 								</Alert>
 								<Alert id="saleAddedSucc" key="success" variant="success">
 									Success.
