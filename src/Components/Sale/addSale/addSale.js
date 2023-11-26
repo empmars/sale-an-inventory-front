@@ -37,7 +37,8 @@ class AddSale extends React.Component {
 			saleToBeAddedDetails: [],
 			totalSum: 0,
 			profitArr: [],
-			buttonDisabled: true
+			buttonDisabled: true,
+			err: false
 		}
 	}
 
@@ -402,19 +403,21 @@ class AddSale extends React.Component {
 				total: this.state.totalSum
 			})
 		})
-		var result = res.json()
-		console.log(result)
+		var result = await res.json()
+		console.log(result , 'asssssssss')
 		if (result === 'err' || isEmpty(result)) {
-			document.getElementById('saleAddedError').style.display = 'block'
+			this.setState({err: true})
 			setTimeout(() => {
-				document.getElementById('saleAddedError').style.display = 'none'
+				this.setState({err: false})
 			}, 3000)
 		} else {
+			
 			this.setState({saleToBeAddedDetails: []})
+			this.setState({totalSum: 0})
 			document.getElementById('saleAddedSucc').style.display = 'block'
 			setTimeout(() => {
 				document.getElementById('saleAddedSucc').style.display = 'none'
-			}, 3000)
+			}, 2000)
 		}
 
 		// if (saleArray.length === 0) {
@@ -557,7 +560,7 @@ class AddSale extends React.Component {
 							<br />
 
 							<Row>
-								<Alert id="saleAddedError" key="danger" variant="danger">
+								<Alert id="saleAddedError1" key="danger" variant="danger" style={{display: this.state.err? 'block': 'none'}}>
 									An error occured. Please Try Again.
 								</Alert>
 								<Alert id="saleAddedSucc" key="success" variant="success">
