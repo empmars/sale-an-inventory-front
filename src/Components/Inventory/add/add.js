@@ -5,6 +5,7 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
 import './add.css';
+import { isEmpty } from 'lodash';
 
 
 class AddItem extends React.Component {
@@ -71,7 +72,7 @@ class AddItem extends React.Component {
 						 document.getElementById('successMsg').style.display = 'block'
 						setTimeout(() => { document.getElementById('successMsg').style.display = 'none'}, 3000 )
 	
-					} else{
+					} else if (isEmpty(res) || res === 'err') {
 						 document.getElementById('errorMsg1').style.display = 'block'
 						setTimeout(() => { document.getElementById('errorMsg1').style.display = 'none'}, 3000 )
 
