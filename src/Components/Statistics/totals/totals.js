@@ -4,16 +4,12 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card';
+import Alert from 'react-bootstrap/Alert';
 import './totals.css'
 
 
 const Totals = () => {
 
-  var [totals, setTotals] = React.useState({
-    daily: 0,
-    weekly: 0,
-    monthly: 0
-  })
 
   var [dailyTot, setDt] = React.useState(0)
   var [weeklyTot, setWt] = React.useState(0)
@@ -21,31 +17,36 @@ const Totals = () => {
   var [dailyProf, setDp] = React.useState(0)
   var [weeklyProf, setWp] = React.useState(0)
   var [monthlyProf, setMp] = React.useState(0)
+  var [err, setErr] = React.useState(false)
 
 
   // TOTAL LOGIC
 
-  // var monthlyTotal = () => {
+  var monthlyTotal = () => {
 
 
 
-  //   fetch('http://localhost:3001/monthly-total', {
-  //     method: 'POST',
-  //     headers: { 'Content-Type': 'application/json' },
-  //     body: JSON.stringify({
-  //       date: Date()
-  //     })
+    fetch('http://localhost:3001/monthly-total', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        date: Date()
+      })
 
-  //   })
-  //     .then(res => res.json())
-  //     .then(result => {
-  //       console.log(result)
-  //       document.getElementById('monthlySum').innerText = ''
-  //       document.getElementById('monthlySum').innerText = result
+    })
+      .then(res => res.json())
+      .then(result => {
 
-  //     })
+        if (result === 'err') {
 
-  // }
+          setErr(true)
+          setTimeout(() => { setErr(false) }, 2000)
+        } else if (result !== monthlyTot) {
+          setMt(result)
+        }
+      })
+
+  }
 
   var weeklyTotal = () => {
 
@@ -62,8 +63,9 @@ const Totals = () => {
       .then(res => res.json())
       .then(result => {
         if (result === 'err') {
-          console.log('An error Occured.  ')
-        } else if (result !== totals.daily) {
+          setErr(true)
+          setTimeout(() => { setErr(false) }, 2000)
+        } else if (result !== weeklyTot) {
           setWt(result)
         }
 
@@ -86,10 +88,11 @@ const Totals = () => {
     })
       .then(res => res.json())
       .then(result => {
-        console.log(result, 'ooooooooooooo')
         if (result === 'err') {
-          console.log('An error Occured.  ')
-        } else if (result !== totals.daily) {
+          setErr(true)
+          setTimeout(() => { setErr(false) }, 2000)
+
+        } else if (result !== dailyTot) {
           setDt(result)
         }
 
@@ -100,79 +103,88 @@ const Totals = () => {
 
   // PROFIT LOGIC
 
-  // var monthlyProfit = () => {
+  var monthlyProfit = () => {
 
-  //   fetch('http://localhost:3001/monthly-profit', {
-  //     method: 'POST',
-  //     headers: { 'Content-Type': 'application/json' },
-  //     body: JSON.stringify({
-  //       date: Date()
-  //     })
+    fetch('http://localhost:3001/monthly-profit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        date: Date()
+      })
 
-  //   })
-  //     .then(res => res.json())
-  //     .then(result => {
-  //       console.log(result)
-  //       document.getElementById('monthlyProfit').innerText = ''
-  //       document.getElementById('monthlyProfit').innerText = result
+    })
+      .then(res => res.json())
+      .then(result => {
+        if (result === 'err') {
 
-  //     })
+          setErr(true)
+          setTimeout(() => { setErr(false) }, 2000)
+        } else if (result !== monthlyProf) {
+          setMp(result)
+        }
 
-  // }
+      })
 
-  // var weeklyProfit = () => {
+  }
 
-  //   console.log('as')
+  var weeklyProfit = () => {
 
-  //   fetch('http://localhost:3001/weekly-profit', {
-  //     method: 'POST',
-  //     headers: { 'Content-Type': 'application/json' },
-  //     body: JSON.stringify({
-  //       date: Date()
-  //     })
 
-  //   })
-  //     .then(res => res.json())
-  //     .then(result => {
-  //       console.log(result)
-  //       document.getElementById('weeklyProfit').innerText = ''
-  //       document.getElementById('weeklyProfit').innerText = result
+    fetch('http://localhost:3001/weekly-profit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        date: Date()
+      })
 
-  //     })
+    })
+      .then(res => res.json())
+      .then(result => {
 
-  // }
+        if (result === 'err') {
 
-  // var dailyProfit = () => {
+          setErr(true)
+          setTimeout(() => { setErr(false) }, 2000)
+        } else if (result !== weeklyProf) {
+          setWp(result)
+        }
+      })
 
-  //   fetch('http://localhost:3001/daily-Profit', {
-  //     method: 'POST',
-  //     headers: { 'Content-Type': 'application/json' },
-  //     body: JSON.stringify({
-  //       date: Date()
-  //     })
+  }
 
-  //   })
-  //     .then(res => res.json())
-  //     .then(result => {
-  //       console.log(result)
-  //       document.getElementById('dailyProfit').innerText = ''
-  //       document.getElementById('dailyProfit').innerText = result
+  var dailyProfit = () => {
 
-  //     })
+    fetch('http://localhost:3001/daily-Profit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        date: Date()
+      })
 
-  // }
+    })
+      .then(res => res.json())
+      .then(result => {
+        if (result === 'err') {
+          setErr(true)
+          setTimeout(() => { setErr(false) }, 2000)
+        } else if (result !== dailyProf) {
+          setDp(result)
+        }
+      })
 
-  console.log(totals, 'ppppppppppp')
+  }
+
+
   React.useEffect(() => {
     dailyTotal()
     weeklyTotal()
-    // monthlyTotal()
-    // monthlyProfit()
-    // weeklyProfit()
-    // dailyProfit()
+    monthlyTotal()
+    monthlyProfit()
+    weeklyProfit()
+    dailyProfit()
 
 
-  }, [dailyTot , weeklyTot , monthlyTot , dailyProf , weeklyProf , monthlyProf])
+  }, [])
 
 
 
@@ -183,7 +195,11 @@ const Totals = () => {
 
         <br />
         <br />
-
+        <Row>
+          <Alert id="saleAddedError1" key="danger" variant="danger" style={{ display: err ? 'block' : 'none' }}>
+            An error occured. Please Reload Page.
+          </Alert>
+        </Row>
         <Row>
           <h2 id="saleHeading">Sale Summary</h2>
 
@@ -198,7 +214,7 @@ const Totals = () => {
             <Card>
               <Card.Header>This Month</Card.Header>
               <Card.Body>
-                <Card.Title id="monthlySum"></Card.Title>
+                <Card.Title id="monthlySum">{monthlyTot}</Card.Title>
               </Card.Body>
             </Card>
           </Col>
@@ -236,7 +252,7 @@ const Totals = () => {
             <Card>
               <Card.Header>This Month</Card.Header>
               <Card.Body>
-                <Card.Title id="monthlyProfit"></Card.Title>
+                <Card.Title id="monthlyProfit">{monthlyProf}</Card.Title>
               </Card.Body>
             </Card>
           </Col>
@@ -244,7 +260,7 @@ const Totals = () => {
             <Card>
               <Card.Header>This Week</Card.Header>
               <Card.Body>
-                <Card.Title id="weeklyProfit"></Card.Title>
+                <Card.Title id="weeklyProfit">{weeklyProf}</Card.Title>
               </Card.Body>
             </Card>
           </Col>
@@ -252,7 +268,7 @@ const Totals = () => {
             <Card>
               <Card.Header>Today</Card.Header>
               <Card.Body>
-                <Card.Title id="dailyProfit"></Card.Title>
+                <Card.Title id="dailyProfit">{dailyProf}</Card.Title>
               </Card.Body>
             </Card>
           </Col>

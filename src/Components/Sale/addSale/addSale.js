@@ -178,15 +178,22 @@ class AddSale extends React.Component {
 		})
 			.then(res => res.json())
 			.then(result => {
-				console.log(result)
-				var newArr = [...this.state.saleToBeAddedDetails, result[0]]
-				var profitArr = this.state.profitArr
-				profitArr.push(result[1])
-				console.log(profitArr, 'aaaaaaaaaaaaaaaa')
-				var newSum = this.state.totalSum + result[0].FinalPrice
-				this.setState({ saleToBeAddedDetails: newArr })
-				// this.setState({profitArr: })
-				this.setState({ totalSum: newSum })
+
+				if (result !== 'err') {
+					var newArr = [...this.state.saleToBeAddedDetails, result[0]]
+					var profitArr = this.state.profitArr
+					profitArr.push(result[1])
+					console.log(profitArr, 'aaaaaaaaaaaaaaaa')
+					var newSum = this.state.totalSum + result[0].FinalPrice
+					this.setState({ saleToBeAddedDetails: newArr })
+					// this.setState({profitArr: })
+					this.setState({ totalSum: newSum })
+				} else {
+					this.setState({ err: true })
+					setTimeout(() => {
+						this.setState({ err: false })
+					}, 3000)
+				}
 
 				// 	const { name, sum, discount, quantity, profit, singlePrice } = result
 
@@ -404,16 +411,16 @@ class AddSale extends React.Component {
 			})
 		})
 		var result = await res.json()
-		console.log(result , 'asssssssss')
+		console.log(result, 'asssssssss')
 		if (result === 'err' || isEmpty(result)) {
-			this.setState({err: true})
+			this.setState({ err: true })
 			setTimeout(() => {
-				this.setState({err: false})
+				this.setState({ err: false })
 			}, 3000)
 		} else {
-			
-			this.setState({saleToBeAddedDetails: []})
-			this.setState({totalSum: 0})
+
+			this.setState({ saleToBeAddedDetails: [] })
+			this.setState({ totalSum: 0 })
 			document.getElementById('saleAddedSucc').style.display = 'block'
 			setTimeout(() => {
 				document.getElementById('saleAddedSucc').style.display = 'none'
@@ -560,7 +567,7 @@ class AddSale extends React.Component {
 							<br />
 
 							<Row>
-								<Alert id="saleAddedError1" key="danger" variant="danger" style={{display: this.state.err? 'block': 'none'}}>
+								<Alert id="saleAddedError1" key="danger" variant="danger" style={{ display: this.state.err ? 'block' : 'none' }}>
 									An error occured. Please Try Again.
 								</Alert>
 								<Alert id="saleAddedSucc" key="success" variant="success">

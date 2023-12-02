@@ -90,6 +90,7 @@ class EditItem extends React.Component {
 
 	submitClick = async (event) => {
 		event.preventDefault();
+	
 		var editName = document.getElementById('itemEnterToEditField').value
 		console.log(this.state)
 		if (!isEmpty(editName)) {
