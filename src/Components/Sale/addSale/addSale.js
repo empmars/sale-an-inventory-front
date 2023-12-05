@@ -16,9 +16,6 @@ import './addSale.css'
 
 
 
-const onLeaveSearch = () => {
-	document.getElementById("itemMatches").style.display = 'none'
-}
 
 class AddSale extends React.Component {
 
@@ -44,18 +41,6 @@ class AddSale extends React.Component {
 
 	createDrop = (e) => {
 
-		// Declare variables
-		//   console.log('s')
-		//   var input, filter, ul, li, btn, i, txtValue ;
-		//   input = document.getElementById('saleInput1');
-		//   filter = input.value.toUpperCase();
-		//   ul = document.getElementById("itemMatches");
-		//   li = ul.getElementsByTagName('li');
-
-
-		//   ul.style.display = 'block'
-		//   var btnText = document.getElementsByClassName('forDrop')
-
 		if (e.code === 'Enter') {
 
 			fetch('http://localhost:3001/check-item-edit', {
@@ -77,33 +62,11 @@ class AddSale extends React.Component {
 						this.setState({ buttonDisabled: true })
 
 					}
-
-					// var btnText = document.getElementsByClassName('forDrop')
-
-					// for(i=0; i<result.length;i++) {
-
-
-					// 	btnText[i].innerHTML = result[i].name
-					// 	btnText[i].style.display = 'block';
-
-					// }
-				})
+			})
 
 		}
 
-
-
-
-		// Loop through all list items, and hide those who don't match the search query
-		//   for (i = 0; i < li.length; i++) {
-		//     btn = li[i].getElementsByTagName("button")[0];
-		//     txtValue = btn.textContent || btn.innerText;
-		//     if (txtValue.toUpperCase().indexOf(filter) > -1) {
-		//       li[i].style.display = "";
-		//       btnText[i].innerHTML = null;
-		//     } else {
-		//       li[i].style.display = "none";
-		//     }
+	
 	}
 
 
@@ -124,46 +87,8 @@ class AddSale extends React.Component {
 	}
 
 
-	// itemSelection = (event) => {
-	// 	var nameClicked = event.target.textContent;
-	// 	document.getElementById("itemMatches").style.display = 'none';
-	// 	const input = document.getElementById('saleInput1');
-	// 	input.value = nameClicked;
-	// 	this.setState({ itemClicked: input.value });
-	// 	document.getElementById('errorSale').style.display = 'none'
-	// }
-	// 
-
-	// createSum = () => {
-
-	// 	var sums = document.getElementById('saleTableBody')
-	// 	// sums.firstChild.cells[3].innerText
-
-	// 	var final = 0
-
-	// 	for (var i = 0; i < sums.children.length; i++) {
-	// 		final = final + Number(sums.children[i].cells[3].innerText)
-
-	// 	}
-
-	// 	document.getElementById('totalSale').style.display = "flex"
-	// 	document.getElementById('totalSaleBody').innerText = final
-
-
-
-
-
-	// }
 
 	submitSaleIndiv = () => {
-
-		// if (this.state.itemClicked === '') {
-		// 	document.getElementById('errorSale').style.display = 'block';
-		// 	document.getElementById('errorSale').innerHTML = 'Please Enter Item Name.'
-		// } else if (this.state.itemQuantity === '') {
-		// 	document.getElementById('errorSale').style.display = 'block';
-		// 	document.getElementById('errorSale').innerHTML = 'Please Enter Item Quantity.'
-		// } else {
 
 
 
@@ -183,7 +108,6 @@ class AddSale extends React.Component {
 					var newArr = [...this.state.saleToBeAddedDetails, result[0]]
 					var profitArr = this.state.profitArr
 					profitArr.push(result[1])
-					console.log(profitArr, 'aaaaaaaaaaaaaaaa')
 					var newSum = this.state.totalSum + result[0].FinalPrice
 					this.setState({ saleToBeAddedDetails: newArr })
 					// this.setState({profitArr: })
@@ -195,211 +119,13 @@ class AddSale extends React.Component {
 					}, 3000)
 				}
 
-				// 	const { name, sum, discount, quantity, profit, singlePrice } = result
-
-				// 	const textName = document.createTextNode(name);
-				// 	const textSum = document.createTextNode(sum)
-				// 	const textDiscount = document.createTextNode(discount)
-				// 	const textQuantity = document.createTextNode(quantity)
-
-				// 	textSum.className = 'sumv2'
-
-				// 	const btnEdit = document.createElement('button')
-				// 	btnEdit.innerText = 'Edit';
-				// 	btnEdit.setAttribute('type', 'button')
-				// 	btnEdit.setAttribute('id', 'btnEdit')
-
-				// 	const btnDel = document.createElement('button')
-				// 	btnDel.innerText = 'X';
-				// 	btnDel.setAttribute('id', 'btnClose')
-				// 	btnDel.setAttribute('type', 'button')
-				// 	btnDel.setAttribute('info', sum)
-				// 	console.log(btnDel)
-
-				// 	const colName = document.createElement('td');
-				// 	const colSum = document.createElement('td')
-				// 	const colDiscount = document.createElement('td')
-				// 	const colQuantity = document.createElement('td')
-				// 	const colED = document.createElement('td')
-
-
-
-
-
-				// 	const tRow = document.createElement('tr')
-
-				// 	colName.appendChild(textName)
-				// 	colQuantity.appendChild(textQuantity)
-				// 	colDiscount.appendChild(textDiscount)
-				// 	colSum.appendChild(textSum)
-				// 	colED.appendChild(btnEdit)
-				// 	colED.appendChild(btnDel)
-
-
-
-
-				// 	tRow.appendChild(colName)
-				// 	tRow.appendChild(colQuantity)
-				// 	tRow.appendChild(colDiscount)
-				// 	tRow.appendChild(colSum)
-				// 	tRow.appendChild(colED)
-
-
-
-				// 	const tBody = document.getElementById('saleTableBody')
-
-				// 	tBody.appendChild(tRow)
-
-				// 	this.createSum()
-
-
-				// 	// ------------------------------------------------------
-
-				// 	btnDel.onclick = (event) => {
-				// 		tRow.remove();
-				// 		this.createSum()
-
-				// 	}
-
-				// 	btnEdit.onclick = (result) => onEdit(result)
-
-
-				// 	// EDIT LOGIC
-
-				// 	const onEdit = (result) => {
-
-				// 		var oldSum = Number(sum)
-
-				// 		colQuantity.firstChild.remove()
-				// 		colDiscount.firstChild.remove()
-
-				// 		const quanInp = document.createElement('input')
-				// 		const discInp = document.createElement('input')
-				// 		discInp.disabled = true;
-				// 		discInp.placeholder = 'Enter Item Quantity.';
-
-
-				// 		colQuantity.appendChild(quanInp)
-				// 		colDiscount.appendChild(discInp)
-
-				// 		var newSum = 0;
-				// 		var outerDisc = 0;
-				// 		var outerQuan = 0;
-
-				// 		// QUAN EDIT
-
-				// 		quanInp.onkeyup = (event) => {
-				// 			var valQuan = Number(event.target.value)
-				// 			if (event.key === 'Enter' && valQuan > 0) {
-
-				// 				discInp.disabled = false;
-
-				// 				discInp.placeholder = '';
-
-
-				// 				colQuantity.firstChild.remove()
-
-				// 				var newQuan = document.createTextNode(valQuan)
-
-				// 				colQuantity.appendChild(newQuan)
-
-				// 				outerQuan = Number(valQuan)
-
-				// 			} else if (event333.key === 'Enter' && valQuan === 0) {
-				// 				quanInp.placeholder = 'Invalid Quantity';
-				// 				quanInp.value = '';
-				// 				quanInp.style.color = 'red';
-				// 				quanInp.style.borderColor = 'red'
-
-
-				// 			}
-				// 		}
-
-
-				// 		// DISC EDIT
-				// 		discInp.onkeyup = (event) => {
-
-				// 			if (event.key === 'Enter') {
-
-				// 				var valDisc = event.target.value;
-
-				// 				colDiscount.firstChild.remove()
-
-
-
-
-				// 				valDisc = Number(valDisc)
-				// 				var discAmnt = Math.round((valDisc / 100) * singlePrice);
-				// 				var totalDiscAmnt = discAmnt * quantity
-
-				// 				var newDisc = document.createTextNode(totalDiscAmnt)
-
-				// 				colDiscount.appendChild(newDisc)
-
-				// 				outerDisc = totalDiscAmnt
-
-				// 				if (outerDisc > 0 && outerQuan > 0) {
-
-				// 					var newSum = (outerQuan * singlePrice) - outerDisc
-				// 					colSum.firstChild.remove();
-				// 					var sumEl = document.createTextNode(newSum)
-				// 					colSum.appendChild(sumEl)
-
-
-				// 					this.createSum()
-
-				// 				} else if (outerDisc === 0) {
-
-				// 					newSum = outerQuan * singlePrice
-				// 					colSum.firstChild.remove();
-				// 					var sumEl = document.createTextNode(newSum)
-				// 					colSum.appendChild(sumEl)
-				// 					this.createSum()
-
-				// 				}
-
-
-				// 			}
-
-
-
-
-				// 		}
-
-				// 	}
-
-				// 	this.createSum()
-
-				// 	document.getElementById('totalSale').style.display = 'flex';
-				// })
+	
 
 			})
 	}
 
 	submitSaleFinal = async () => {
 
-
-		// var sums = document.getElementById('saleTableBody')
-		// // sums.firstChild.cells[3].innerText
-
-		// const saleTotal = document.getElementById('totalSaleBody').innerText
-
-		// var saleArray = []
-
-
-		// for (var i = 0; i < sums.children.length; i++) {
-
-		// 	var sumbitItem = sums.children[i].cells[0].innerText
-		// 	var sumbitQuan = sums.children[i].cells[1].innerText
-		// 	var sumbitDisc = sums.children[i].cells[2].innerText
-		// 	var sumbitSum = sums.children[i].cells[3].innerText
-
-		// 	var arr = [[sumbitItem, sumbitQuan, sumbitDisc, sumbitSum]]
-
-		// 	var saleArray = saleArray.concat(arr)
-
-
-		// }
 
 		var res = await fetch('http://localhost:3001/final-sale-add', {
 			method: 'POST',
@@ -411,7 +137,7 @@ class AddSale extends React.Component {
 			})
 		})
 		var result = await res.json()
-		console.log(result, 'asssssssss')
+		
 		if (result === 'err' || isEmpty(result)) {
 			this.setState({ err: true })
 			setTimeout(() => {
@@ -427,28 +153,7 @@ class AddSale extends React.Component {
 			}, 2000)
 		}
 
-		// if (saleArray.length === 0) {
-		// 	document.getElementById('saleAddedError').style.display = 'block';
-		// 	// setTimeout( ()=>{document.getElementById('saleAddedError').style.display = 'none';} , 2000)
-		// } else {
-		// 	console.log(saleArray)
-		// 	fetch('http://localhost:3001/final-sale-add', {
-		// 		method: 'POST',
-		// 		headers: { 'Content-Type': 'application/json' },
-		// 		body: JSON.stringify({
-		// 			arr: saleArray,
-		// 			total: saleTotal
-		// 		})
-		// 	})
-		// 		.then(res => res.json())
-		// 		.then(result => {
-		// 			document.getElementById('saleAddedSucc').style.display = 'block'
-		// 			// setTimeout( ()=>{document.getElementById('saleAddedSucc').style.display = 'none'} , 2000)
-		// 			document.getElementById('saleTableBody').replaceChildren()
-		// 			document.getElementById('totalSale').replaceChildren()
-		// 		})
-
-		// }
+		
 
 
 	}
@@ -542,12 +247,13 @@ class AddSale extends React.Component {
 									<tbody id='saleTableBody' >
 										{
 											this.state.saleToBeAddedDetails.map((cur, i) => {
+												console.log(cur.discount)
 												return (
 													<tr>
 														<td>{i + 1}</td>
 														<td>{cur.name}</td>
 														<td>{cur.reqQuan}</td>
-														<td>{cur.amountToSubtract}</td>
+														<td>{cur.discount}</td>
 														<td>{cur.FinalPrice}</td>
 														<td><Button variant="danger" onClick={(e) => this.removeSale(e, cur)}>X</Button></td>
 													</tr>

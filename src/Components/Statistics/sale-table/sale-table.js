@@ -7,6 +7,7 @@ import Accordion from 'react-bootstrap/Accordion';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert'
+import { isEmpty } from 'lodash'
 import './sale-table.css'
 
 
@@ -19,8 +20,10 @@ class SaleTable extends Component  {
             toDate: '',
             fromDateSale: '',
             toDateSale: '',
-            saleToFilter: ''
-
+            saleToFilter: '',
+            itemOne: [],
+            itemTwo: []
+            
         }
 
     }
@@ -192,6 +195,53 @@ class SaleTable extends Component  {
 
         }
 
+    setDateState = (date , event) => {
+
+        if(date === 'from') {
+
+              this.setState({fromDate: event.target.value})
+
+
+        } else if (date === 'to') {
+
+
+            this.setState({toDate: event.target.value})
+            console.log(this.state)
+
+        }
+
+    }
+
+
+    filterSaleDate = async () => {
+
+
+          var { fromDate , toDate } = this.state;
+
+          
+
+
+
+                var req = await fetch('http://localhost:3001/filter-sale-date', {
+                  method: 'post',
+                  headers: {'Content-Type': 'application/json'},
+                  body: JSON.stringify({
+
+                    fromDate : fromDate,
+                    toDate: toDate
+
+                  })
+
+                })
+                var req2 = await req.json()
+
+                this.setState({fromDate: '' , toDate: '' , itemOne: req2})
+          
+
+
+    }
+
+
     createDrop = () => {
 
       			  var input, filter;
@@ -281,64 +331,6 @@ class SaleTable extends Component  {
           }
 
 
-    setDateState = (date , event) => {
-
-        if(date === 'from') {
-
-              this.setState({fromDate: event.target.value})
-
-
-        } else if (date === 'to') {
-
-
-            this.setState({toDate: event.target.value})
-            console.log(this.state)
-
-        }
-
-    }
-
-
-    filterSaleDate = () => {
-
-
-            var { fromDate , toDate } = this.state;
-          console.log(this.state)
-
-          if(fromDate.length > 0 && toDate.length > 0) {
-
-
-
-                fetch('http://localhost:3001/filter-sale-date', {
-                  method: 'post',
-                  headers: {'Content-Type': 'application/json'},
-                  body: JSON.stringify({
-
-                    dates: this.state
-
-                  })
-
-                }).then(res=>res.json())
-                .then(result=>{
-
-                  document.getElementById('salesItemTabHead').style.display = 'none';
-                  document.getElementById('salesDateTabHead').style.display = '';
-                  document.getElementById('sale-filtered').replaceChildren()
-                  if(result.length === 0) {
-                      document.getElementById('noFoundError').style.display = 'block'
-                      setTimeout( ()=>{document.getElementById('noFoundError').style.display = 'none'} , 2000)
-                  } else {
-
-                      this.addItemElementDate(result)
-
-                  }
-
-                })
-
-          }
-
-
-    }
 
     clickFilterHead = () => {
 
@@ -427,6 +419,7 @@ class SaleTable extends Component  {
 
     render() {
 
+      
         return(
 
             <>
@@ -449,7 +442,7 @@ class SaleTable extends Component  {
                           <br/>
 
                           <div id="btnDateFilter">
-                          <Button variant="primary" type="button" onClick={()=>{ this.filterSaleDate() }}>
+                          <Button variant="primary" type="button" disabled={!isEmpty(this.state.fromDate) && !isEmpty(this.state.toDate) ? false : true}onClick={()=>{ this.filterSaleDate() }}>
                                     Search
                             </Button>
                           </div>
@@ -524,17 +517,17 @@ class SaleTable extends Component  {
                   <Row>
                   <Table striped bordered hover>
                       <thead>
-                        <tr id="salesDateTabHead">
+                        <tr id="salesDateTabHead"  style={{display: isEmpty(this.state.itemTwo) ? 'table-row' : 'none'}}>
                           <th>#</th>
                           <th>Item</th>
                           <th>Quantity</th>
-                          <th>Sum</th>
                           <th>Profit</th>
                           <th>Discount</th>
-                          <th>Total</th>
-                          <th>Date</th>
+                          <th>Price</th>
+                          <th>Total Price</th>
+                          <th>Total Profit</th>
                         </tr>
-                        <tr id="salesItemTabHead">
+                        <tr id="salesItemTabHead" style={{display: isEmpty(this.state.itemTwo) ? 'none' : 'table-row'}}>
                           <th>#</th>
                           <th>Item</th>
                           <th>Quantity</th>

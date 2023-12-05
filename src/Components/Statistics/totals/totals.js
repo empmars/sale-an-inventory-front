@@ -41,7 +41,10 @@ const Totals = () => {
 
           setErr(true)
           setTimeout(() => { setErr(false) }, 2000)
-        } else if (result !== monthlyTot) {
+        } else if (result == null) {
+          setMt(0.00)
+        } 
+        else if (result !== monthlyTot) {
           setMt(result)
         }
       })
@@ -65,7 +68,10 @@ const Totals = () => {
         if (result === 'err') {
           setErr(true)
           setTimeout(() => { setErr(false) }, 2000)
-        } else if (result !== weeklyTot) {
+        } else if (result == null) {
+          setWt(0.00)
+        }  
+        else if (result !== weeklyTot) {
           setWt(result)
         }
 
@@ -92,7 +98,10 @@ const Totals = () => {
           setErr(true)
           setTimeout(() => { setErr(false) }, 2000)
 
-        } else if (result !== dailyTot) {
+        } else if (result == null) {
+          setDt(0.00)
+        } 
+        else if (result !== dailyTot) {
           setDt(result)
         }
 
@@ -119,7 +128,10 @@ const Totals = () => {
 
           setErr(true)
           setTimeout(() => { setErr(false) }, 2000)
-        } else if (result !== monthlyProf) {
+        } else if (result == null) {
+          setMp(0.00)
+        } 
+        else if (result !== monthlyProf) {
           setMp(result)
         }
 
@@ -145,6 +157,8 @@ const Totals = () => {
 
           setErr(true)
           setTimeout(() => { setErr(false) }, 2000)
+        } else if (result == null) {
+          setWp(0.00)
         } else if (result !== weeklyProf) {
           setWp(result)
         }
@@ -167,6 +181,8 @@ const Totals = () => {
         if (result === 'err') {
           setErr(true)
           setTimeout(() => { setErr(false) }, 2000)
+        } else if (result == null) {
+          setDp(0.00)
         } else if (result !== dailyProf) {
           setDp(result)
         }
