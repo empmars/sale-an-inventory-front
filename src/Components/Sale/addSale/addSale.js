@@ -33,6 +33,7 @@ class AddSale extends React.Component {
 			selectedItem: '',
 			saleToBeAddedDetails: [],
 			totalSum: 0,
+			totalProfit: 0,
 			profitArr: [],
 			buttonDisabled: true,
 			err: false
@@ -91,7 +92,6 @@ class AddSale extends React.Component {
 	submitSaleIndiv = () => {
 
 
-
 		fetch('http://localhost:3001/sale-item-add', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
@@ -109,9 +109,10 @@ class AddSale extends React.Component {
 					var profitArr = this.state.profitArr
 					profitArr.push(result[1])
 					var newSum = this.state.totalSum + result[0].FinalPrice
-					this.setState({ saleToBeAddedDetails: newArr })
-					// this.setState({profitArr: })
-					this.setState({ totalSum: newSum })
+					var newProf = this.state.totalProfit + result[1]
+					
+					this.setState({ saleToBeAddedDetails: newArr , totalSum: newSum , totalProfit: newProf })
+					
 				} else {
 					this.setState({ err: true })
 					setTimeout(() => {
@@ -126,6 +127,8 @@ class AddSale extends React.Component {
 
 	submitSaleFinal = async () => {
 
+		// HERE BOTH TOTAL SALE AND TOTAL PROFIT ARE GIVEN SEPRATE STATES
+		// ALSO SEPERATE PROFIT ARR IS CREATED FOR EACH ITEM
 
 		var res = await fetch('http://localhost:3001/final-sale-add', {
 			method: 'POST',
@@ -133,7 +136,8 @@ class AddSale extends React.Component {
 			body: JSON.stringify({
 				data: this.state.saleToBeAddedDetails,
 				profitArr: this.state.profitArr,
-				total: this.state.totalSum
+				total: this.state.totalSum,
+				totalProf: this.state.totalProfit
 			})
 		})
 		var result = await res.json()
@@ -145,8 +149,7 @@ class AddSale extends React.Component {
 			}, 3000)
 		} else {
 
-			this.setState({ saleToBeAddedDetails: [] })
-			this.setState({ totalSum: 0 })
+			this.setState({ totalSum: 0 , totalProfit: 0 , saleToBeAddedDetails: [] , profitArr: []})
 			document.getElementById('saleAddedSucc').style.display = 'block'
 			setTimeout(() => {
 				document.getElementById('saleAddedSucc').style.display = 'none'
