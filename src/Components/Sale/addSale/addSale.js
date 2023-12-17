@@ -164,12 +164,14 @@ class AddSale extends React.Component {
 		e.preventDefault()
 		var arr = this.state.saleToBeAddedDetails
 		var profArr = this.state.profitArr
-
+		console.log(cur)
 		var i = arr.indexOf(cur)
+		var newProf = this.state.totalProfit - profArr[i]
 		arr.splice(i, 1)
 		profArr.splice(i, 1)
+		console.log(profArr , 'iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii', i)
 		var newSum = this.state.totalSum - cur.FinalPrice
-		this.setState({ totalSum: newSum })
+		this.setState({ totalSum: newSum  , totalProfit: newProf})
 		this.setState({ saleToBeAddedDetails: arr })
 		this.setState({ profitArr: profArr })
 	}

@@ -23,10 +23,14 @@ class SaleTable extends Component {
       toDate: '',
       filterTwoFrom: '',
       filterTwoTo: '',
-      filterTwoName: '',
       searchedItem: [],
       selectedItem: '',
+      totalSale1: 0,
+      totalProf1: 0,
+      totalSale2: 0,
+      totalProf2: 0,
       buttonDisabled: true
+
     }
 
   }
@@ -40,14 +44,20 @@ class SaleTable extends Component {
     document.getElementById('to').value = '';
     this.setState({ fromDate: '', toDate: '' })
     this.setState({
+      itemOne: false,
+      itemTwo: false,
+      sales: [],
       fromDate: '',
       toDate: '',
       filterTwoFrom: '',
       filterTwoTo: '',
-      filterTwoName: '',
-      itemOne: false,
-      itemTwo: false,
-      sales: []
+      searchedItem: [],
+      selectedItem: '',
+      totalSale1: 0,
+      totalProf1: 0,
+      totalSale2: 0,
+      totalProf2: 0,
+
     })
 
   }
@@ -74,12 +84,7 @@ class SaleTable extends Component {
 
   filterSaleDate = async () => {
 
-
     var { fromDate, toDate } = this.state;
-
-
-
-
 
     var req = await fetch('http://localhost:3001/filter-sale-date', {
       method: 'post',
@@ -93,15 +98,18 @@ class SaleTable extends Component {
 
     })
     var req2 = await req.json()
+    if (req2 !== 'err') {
 
-    this.setState({ fromDate: '', toDate: '', sales: req2, itemOne: true })
-
-
+      this.setState({
+        sales: req2[0],
+        totalSale1: req2[1],
+        totalProf1: req2[2],
+        itemOne: true,
+        itemTwo: false
+      })
+    }
 
   }
-
-
-
 
   // SECOND FILTER / ITEM TWO IN STATE CODE
 
@@ -109,7 +117,7 @@ class SaleTable extends Component {
 
     if (e.code === 'Enter') {
 
-      fetch('http://localhost:3001/check-item-edit', {
+      fetch('http://localhost:3001/check-item-statistics', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -123,7 +131,7 @@ class SaleTable extends Component {
           if (!isEmpty(result)) {
             this.setState({ selectedItem: '' })
             this.setState({ searchedItem: result })
-            
+
           } else {
             this.setState({ buttonDisabled: true })
 
@@ -136,26 +144,9 @@ class SaleTable extends Component {
   }
 
 
-	set_item_add_to_Sale = (e) => {
-		document.getElementById('saleInput1').value = e.target.textContent
-		this.setState({ selectedItem: e.target.textContent })
-	}  
-
-
-  submitSaleToFilter = () => {
-
-    var { saleToFilter } = this.state;
-    console.log(document.getElementById('itemSaleFilter'))
-
-    var fromDateSale = document.getElementById('fromDateSale')
-    var toDateSale = document.getElementById('toDateSale')
-
-    if (saleToFilter.length > 0) {
-      fromDateSale.disabled = false;
-      toDateSale.disabled = false;
-    }
-
- 
+  set_item_add_to_Sale = (e) => {
+    document.getElementById('saleInput1').value = e.target.textContent
+    this.setState({ selectedItem: e.target.textContent })
   }
 
   setDatesInFilterTwo = (date, event) => {
@@ -169,56 +160,48 @@ class SaleTable extends Component {
 
 
       this.setState({ filterTwoTo: event.target.value })
-      
+
 
     }
 
   }
 
-  enterDateFilterItem = () => {
+  submitFilterTwo = async () => {
 
-
-
-    var { saleToFilter, fromDateSale, toDateSale } = this.state
-
-    console.log(saleToFilter, fromDateSale, toDateSale)
-
-
-
-
-    fetch('http://localhost:3001/filter-sale-item', {
+    var req = await fetch('http://localhost:3001/filter-two-final', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
 
-        from: fromDateSale,
-        to: toDateSale,
-        item: saleToFilter
+        from: this.state.filterTwoFrom,
+        to: this.state.filterTwoTo,
+        item: this.state.selectedItem
 
       })
 
-    }).then(res => res.json())
-      .then(result => {
-        document.getElementById('salesDateTabHead').style.display = 'none';
-        document.getElementById('salesItemTabHead').style.display = '';
-        document.getElementById('sale-filtered').replaceChildren()
+    })
 
-        if (result.length === 0) {
-          document.getElementById('noFoundError').style.display = 'block'
-          setTimeout(() => { document.getElementById('noFoundError').style.display = 'none' }, 2000)
-        } else {
+    var req2 = await req.json()
+    if (req2 !== 'err') {
+      this.setState({
+        sales: req2[0],
+        totalSale2: req2[1],
+        totalProf2: req2[2],
+        itemOne: false,
+        itemTwo: true
 
-          this.addItemElementItem(result)
-
-        }
       })
+      console.log('sssssssssssssssssssss')
+    }
+
+
 
 
   }
 
   render() {
 
-    console.log(this.state)
+
 
     return (
 
@@ -262,13 +245,13 @@ class SaleTable extends Component {
                   <Row id="sale-item-filter-input">
 
                     <Form.Group style={{ padding: '0', marginBottom: '0' }}>
-                      <Form.Control id="saleInput1" onKeyDown={(e) => this.createDrop(e)} onChange={()=>{this.setState({buttonDisabled: true})}}type="text" placeholder="Enter Item Name" />
+                      <Form.Control id="saleInput1" onKeyDown={(e) => this.createDrop(e)} onChange={() => { this.setState({ selectedItem: '', searchedItem: [] }) }} type="text" placeholder="Enter Item Name" />
                     </Form.Group>
                     <ul className="ulStyle mb-2" style={{ display: this.state.searchedItem.length === 0 || !isEmpty(this.state.selectedItem) ? 'none' : 'block' }}>
                       {
                         this.state.searchedItem.map((cur, i) => {
                           return (
-                            <li className="liStyle" onClick={(e) => { this.set_item_add_to_Sale(e) }}>{cur.name}</li>
+                            <li className="liStyle" onClick={(e) => {this.set_item_add_to_Sale(e)}}>{cur}</li>
 
                           )
                         })
@@ -281,11 +264,11 @@ class SaleTable extends Component {
 
                   <Row className="justify-content-md-center">
 
-                    <Col md="5" style={{width: 'fit-content'}}>
+                    <Col md="5" style={{ width: 'fit-content' }}>
                       <label class="labelDate" for="fromDateSale">From</label>
-                      <input  onBlur={(event) => { this.setDatesInFilterTwo('fromDateSale', event) }} type="date" className="dateSale" id="fromDateSale" name="fromDateSale" />
+                      <input onBlur={(event) => { this.setDatesInFilterTwo('fromDateSale', event) }} type="date" className="dateSale" id="fromDateSale" name="fromDateSale" />
                       <label class="labelDate" for="toDateSale">To</label>
-                      <input  onBlur={(event) => { this.setDatesInFilterTwo('toDateSale', event) }} type="date" className="dateSale" id="toDateSale" name="toDateSale" />
+                      <input onBlur={(event) => { this.setDatesInFilterTwo('toDateSale', event) }} type="date" className="dateSale" id="toDateSale" name="toDateSale" />
 
                     </Col>
 
@@ -293,9 +276,9 @@ class SaleTable extends Component {
 
                   <br />
                   <Row className="justify-content-md-center">
-                    <Col md="5" style={{width: 'fit-content'}}>
-                      <Button onClick={() => { this.enterDateFilterItem() }} id="btnSaleFilter" variant="success" type="button" disabled={!isEmpty(this.state.filterTwoFrom )&& !isEmpty(this.state.filterTwoTo) && !isEmpty(this.state.selectedItem) ? false : true}
-                      style={{padding: '10px 30px'}}
+                    <Col md="5" style={{ width: 'fit-content' }}>
+                      <Button onClick={() => { this.submitFilterTwo() }} id="btnSaleFilter" variant="success" type="button" disabled={!isEmpty(this.state.filterTwoFrom) && !isEmpty(this.state.filterTwoTo) && !isEmpty(this.state.selectedItem) ? false : true}
+                        style={{ padding: '10px 30px' }}
                       >
                         Confirm
                       </Button>
@@ -342,20 +325,34 @@ class SaleTable extends Component {
               <tbody id="sale-filtered">
                 {
                   this.state.sales.map((cur, i) => {
+                    if (this.state.itemOne) {
 
-                    return (
-                      <tr>
-                        <td>{cur.id}</td>
-                        <td>{cur.name}</td>
-                        <td>{cur.quantity}</td>
-                        <td>{isNull(cur.total_sale) ? cur.price : ''}</td>
-                        <td>{cur.profit}</td>
-                        <td>{cur.discount}</td>
-                        <td style={{ padding: !isNull(cur.total_sale) ? '20px' : '10px', backgroundColor: !isNull(cur.total_sale) ? '#c7c7c7' : 'white' }}>{cur.total_sale}</td>
-                        <td style={{ padding: !isNull(cur.total_profit) ? '20px' : '10px', backgroundColor: !isNull(cur.total_profit) ? '#c7c7c7' : 'white' }}>{cur.total_profit}</td>
-                        <td style={{ padding: !isNull(cur.total_profit) ? '20px' : '10px' }}>{cur.date}</td>
-                      </tr>
-                    )
+                      return (
+                        <tr>
+                          <td>{cur.id}</td>
+                          <td>{cur.name}</td>
+                          <td>{cur.quantity}</td>
+                          <td>{isNull(cur.total_sale) ? cur.price : ''}</td>
+                          <td>{cur.profit}</td>
+                          <td>{cur.discount}</td>
+                          <td style={{ padding: !isNull(cur.total_sale) ? '20px' : '10px', backgroundColor: !isNull(cur.total_sale) ? '#c7c7c7' : 'white' }}>{cur.total_sale}</td>
+                          <td style={{ padding: !isNull(cur.total_profit) ? '20px' : '10px', backgroundColor: !isNull(cur.total_profit) ? '#c7c7c7' : 'white' }}>{cur.total_profit}</td>
+                          <td style={{ padding: !isNull(cur.total_profit) ? '20px' : '10px' }}>{cur.date}</td>
+                        </tr>
+                      )
+                    } else if (this.state.itemTwo) {
+                      return (
+                        <tr>
+                          <td>{cur.id}</td>
+                          <td>{cur.name}</td>
+                          <td>{cur.quantity}</td>
+                          <td>{cur.price}</td>
+                          <td>{cur.profit}</td>
+                          <td>{cur.discount}</td>
+                          <td>{cur.date}</td>
+                        </tr>
+                      )
+                    }
 
                   })
                 }
@@ -365,9 +362,21 @@ class SaleTable extends Component {
           </Row>
 
           <Row>
-            <Alert id="noFoundError" key='secondary' variant='secondary'>
-              No Results Found.
-            </Alert>
+            <Col md='5'>
+              <Row className='justify-content-md-center'>
+                <h4 style={{ width: 'fit-content' }}>
+                  Total Sale:{this.state.itemTwo ? this.state.totalSale2 : this.state.totalSale1}
+                </h4>
+              </Row>
+            </Col>
+
+            <Col md='5'>
+              <Row className='justify-content-md-center'>
+                <h4 style={{ width: 'fit-content' }}>
+                  Total Profit:{this.state.itemTwo ? this.state.totalProf2 : this.state.totalProf1}
+                </h4>
+              </Row>
+            </Col>
           </Row>
 
         </Container>
