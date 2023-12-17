@@ -46,7 +46,7 @@ class EditItem extends React.Component {
 	checkItem = async (event) => {
 		this.setState({ item_To_Edit_Is_Selected: false })
 
-
+		
 		if (event.code === 'Enter') {
 			event.preventDefault()
 			if (isEmpty(event.target.value)) {
@@ -90,9 +90,9 @@ class EditItem extends React.Component {
 
 	submitClick = async (event) => {
 		event.preventDefault();
-	
+
 		var editName = document.getElementById('itemEnterToEditField').value
-		console.log(this.state)
+	
 		if (!isEmpty(editName)) {
 
 			var res = await fetch('https://sale-and-inventory-backend.vercel.app/edit-item', {
@@ -122,6 +122,53 @@ class EditItem extends React.Component {
 		}
 
 	}
+
+	// DELETE ITEM
+
+	deleteItem = async (e) => {
+
+		e.preventDefault()
+
+		var editName = document.getElementById('itemEnterToEditField').value
+
+		var req = await fetch('https://sale-and-inventory-backend.vercel.app/del-item', {
+			method: 'post',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				name: editName,
+			})
+		})
+		var req2 = await req.json()
+		if (req2 === 'success') {
+
+
+			this.setState({
+				editItemSearchField: '',
+				editQuan: '',
+				editPrice: '',
+				editProfit: '',
+				editExpiry: '',
+				editSearchList: [],
+				item_To_Edit_Is_Selected: false,
+			})
+
+			 document.getElementById('itemEnterToEditField').value = ''
+			
+			document.getElementById('delSuccessMsg').style.display = 'block'
+			setTimeout(() => {
+				document.getElementById('delSuccessMsg').style.display = 'none'
+			}, 3000)
+
+
+
+		} else if (req2 === 'err') {
+			document.getElementById('errorMsg').style.display = 'block'
+			setTimeout(() => {
+				document.getElementById('errorMsg').style.display = 'none'
+			}, 3000)
+		}
+	}
+
 
 	render() {
 
@@ -190,10 +237,15 @@ class EditItem extends React.Component {
 							<Form.Group className="mb-3" >
 
 								<Form.Control className="emptyFieldClassInEdit" onChange={(event) => this.addItem('expiry', event)} name="expiry" type="date" placeholder="Expiry" style={{ display: this.state.item_To_Edit_Is_Selected ? 'block' : 'none' }} />
-								<Form.Text id="errorMsg" style={{display: 'none'}}>An error occured. Please try again.</Form.Text>
-								<Form.Text id="successMsg" style={{display: 'none'}}>Item Edited.</Form.Text>
+								<Form.Text id="errorMsg" style={{ display: 'none' }}>An error occured. Please try again.</Form.Text>
+								<Form.Text id="successMsg" style={{ display: 'none' }}>Item Edited.</Form.Text>
+								<Form.Text id="delSuccessMsg" style={{ display: 'none' }}>Item Deleted.</Form.Text>
+
 							</Form.Group>
-							<div id="submitButton">
+							<div id="submitButton" style={{ display: 'flex', justifyContent: 'space-between' }}>
+								<Button onClick={this.deleteItem} variant="danger" type="submit">
+									Delete Item
+								</Button>
 								<Button onClick={this.submitClick} variant="primary" type="submit">
 									Submit
 								</Button>
