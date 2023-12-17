@@ -41,7 +41,7 @@ console.log(item)
 	
 	const yesDel = (item) => {
 		console.log(item)
-		fetch('http://localhost:3001/del-item', {
+		fetch('https://sale-and-inventory-backend.vercel.app/del-item', {
 			  method: 'PUT',
 			  headers: {'Content-Type': 'application/json'},
 			  body: JSON.stringify({

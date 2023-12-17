@@ -44,7 +44,7 @@ class AddSale extends React.Component {
 
 		if (e.code === 'Enter') {
 
-			fetch('http://localhost:3001/check-item-edit', {
+			fetch('https://sale-and-inventory-backend.vercel.app/check-item-edit', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({
@@ -92,7 +92,7 @@ class AddSale extends React.Component {
 	submitSaleIndiv = () => {
 
 
-		fetch('http://localhost:3001/sale-item-add', {
+		fetch('https://sale-and-inventory-backend.vercel.app/sale-item-add', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({
@@ -130,7 +130,7 @@ class AddSale extends React.Component {
 		// HERE BOTH TOTAL SALE AND TOTAL PROFIT ARE GIVEN SEPRATE STATES
 		// ALSO SEPERATE PROFIT ARR IS CREATED FOR EACH ITEM
 
-		var res = await fetch('http://localhost:3001/final-sale-add', {
+		var res = await fetch('https://sale-and-inventory-backend.vercel.app/final-sale-add', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({

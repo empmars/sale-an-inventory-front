@@ -26,7 +26,7 @@ const Totals = () => {
 
 
 
-    fetch('http://localhost:3001/monthly-total', {
+    fetch('https://sale-and-inventory-backend.vercel.app/monthly-total', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -55,7 +55,7 @@ const Totals = () => {
 
     console.log('as')
 
-    fetch('http://localhost:3001/weekly-total', {
+    fetch('https://sale-and-inventory-backend.vercel.app/weekly-total', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -84,7 +84,7 @@ const Totals = () => {
 
 
 
-    fetch('http://localhost:3001/daily-total', {
+    fetch('https://sale-and-inventory-backend.vercel.app/daily-total', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -114,7 +114,7 @@ const Totals = () => {
 
   var monthlyProfit = () => {
 
-    fetch('http://localhost:3001/monthly-profit', {
+    fetch('https://sale-and-inventory-backend.vercel.app/monthly-profit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -142,7 +142,7 @@ const Totals = () => {
   var weeklyProfit = () => {
 
 
-    fetch('http://localhost:3001/weekly-profit', {
+    fetch('https://sale-and-inventory-backend.vercel.app/weekly-profit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -168,7 +168,7 @@ const Totals = () => {
 
   var dailyProfit = () => {
 
-    fetch('http://localhost:3001/daily-Profit', {
+    fetch('https://sale-and-inventory-backend.vercel.app/daily-Profit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

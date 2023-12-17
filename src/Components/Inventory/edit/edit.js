@@ -53,7 +53,7 @@ class EditItem extends React.Component {
 
 				this.setState({ editSearchList: [] })
 			} else {
-				var res = await fetch('http://localhost:3001/check-item-edit', {
+				var res = await fetch('https://sale-and-inventory-backend.vercel.app/check-item-edit', {
 					method: 'post',
 					headers: { 'Content-Type': 'application/json' },
 					body: JSON.stringify({
@@ -95,7 +95,7 @@ class EditItem extends React.Component {
 		console.log(this.state)
 		if (!isEmpty(editName)) {
 
-			var res = await fetch('http://localhost:3001/edit-item', {
+			var res = await fetch('https://sale-and-inventory-backend.vercel.app/edit-item', {
 				method: 'post',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({

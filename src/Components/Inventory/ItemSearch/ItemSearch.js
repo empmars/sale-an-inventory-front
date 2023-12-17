@@ -31,7 +31,7 @@ class ItemSearch extends Component {
 	allItemsTable = () => {
 
 
-		fetch('http://localhost:3001/fetch-all-items', {
+		fetch('https://sale-and-inventory-backend.vercel.app/fetch-all-items', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' }
 		})
@@ -158,7 +158,7 @@ class ItemSearch extends Component {
 		if (from.length > 0 && to.length > 0) {
 
 
-			fetch('http://localhost:3001/filter-items-expiry', {
+			fetch('https://sale-and-inventory-backend.vercel.app/filter-items-expiry', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({
@@ -201,7 +201,7 @@ class ItemSearch extends Component {
 
 		if (quanInput.length > 0) {
 
-			fetch('http://localhost:3001/fetch-filter-quan', {
+			fetch('https://sale-and-inventory-backend.vercel.app/fetch-filter-quan', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({
@@ -243,7 +243,7 @@ class ItemSearch extends Component {
 		if (priceInput.length > 0) {
 
 
-			fetch('http://localhost:3001/fetch-filter-price', {
+			fetch('https://sale-and-inventory-backend.vercel.app/fetch-filter-price', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({
@@ -283,7 +283,7 @@ class ItemSearch extends Component {
 		if (profitInput.length > 0) {
 
 
-			fetch('http://localhost:3001/fetch-filter-profit', {
+			fetch('https://sale-and-inventory-backend.vercel.app/fetch-filter-profit', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({

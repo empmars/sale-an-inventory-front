@@ -86,7 +86,7 @@ class SaleTable extends Component {
 
     var { fromDate, toDate } = this.state;
 
-    var req = await fetch('http://localhost:3001/filter-sale-date', {
+    var req = await fetch('https://sale-and-inventory-backend.vercel.app/filter-sale-date', {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -117,7 +117,7 @@ class SaleTable extends Component {
 
     if (e.code === 'Enter') {
 
-      fetch('http://localhost:3001/check-item-statistics', {
+      fetch('https://sale-and-inventory-backend.vercel.app/check-item-statistics', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -168,7 +168,7 @@ class SaleTable extends Component {
 
   submitFilterTwo = async () => {
 
-    var req = await fetch('http://localhost:3001/filter-two-final', {
+    var req = await fetch('https://sale-and-inventory-backend.vercel.app/filter-two-final', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

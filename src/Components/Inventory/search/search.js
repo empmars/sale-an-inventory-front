@@ -31,7 +31,7 @@ class SearchItem extends React.Component {
 	itemEntered = (event) => {
 		event.preventDefault()
 
-		fetch('http://localhost:3001/list-search-edit', {
+		fetch('https://sale-and-inventory-backend.vercel.app/list-search-edit', {
 			method: 'post',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({
@@ -69,7 +69,7 @@ class SearchItem extends React.Component {
 
 			e.preventDefault()
 
-			fetch('http://localhost:3001/check-item-edit', {
+			fetch('https://sale-and-inventory-backend.vercel.app/check-item-edit', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({
